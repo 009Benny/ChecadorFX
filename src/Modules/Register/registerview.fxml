@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="600.0" prefWidth="800.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Modules.Register.RegisterviewController">
+    <stylesheets>
+        <URL value="@registerview.css" />
+    </stylesheets>
+   <children>
+      <Label alignment="CENTER" layoutX="219.0" layoutY="47.0" text="Registro de entrada y salida" textFill="WHITE" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="20.0">
+         <font>
+            <Font name="Arial Bold" size="26.0" />
+         </font>
+      </Label>
+      <GridPane layoutX="90.0" layoutY="69.0" styleClass="box" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="75.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <TextField GridPane.columnIndex="1" />
+            <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Label alignment="CENTER" text="Matricula:">
+               <font>
+                  <Font name="Arial Bold" size="14.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER" text="Contraseña:" GridPane.rowIndex="1">
+               <font>
+                  <Font name="Arial Bold" size="14.0" />
+               </font>
+            </Label>
+         </children>
+      </GridPane>
+      <Button layoutX="364.0" layoutY="196.0" mnemonicParsing="false" text="Registrar entrada/salida" AnchorPane.leftAnchor="260.0" AnchorPane.rightAnchor="260.0" AnchorPane.topAnchor="190.0">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </Button>
+      <TableView fx:id="tableContent" layoutX="109.0" layoutY="262.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="250.0">
+         <columns>
+            <TableColumn fx:id="horaColumn" maxWidth="-Infinity" minWidth="100.0" prefWidth="100.0" resizable="false" text="Hora" />
+            <TableColumn fx:id="statusColumn" maxWidth="-Infinity" minWidth="80.0" prefWidth="100.0" resizable="false" text="Status" />
+            <TableColumn fx:id="matriculaColumn" maxWidth="150.0" minWidth="80.0" prefWidth="120.0" resizable="false" text="Matricula" />
+            <TableColumn fx:id="nombreColumn" maxWidth="1.7976931348623157E308" minWidth="200.0" prefWidth="-1.0" text="Nombre" />
+         </columns></TableView>
+   </children>
+</AnchorPane>

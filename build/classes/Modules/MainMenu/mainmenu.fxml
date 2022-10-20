@@ -8,30 +8,34 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="400.0" prefWidth="400.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Modules.MainMenu.MainmenuController">
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Modules.MainMenu.MainmenuController">
     <stylesheets>
         <URL value="@mainmenu.css" />
     </stylesheets>
    <children>
-      <Label alignment="CENTER" layoutX="209.0" layoutY="37.0" text="Checador FIME" textFill="WHITE" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="20.0">
-         <font>
-            <Font name="Arial Bold" size="26.0" />
-         </font>
-      </Label>
-      <ImageView fitHeight="150.0" fitWidth="149.0" layoutX="136.0" layoutY="74.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="80.0">
-         <image>
-            <Image url="@../../Images/fime.jpg" />
-         </image>
-      </ImageView>
-      <Button alignment="CENTER" layoutX="98.0" layoutY="254.0" mnemonicParsing="false" onAction="#showRegisterTable" styleClass="btn" text="Registro de entrada y salida" textAlignment="CENTER" textFill="WHITE" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="250.0">
-         <font>
-            <Font name="Arial" size="14.0" />
-         </font>
-      </Button>
-      <Button alignment="CENTER" layoutX="205.0" layoutY="308.0" mnemonicParsing="false" onAction="#showAdmin" styleClass="btn" text="Administrar registros" textAlignment="CENTER" textFill="WHITE" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="300.0">
-         <font>
-            <Font name="Arial" size="14.0" />
-         </font>
-      </Button>
+      <AnchorPane maxHeight="400.0" maxWidth="600.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" snapToPixel="false" styleClass="modal" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="100.0">
+         <children>
+            <Button alignment="CENTER" mnemonicParsing="false" onAction="#showRegisterTable" styleClass="btn" text="Registro de entrada y salida" textAlignment="CENTER" textFill="WHITE" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="250.0">
+               <font>
+                  <Font name="Arial" size="14.0" />
+               </font>
+            </Button>
+            <Button alignment="CENTER" mnemonicParsing="false" onAction="#showAdmin" styleClass="btn" text="Administrar registros" textAlignment="CENTER" textFill="WHITE" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="300.0">
+               <font>
+                  <Font name="Arial" size="14.0" />
+               </font>
+            </Button>
+            <ImageView fitHeight="150.0" fitWidth="149.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="230.0" AnchorPane.rightAnchor="230.0" AnchorPane.topAnchor="80.0">
+               <image>
+                  <Image url="@../../Images/fime.jpg" />
+               </image>
+            </ImageView>
+            <Label alignment="CENTER" prefWidth="400.0" text="Checador FIME" textFill="WHITE" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="20.0">
+               <font>
+                  <Font name="Arial Bold" size="26.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
    </children>
 </AnchorPane>

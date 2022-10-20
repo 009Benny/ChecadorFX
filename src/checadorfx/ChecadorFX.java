@@ -4,7 +4,10 @@
  */
 package checadorfx;
 
+import Models.DataBaseManager;
+import Modules.Admin.AdminviewController;
 import Modules.MainMenu.MainmenuController;
+import Modules.Register.RegisterviewController;
 import java.io.IOException;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -22,23 +25,40 @@ public class ChecadorFX extends Application {
     @Override
     public void start(Stage primaryStage) {
         try{
-            scene = new Scene(loadFXML("mainmenu"));
+            DataBaseManager db = new DataBaseManager();
+            db.checkTables();
+            
+            FXMLLoader fxmlLoader = new FXMLLoader(MainmenuController.class.getResource("mainmenu.fxml"));
+            scene = new Scene(fxmlLoader.load());
+            
             primaryStage.setTitle("Checador de entrada y salida");
             primaryStage.setScene(scene);
+            primaryStage.setResizable(true);
+            primaryStage.setMinWidth(800);
+            primaryStage.setMinHeight(600);
             primaryStage.show();
         }catch(IOException e){
             System.out.print("No se pudo cargar!");
             System.out.println(e);
         }
     }
-
-    static void setRoot(String fxml) throws IOException {
-        scene.setRoot(loadFXML(fxml));
+    
+    public static void showRegisterView(){
+        try{
+            FXMLLoader fxmlLoader = new FXMLLoader(RegisterviewController.class.getResource("registerview.fxml"));
+            scene.setRoot(fxmlLoader.load());
+        }catch(IOException e){
+            System.out.println(e);
+        }
     }
-
-    private static Parent loadFXML(String fxml) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(MainmenuController.class.getResource(fxml + ".fxml"));
-        return fxmlLoader.load();
+    
+    public static void showAdminView(){
+        try{
+            FXMLLoader fxmlLoader = new FXMLLoader(AdminviewController.class.getResource("adminview.fxml"));
+            scene.setRoot(fxmlLoader.load());
+        }catch(IOException e){
+            System.out.println(e);
+        }
     }
     
     /**

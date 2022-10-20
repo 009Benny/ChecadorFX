@@ -4,6 +4,7 @@
  */
 package Modules.MainMenu;
 
+import checadorfx.ChecadorFX;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -28,11 +29,13 @@ public class MainmenuController implements Initializable {
     @FXML
     private void showAdmin() throws IOException {
        System.out.println("Se muestra ADMIN");
+       ChecadorFX.showAdminView();
     }
     
     @FXML
     private void showRegisterTable() throws IOException {
        System.out.println("TableRegister");
+       ChecadorFX.showRegisterView();
     }
     
 }

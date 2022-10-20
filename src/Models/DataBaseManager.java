@@ -19,8 +19,9 @@ public class DataBaseManager {
         createUsersTable();
     }
 
+    
+    
     // PRIVATE METHODS
-
     private void executeQuery(String query){
         try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
             Statement stmt = conn.createStatement();

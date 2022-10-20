@@ -3,11 +3,15 @@
  */
 
 .mainFxmlClass {
-    -fx-background-color: #0B6937
+    -fx-background-color: #424242;
 }
 
 .btn {
     -fx-background-color: #145A32;
     -fx-border-color: #BDBDBD;
     -fx-border-width: 1px;
+}
+
+.modal{
+    -fx-background-color: #0B6937;
 }

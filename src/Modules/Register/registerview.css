@@ -1,0 +1,13 @@
+/*
+ * Empty Stylesheet file.
+ */
+
+.mainFxmlClass {
+    -fx-background-color: #0B6937;
+}
+
+.box{
+    -fx-padding: 15px;
+    -fx-background-color: #D6DBDF;
+    -fx-border-radius: 10px;
+}
