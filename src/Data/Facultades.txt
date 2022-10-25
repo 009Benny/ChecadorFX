@@ -1,0 +1,26 @@
+FIME
+Agronomia
+Arquitectura
+Artes Escenicas
+Artes Visuales
+Ciencias Biologicas
+Ciencias de la comunicacion
+Ciencias de la Tierra
+Ciencias Fisico-Matematicas
+Ciencias Forestales
+Ciencias Politicas y Relaciones Internaciones
+Ciencias Quimicas
+Contaduria Publica y Administracion
+Derecho y Criminiologia
+Economia
+Enfermeria
+Filosofia y Letras
+Ingenieria Civil
+Medicina
+Meficina Veterinaria y Zootecnia
+Musica
+Odontologia
+Organizacion Deportiva
+Psicologia
+Salud Publica y Nutricion
+Trabajo Social y Desarrollo Humano

@@ -5,13 +5,13 @@
 package checadorfx;
 
 import Models.DataBaseManager;
+import Models.DefaultData;
 import Modules.Admin.AdminviewController;
 import Modules.MainMenu.MainmenuController;
 import Modules.Register.RegisterviewController;
 import java.io.IOException;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
@@ -24,9 +24,9 @@ public class ChecadorFX extends Application {
     
     @Override
     public void start(Stage primaryStage) {
+        loadData();
         try{
-            DataBaseManager db = new DataBaseManager();
-            db.checkTables();
+            
             
             FXMLLoader fxmlLoader = new FXMLLoader(MainmenuController.class.getResource("mainmenu.fxml"));
             scene = new Scene(fxmlLoader.load());
@@ -38,9 +38,16 @@ public class ChecadorFX extends Application {
             primaryStage.setMinHeight(600);
             primaryStage.show();
         }catch(IOException e){
-            System.out.print("No se pudo cargar!");
+            System.out.println("No se pudo cargar!");
             System.out.println(e);
         }
+    }
+    
+    private void loadData(){
+        DataBaseManager db = new DataBaseManager();
+        db.checkTables();
+        DefaultData def = new DefaultData();
+        def.checkAll();
     }
     
     public static void showRegisterView(){

@@ -10,6 +10,8 @@ public class DataBaseManager {
     static private final String DB_URL = "jdbc:mysql://localhost:3306/checador_fime";
     static private final String USER = "root";
     static private final String PASS = "Fime1671335";
+    static public String carreras_name = "CARRERAS";
+    static public String facultades_name = "FACULTADES";
 
     public void checkTables(){
         createCarrerasTable();
@@ -18,11 +20,9 @@ public class DataBaseManager {
         createFacultadesTable();
         createUsersTable();
     }
-
-    
     
     // PRIVATE METHODS
-    private void executeQuery(String query){
+    public void executeQuery(String query){
         try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
             Statement stmt = conn.createStatement();
         ) {
@@ -32,6 +32,22 @@ public class DataBaseManager {
         } catch (SQLException e) {
             e.printStackTrace();
         } 
+    }
+    
+    public int getCountOf(String table){
+        String query = "SELECT COUNT(*) FROM "+ table +";";
+        try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+            Statement stmt = conn.createStatement();
+        ) {
+            ResultSet rs = stmt.executeQuery(query);
+            System.out.println("DataBaseManager execute:");
+            System.out.println(query);
+            rs.next();
+            return rs.getInt(1);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } 
+        return 0;
     }
 
     private final void createUsersTable(){
