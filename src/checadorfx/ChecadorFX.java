@@ -44,8 +44,6 @@ public class ChecadorFX extends Application {
     }
     
     private void loadData(){
-        DataBaseManager db = new DataBaseManager();
-        db.checkTables();
         DefaultData def = new DefaultData();
         def.checkAll();
     }
