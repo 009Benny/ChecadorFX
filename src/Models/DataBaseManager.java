@@ -1,6 +1,8 @@
 package Models;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -36,6 +38,23 @@ public class DataBaseManager {
         } catch (SQLException e) {
             Logger.getLogger(DefaultData.class.getName()).log(Level.SEVERE, null, e);
         } 
+    }
+    
+
+    public ResultSet getData(String table){
+        String query = "SELECT * FROM "+ table +";";
+        try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+            Statement stmt = conn.createStatement();
+        ) {
+            ResultSet rs = stmt.executeQuery(query);
+            System.out.println("DataBaseManager execute:");
+            System.out.println(query);
+            
+            return rs;
+        } catch (SQLException e) {
+            Logger.getLogger(DefaultData.class.getName()).log(Level.SEVERE, null, e);
+        }
+        return null;
     }
     
     public int getCountOf(String table){
