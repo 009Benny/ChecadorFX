@@ -7,7 +7,6 @@ package Modules.Admin;
 import Models.HorariosClass;
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.beans.InvalidationListener;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -61,7 +60,6 @@ public class AdminviewController implements Initializable {
                 if (willOpen) { horariosVC.didAppear(); } else { horariosVC.didDissappear(); }
                 break;
             default:
-                System.out.println("No es horarios");
                 break;
         }
     }

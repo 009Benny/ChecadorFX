@@ -2,6 +2,7 @@ package Models;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -41,20 +42,35 @@ public class DataBaseManager {
     }
     
 
-    public ResultSet getData(String table){
+    public List<HashMap<String, Object>> getData(String table){
         String query = "SELECT * FROM "+ table +";";
         try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
             Statement stmt = conn.createStatement();
         ) {
             ResultSet rs = stmt.executeQuery(query);
-            System.out.println("DataBaseManager execute:");
+            System.out.println("DataBaseManager getData execute:");
             System.out.println(query);
-            
-            return rs;
+            List<HashMap<String, Object>> list = castData(rs);
+            stmt.close();
+            return list;
         } catch (SQLException e) {
             Logger.getLogger(DefaultData.class.getName()).log(Level.SEVERE, null, e);
         }
         return null;
+    }
+    
+    private List<HashMap<String, Object>> castData(ResultSet data) throws SQLException{
+        List<HashMap<String, Object>> list = new ArrayList();
+        ResultSetMetaData meta = data.getMetaData();
+        while(data.next()){
+            HashMap<String, Object> map = new HashMap<>();
+            for(int i=1;i<=meta.getColumnCount();i++){
+                String key = meta.getColumnName(i);
+                map.put(key, data.getObject(key));
+            }
+            list.add(map);
+        }
+        return list;
     }
     
     public int getCountOf(String table){
