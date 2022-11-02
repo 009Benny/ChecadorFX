@@ -120,4 +120,28 @@ public class HorariosClass {
         return domingo;
     }
     
+    public boolean haveDateForDay(int day){
+        return (day >= 0 && day <= 6) ? !getValueOfDay(DayEnum.values()[day]).isEmpty() : false;
+    }
+    
+    public String getValueOfDay(DayEnum day){
+        switch(day){
+            case monday:
+                return lunes;
+            case tuesday:
+                return martes;
+            case wednesday:
+                return miercoles;
+            case thursday:
+                return jueves;
+            case friday:
+                return viernes;
+            case saturday:
+                return sabado;
+            case sunday:
+                return domingo;
+            default:
+                return "";
+        }
+    }
 }

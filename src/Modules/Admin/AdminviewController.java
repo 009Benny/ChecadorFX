@@ -11,9 +11,11 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TableView;
+import javafx.scene.layout.VBox;
 
 /**
  * FXML Controller class
@@ -26,8 +28,17 @@ public class AdminviewController implements Initializable {
     @FXML
     private TabPane mainPane;
     
+    /*
+     * HORARIOS VARS
+    */
     @FXML
     private TableView<HorariosClass> tableHorarios;
+    @FXML
+    private VBox horariosForm;
+    @FXML
+    private Button btnEditHorario;
+    @FXML
+    private Button btnDeleteHorario;
     
     /**
      * Initializes the controller class.
@@ -39,7 +50,7 @@ public class AdminviewController implements Initializable {
     }
     
     private void configureSubControllers(){
-        horariosVC = new HorariosviewController(tableHorarios);
+        horariosVC = new HorariosviewController(tableHorarios, horariosForm, btnEditHorario, btnDeleteHorario);
         addSelectionListener();
     }
     

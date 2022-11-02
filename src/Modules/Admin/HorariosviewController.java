@@ -5,6 +5,7 @@
 package Modules.Admin;
 
 import Models.DataBaseManager;
+import Models.DayEnum;
 import Models.HorariosClass;
 import java.util.HashMap;
 import java.util.List;
@@ -12,35 +13,57 @@ import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ListChangeListener.Change;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 
 /**
  *
  * @author bennyreyes
  */
 public class HorariosviewController implements AdminGenericController {
-    ObservableList<HorariosClass> horarios;
-    ObservableList<HorariosClass> horariosSelected;
-    DataBaseManager db;
     TableView<HorariosClass> tableContent;
+    ObservableList<HorariosClass> horarios = FXCollections.observableArrayList();
+    ObservableList<HorariosClass> horariosSelected = FXCollections.observableArrayList();
+    ObservableList<CheckBox> checkDays = FXCollections.observableArrayList();
+    ObservableList<HBox> boxDays = FXCollections.observableArrayList();
+    Button btnDelete;
+    Button btnEdit;
     
-    public HorariosviewController(TableView<HorariosClass> table){
-        horarios = FXCollections.observableArrayList();
-        db = new DataBaseManager();
-        tableContent = table;
+    DataBaseManager db = new DataBaseManager();
+    
+    
+    public HorariosviewController(TableView<HorariosClass> table, VBox form, Button btnEdit, Button btnDelete){
+        this.tableContent = table;
         horariosSelected = tableContent.getSelectionModel().getSelectedItems();
-        configTable();
+        this.btnEdit = btnEdit;
+        this.btnDelete = btnDelete;
+        setComponents(form);
+        configViews();
         configListeners();
     }
     
     // CONFIGURATION 
-    private void configTable(){
-        // COLUMNS
+    private void configViews(){
+        // TABLE
         if (tableContent.getColumns().isEmpty()){
             addColumns();
         }
+    }
+    
+    private void setComponents(VBox form){
+        form.getChildren().forEach((item) -> {
+            if(item instanceof CheckBox){
+                this.checkDays.add((CheckBox)item);
+            }else if (item instanceof HBox){
+                this.boxDays.add((HBox)item);
+            }
+        });
     }
     
     private void configListeners(){
@@ -48,7 +71,6 @@ public class HorariosviewController implements AdminGenericController {
             didSelectItem(c.getList().get(0));
         });
         horarios.addListener((Change<? extends HorariosClass> c) -> {
-            System.out.println("OnChange");
             tableContent.setItems(horarios);
         });
     }
@@ -85,6 +107,35 @@ public class HorariosviewController implements AdminGenericController {
     // EVENTS
     private void didSelectItem(HorariosClass item){
         System.out.println(item.getName());
+        setItemToForm(item);
+    }
+    
+    private void setItemToForm(HorariosClass item){
+        // CHECKBOX
+        for(int i=0;i<checkDays.size();i++){
+            checkDays.get(i).setSelected(item.haveDateForDay(i));
+        }
+        // HBOX
+        for(int i=0;i<boxDays.size();i++){
+            String[] values = item.getValueOfDay(DayEnum.values()[i]).split("-");
+            //((VBox)boxDays.get(i).getChildren().get(0)).getChildren()
+            if (values.length == 2){
+                VBox start = (VBox) boxDays.get(i).getChildren().get(0);
+                start.getChildren().forEach(view -> {
+                    if(view instanceof TextField){
+                        TextField tf = (TextField)view;
+                        tf.setText(values[0]);
+                    }
+                });
+                VBox end = (VBox) boxDays.get(i).getChildren().get(1);
+                end.getChildren().forEach(view -> {
+                    if(view instanceof TextField){
+                        TextField tf = (TextField)view;
+                        tf.setText(values[1]);
+                    }
+                });
+            }   
+        }
     }
 
     // ADMIN GENERIC CONTROLLER

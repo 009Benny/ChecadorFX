@@ -138,8 +138,8 @@
                                     </TableView>
                                     <HBox alignment="CENTER" spacing="50.0">
                                        <children>
-                                          <Button mnemonicParsing="false" text="Editar horario" HBox.hgrow="ALWAYS" />
-                                          <Button mnemonicParsing="false" text="Eliminar horario" HBox.hgrow="ALWAYS" />
+                                          <Button fx:id="btnEditHorario" mnemonicParsing="false" text="Editar horario" HBox.hgrow="ALWAYS" />
+                                          <Button fx:id="btnDeleteHorario" mnemonicParsing="false" text="Eliminar horario" HBox.hgrow="ALWAYS" />
                                        </children>
                                        <padding>
                                           <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
@@ -149,7 +149,7 @@
                               </VBox>
                               <ScrollPane hbarPolicy="NEVER" hmax="0.0" maxWidth="300.0" minWidth="-Infinity" prefWidth="300.0" HBox.hgrow="ALWAYS">
                                  <content>
-                                    <VBox maxWidth="290.0" minWidth="-Infinity" prefWidth="290.0" spacing="10.0">
+                                    <VBox fx:id="horariosForm" maxWidth="290.0" minWidth="-Infinity" prefWidth="290.0" spacing="10.0">
                                        <children>
                                           <Label alignment="CENTER" maxWidth="1.7976931348623157E308" text="Creacion y  modificacion de horarios" textAlignment="CENTER" wrapText="true">
                                              <padding>
