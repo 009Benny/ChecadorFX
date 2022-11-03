@@ -81,6 +81,10 @@ public class DataBaseManager {
         executeQuery("UPDATE " + table + " SET " + itemUpdated + " WHERE " + condition);
     }
     
+    public void createItem(String table, String fields, String values){
+        executeQuery("INSERT INTO " + table + " (" + fields + ") VALUES (" + values + ");");
+    }
+    
     public int getCountOf(String table){
         String query = "SELECT COUNT(*) FROM "+ table +";";
         try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);

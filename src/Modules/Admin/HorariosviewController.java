@@ -124,6 +124,7 @@ public class HorariosviewController implements AdminGenericController {
     private void createItem(){
         if(horariosSelected.isEmpty()){
             HorariosClass item = getFormData();
+            //db.createItem(DataBaseManager.horarios_table, fields, values);
         }
     }
     

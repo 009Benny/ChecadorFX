@@ -5,12 +5,12 @@
 package Models;
 
 import Extensions.DateExtension;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  *
@@ -28,6 +28,11 @@ public class HorariosClass {
     private String viernes;
     private String sabado;
     private String domingo;
+    
+    public String[] getQueryHeaders(){
+        String[] keys = {DataBaseManager.horarios_id, "name","startDate","endDate","lunes", "martes", "miercoles", "jueves", "viernes", "sabado", "domingo"};
+        return keys;
+    }
     
     static public HorariosClass getEmptyObj(String name){
         return new HorariosClass(new HashMap<String, Object>() {{
