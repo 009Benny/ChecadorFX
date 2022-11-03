@@ -36,6 +36,10 @@ public class AdminviewController implements Initializable {
     @FXML
     private VBox horariosForm;
     @FXML
+    private Button btnNewHorario;
+    @FXML
+    private Button btnClearHorario;
+    @FXML
     private Button btnEditHorario;
     @FXML
     private Button btnDeleteHorario;
@@ -50,7 +54,7 @@ public class AdminviewController implements Initializable {
     }
     
     private void configureSubControllers(){
-        horariosVC = new HorariosviewController(tableHorarios, horariosForm, btnEditHorario, btnDeleteHorario);
+        horariosVC = new HorariosviewController(tableHorarios, horariosForm, btnNewHorario, btnClearHorario, btnEditHorario, btnDeleteHorario);
         addSelectionListener();
     }
     

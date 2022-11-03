@@ -73,6 +73,14 @@ public class DataBaseManager {
         return list;
     }
     
+    public void deleteItem(String table, String condition){;
+        executeQuery("DELETE FROM `" + table + "` WHERE " + condition);
+    }
+    
+    public void updateItem(String table, String itemUpdated, String condition){
+        executeQuery("UPDATE " + table + " SET " + itemUpdated + " WHERE " + condition);
+    }
+    
     public int getCountOf(String table){
         String query = "SELECT COUNT(*) FROM "+ table +";";
         try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);

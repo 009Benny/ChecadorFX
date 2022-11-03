@@ -9,10 +9,14 @@ import Models.DayEnum;
 import Models.HorariosClass;
 import java.util.HashMap;
 import java.util.List;
+import java.util.function.Consumer;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ListChangeListener.Change;
 import javafx.collections.ObservableList;
+import javafx.event.Event;
+import javafx.event.EventHandler;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TableColumn;
@@ -34,15 +38,20 @@ public class HorariosviewController implements AdminGenericController {
     ObservableList<HBox> boxDays = FXCollections.observableArrayList();
     Button btnDelete;
     Button btnEdit;
+    Button btnClear;
+    Button btnNew;
     
     DataBaseManager db = new DataBaseManager();
     
     
-    public HorariosviewController(TableView<HorariosClass> table, VBox form, Button btnEdit, Button btnDelete){
+    public HorariosviewController(TableView<HorariosClass> table, VBox form, Button btnNew, Button btnClear, Button btnEdit, Button btnDelete){
         this.tableContent = table;
         horariosSelected = tableContent.getSelectionModel().getSelectedItems();
+        this.btnNew = btnNew;
+        this.btnClear = btnClear;
         this.btnEdit = btnEdit;
         this.btnDelete = btnDelete;
+        
         setComponents(form);
         configViews();
         configListeners();
@@ -71,10 +80,59 @@ public class HorariosviewController implements AdminGenericController {
             didSelectItem(c.getList().get(0));
         });
         horarios.addListener((Change<? extends HorariosClass> c) -> {
-            tableContent.setItems(horarios);
+            //tableContent.setItems(horarios);
+        });
+        
+        btnClear.setOnAction(new EventHandler(){
+            @Override
+            public void handle(Event event) {
+                clearSelection();
+            }
+        });
+        
+        btnEdit.setOnAction(new EventHandler(){
+            @Override
+            public void handle(Event event) {
+                updateItem();
+            }
+        });
+        
+        btnDelete.setOnAction(new EventHandler(){
+            @Override
+            public void handle(Event event) {
+                deleteItem();
+            }
         });
     }
     
+    // ALTER DATA   
+    private void updateItem(){
+        if(horariosSelected.size()==1){
+            HorariosClass item = getFormData();
+            db.updateItem(DataBaseManager.horarios_table, item.getQuery(), "`" + DataBaseManager.horarios_id + "` = " + item.getIdHorario());
+            loadData();
+        }
+    }
+    
+    private void deleteItem(){
+        if(horariosSelected.size()==1){
+            db.deleteItem(DataBaseManager.horarios_table,  DataBaseManager.horarios_id + " = " + horariosSelected.get(0).getIdHorario());
+            loadData();
+        }
+    }
+    
+    private void createItem(){
+        if(horariosSelected.isEmpty()){
+            HorariosClass item = getFormData();
+        }
+    }
+    
+    private void clearSelection(){
+        tableContent.getSelectionModel().clearSelection();
+        clearForm();
+    }
+    
+    // VIEW ALTERATION
     private void addColumns(){
         String[] headers = {"Horario ID", "Nombre", "Fecha inicio", "Fecha final", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado", "Domingo"};
         String[] keys = {"idHorario", "name", "startDate", "endDate", "lunes", "martes", "miercoles", "jueves", "viernes", "sabado", "domingo"};
@@ -87,27 +145,6 @@ public class HorariosviewController implements AdminGenericController {
             columns[i] =  c;
         }
         tableContent.getColumns().addAll(columns);
-    }
-    
-    // LOAD DATA
-    private void loadData(){
-        List<HashMap<String, Object>> data = db.getData(DataBaseManager.horarios_table);
-        if (!data.isEmpty()){
-            horarios.stream().forEach((item) -> {
-                horarios.remove(item);
-            });
-            for(HashMap<String, Object> map:data){
-                horarios.add(new HorariosClass(map));
-            }
-        }else{
-            System.out.println("ES NULL");
-        }
-    }
-    
-    // EVENTS
-    private void didSelectItem(HorariosClass item){
-        System.out.println(item.getName());
-        setItemToForm(item);
     }
     
     private void setItemToForm(HorariosClass item){
@@ -135,6 +172,90 @@ public class HorariosviewController implements AdminGenericController {
                     }
                 });
             }   
+        }
+    }
+    
+    private void clearForm(){
+        // CHECKBOX
+        for(int i=0;i<checkDays.size();i++){
+            checkDays.get(i).setSelected(false);
+        }
+        // HBOX
+        for(int i=0;i<boxDays.size();i++){
+            VBox start = (VBox) boxDays.get(i).getChildren().get(0);
+            start.getChildren().forEach(view -> {
+                if(view instanceof TextField){
+                    TextField tf = (TextField)view;
+                    tf.setText("");
+                }
+            });
+            VBox end = (VBox) boxDays.get(i).getChildren().get(1);
+            end.getChildren().forEach(view -> {
+                if(view instanceof TextField){
+                    TextField tf = (TextField)view;
+                    tf.setText("");
+                }
+            });
+        }
+    }
+    
+    private HorariosClass getFormData(){
+        HorariosClass item;
+        if (horariosSelected.isEmpty()){
+            item = HorariosClass.getEmptyObj("Prueba");
+        }else{
+            item = horariosSelected.get(0);
+        }
+        // CHECKBOX
+        for(int i=0;i<checkDays.size();i++){
+            if(checkDays.get(i).isSelected()){
+                String date = "";
+                // START
+                VBox start = (VBox) boxDays.get(i).getChildren().get(0);
+                for(Node n:start.getChildren()){
+                    if(n instanceof TextField){
+                        TextField tf = (TextField)n;
+                        date += tf.getText();
+                    }
+                }
+                date+="-";
+                //END
+                VBox end = (VBox) boxDays.get(i).getChildren().get(1);
+                for(Node n:end.getChildren()){
+                    if(n instanceof TextField){
+                        TextField tf = (TextField)n;
+                        date += tf.getText();
+                    }
+                }
+                item.setValueOfDay(date, DayEnum.values()[i]);
+            }else{
+                item.setValueOfDay("", DayEnum.values()[i]);
+            }
+        }
+        return item;
+    }
+    
+    // LOAD DATA
+    private void loadData(){
+        List<HashMap<String, Object>> data = db.getData(DataBaseManager.horarios_table);
+        if (!data.isEmpty()){
+            horarios.stream().forEach((item) -> {
+                horarios.remove(item);
+            });
+            for(HashMap<String, Object> map:data){
+                horarios.add(new HorariosClass(map));
+            }
+            tableContent.setItems(horarios);
+        }else{
+            System.out.println("ES NULL");
+        }
+    }
+    
+    // EVENTS
+    private void didSelectItem(HorariosClass item){
+        if (item != null){ 
+            System.out.println("Se selecciono: " + item.getName());
+            setItemToForm(item);
         }
     }
 
