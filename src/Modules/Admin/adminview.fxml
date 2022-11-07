@@ -31,7 +31,7 @@
       </Label>
       <TabPane fx:id="mainPane" layoutX="45.0" layoutY="74.0" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0">
         <tabs>
-          <Tab text="Usuarios">
+          <Tab text="Personas">
                <content>
                   <AnchorPane prefHeight="200.0" prefWidth="200.0">
                      <children>
@@ -44,7 +44,7 @@
                                           <Font name="Arial" size="15.0" />
                                        </font>
                                     </Label>
-                                    <TextField HBox.hgrow="ALWAYS" />
+                                    <TextField fx:id="txtFieldSearchPersonas" HBox.hgrow="ALWAYS" />
                                  </children>
                                  <VBox.margin>
                                     <Insets bottom="4.0" left="20.0" right="20.0" top="4.0" />
@@ -52,11 +52,7 @@
                               </HBox>
                               <ScrollPane VBox.vgrow="ALWAYS">
                                  <content>
-                                    <TableView maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="800.0">
-                                      <columns>
-                                        <TableColumn maxWidth="-Infinity" minWidth="100.0" prefWidth="100.0" text="C1" />
-                                        <TableColumn prefWidth="75.0" text="C2" />
-                                      </columns>
+                                    <TableView fx:id="tablePersonas" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="800.0">
                                        <columnResizePolicy>
                                           <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                                        </columnResizePolicy>
@@ -67,9 +63,9 @@
                                  <children>
                                     <VBox prefHeight="200.0" prefWidth="100.0" spacing="20.0" HBox.hgrow="ALWAYS">
                                        <children>
-                                          <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Agregar Usuarios" />
-                                          <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Descargar formato" />
-                                          <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Borrar" />
+                                          <Button fx:id="btnAddPersonas" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Agregar Usuarios" />
+                                          <Button fx:id="btnDownloadPersonasFormat" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Descargar formato" />
+                                          <Button fx:id="btnDeletePersonas" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Borrar" />
                                        </children>
                                        <padding>
                                           <Insets bottom="10.0" left="10.0" right="10.0" top="30.0" />
@@ -78,7 +74,7 @@
                                     <VBox prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
                                        <children>
                                           <Label text="Usuarios correctos" />
-                                          <TableView prefHeight="200.0" prefWidth="200.0">
+                                          <TableView fx:id="tableCorrectPersonas" prefHeight="200.0" prefWidth="200.0">
                                             <columns>
                                               <TableColumn maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="Matricula" />
                                               <TableColumn maxWidth="1.7976931348623157E308" minWidth="180.0" prefWidth="-1.0" text="Nombre" />
@@ -92,7 +88,7 @@
                                     <VBox prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
                                        <children>
                                           <Label text="Usuarios incorrectos" />
-                                          <TableView prefHeight="200.0" prefWidth="200.0">
+                                          <TableView fx:id="tableFailurePersonas" prefHeight="200.0" prefWidth="200.0">
                                              <columns>
                                                 <TableColumn minWidth="100.0" prefWidth="75.0" text="Matricula" />
                                                 <TableColumn maxWidth="1.7976931348623157E308" minWidth="180.0" prefWidth="-1.0" text="Nombre" />
@@ -343,12 +339,12 @@
                                        </VBox.margin>
                                     </Label>
                                     <Label alignment="CENTER" maxWidth="1.7976931348623157E308" text="Selecciona el dia del reporte" />
-                                    <DatePicker maxWidth="1.7976931348623157E308">
+                                    <DatePicker fx:id="datePickerReport" maxWidth="1.7976931348623157E308">
                                        <VBox.margin>
                                           <Insets bottom="20.0" />
                                        </VBox.margin>
                                     </DatePicker>
-                                    <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Descargar" textAlignment="CENTER" />
+                                    <Button fx:id="btnDownloadReport" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Descargar" textAlignment="CENTER" />
                                  </children>
                                  <padding>
                                     <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
@@ -369,13 +365,13 @@
                                           <Insets bottom="5.0" />
                                        </VBox.margin>
                                     </Label>
-                                    <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Descargar" textAlignment="CENTER">
+                                    <Button fx:id="btnDownloadFacultades" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Descargar" textAlignment="CENTER">
                                        <VBox.margin>
                                           <Insets bottom="20.0" />
                                        </VBox.margin>
                                     </Button>
                                     <Label alignment="CENTER" maxWidth="1.7976931348623157E308" text="Tabla de carreras" />
-                                    <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Descargar" textAlignment="CENTER" />
+                                    <Button fx:id="btnDownloadCarreras" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Descargar" textAlignment="CENTER" />
                                  </children>
                                  <padding>
                                     <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
@@ -389,7 +385,7 @@
                      </children></AnchorPane>
               </content>
             </Tab>
-            <Tab text="Cuentas administradoras">
+            <Tab text="Usuarios">
                <content>
                   <AnchorPane prefHeight="200.0" prefWidth="200.0">
                      <children>
@@ -402,7 +398,7 @@
                                           <Font name="Arial" size="15.0" />
                                        </font>
                                     </Label>
-                                    <TextField HBox.hgrow="ALWAYS" />
+                                    <TextField fx:id="txtFieldSearchUsuarios" HBox.hgrow="ALWAYS" />
                                  </children>
                                  <VBox.margin>
                                     <Insets bottom="4.0" left="20.0" right="20.0" top="4.0" />
@@ -410,11 +406,7 @@
                               </HBox>
                               <ScrollPane VBox.vgrow="ALWAYS">
                                  <content>
-                                    <TableView maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="800.0">
-                                       <columns>
-                                          <TableColumn prefWidth="75.0" text="C1" />
-                                          <TableColumn prefWidth="75.0" text="C2" />
-                                       </columns>
+                                    <TableView fx:id="tableUsuarios" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="800.0">
                                        <columnResizePolicy>
                                           <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                                        </columnResizePolicy>
@@ -425,9 +417,9 @@
                                  <children>
                                     <VBox prefHeight="200.0" prefWidth="100.0" spacing="20.0" HBox.hgrow="ALWAYS">
                                        <children>
-                                          <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Agregar Usuarios" />
-                                          <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Descargar formato" />
-                                          <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Borrar" />
+                                          <Button fx:id="btnAddUsuarios" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Agregar Usuarios" />
+                                          <Button fx:id="btnDownloadUsuariosFormat" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Descargar formato" />
+                                          <Button fx:id="btnDeleteUsuarios" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Borrar" />
                                        </children>
                                        <padding>
                                           <Insets bottom="10.0" left="10.0" right="10.0" top="30.0" />
@@ -436,7 +428,7 @@
                                     <VBox prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
                                        <children>
                                           <Label text="Usuarios correctos" />
-                                          <TableView prefHeight="200.0" prefWidth="200.0">
+                                          <TableView fx:id="tableCorrectUsuarios" prefHeight="200.0" prefWidth="200.0">
                                              <columns>
                                                 <TableColumn maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="Matricula" />
                                                 <TableColumn maxWidth="1.7976931348623157E308" minWidth="180.0" prefWidth="-1.0" text="Nombre" />
@@ -450,7 +442,7 @@
                                     <VBox prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
                                        <children>
                                           <Label text="Usuarios incorrectos" />
-                                          <TableView prefHeight="200.0" prefWidth="200.0">
+                                          <TableView fx:id="tableFailureUsuarios" prefHeight="200.0" prefWidth="200.0">
                                              <columns>
                                                 <TableColumn minWidth="100.0" prefWidth="75.0" text="Matricula" />
                                                 <TableColumn maxWidth="1.7976931348623157E308" minWidth="180.0" prefWidth="-1.0" text="Nombre" />
@@ -468,11 +460,6 @@
                      </children>
                   </AnchorPane>
                </content>
-            </Tab>
-            <Tab text="Untitled Tab">
-              <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-              </content>
             </Tab>
         </tabs>
       </TabPane>

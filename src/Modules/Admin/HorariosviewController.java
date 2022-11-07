@@ -284,13 +284,10 @@ public class HorariosviewController implements AdminGenericController {
 
     // ADMIN GENERIC CONTROLLER
     @Override
-    public void didAppear() {
-        loadData();
-    }
-
-    @Override
-    public void didDissappear() {
-        System.out.println("didDissappear");
+    public void notify(boolean willAppear) {
+        if (willAppear){
+            loadData();
+        }
     }
     
 }
