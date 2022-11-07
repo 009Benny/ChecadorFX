@@ -164,6 +164,16 @@
                                                 <Font name="Arial Bold" size="16.0" />
                                              </font>
                                           </Label>
+                                          <TextField promptText="Nombre">
+                                             <font>
+                                                <Font name="Arial" size="13.0" />
+                                             </font>
+                                          </TextField>
+                                          <TextField promptText="Identificador(Numero)">
+                                             <font>
+                                                <Font name="Arial" size="13.0" />
+                                             </font>
+                                          </TextField>
                                           <CheckBox mnemonicParsing="false" text="Lunes" />
                                           <HBox prefWidth="200.0" spacing="20.0">
                                              <children>

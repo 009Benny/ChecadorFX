@@ -9,7 +9,6 @@ import Models.DayEnum;
 import Models.HorariosClass;
 import java.util.HashMap;
 import java.util.List;
-import java.util.function.Consumer;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ListChangeListener.Change;
@@ -36,6 +35,8 @@ public class HorariosviewController implements AdminGenericController {
     ObservableList<HorariosClass> horariosSelected = FXCollections.observableArrayList();
     ObservableList<CheckBox> checkDays = FXCollections.observableArrayList();
     ObservableList<HBox> boxDays = FXCollections.observableArrayList();
+    TextField txtFieldName;
+    TextField txtFieldIdentifier;
     Button btnDelete;
     Button btnEdit;
     Button btnClear;
@@ -71,6 +72,12 @@ public class HorariosviewController implements AdminGenericController {
                 this.checkDays.add((CheckBox)item);
             }else if (item instanceof HBox){
                 this.boxDays.add((HBox)item);
+            }else if(item instanceof TextField){
+                if (this.txtFieldName == null){
+                   this.txtFieldName = (TextField)item;
+                }else{
+                    this.txtFieldIdentifier = (TextField)item;
+                }
             }
         });
     }
@@ -97,6 +104,13 @@ public class HorariosviewController implements AdminGenericController {
             }
         });
         
+        btnNew.setOnAction(new EventHandler(){
+            @Override
+            public void handle(Event event) {
+                createItem();
+            }
+        });
+        
         btnDelete.setOnAction(new EventHandler(){
             @Override
             public void handle(Event event) {
@@ -108,8 +122,9 @@ public class HorariosviewController implements AdminGenericController {
     // ALTER DATA   
     private void updateItem(){
         if(horariosSelected.size()==1){
+            int identifier = horariosSelected.get(0).getIdHorario();
             HorariosClass item = getFormData();
-            db.updateItem(DataBaseManager.horarios_table, item.getQuery(), "`" + DataBaseManager.horarios_id + "` = " + item.getIdHorario());
+            db.updateItem(DataBaseManager.horarios_table, item.getQuery(), "`" + DataBaseManager.horarios_id + "` = " + identifier);
             loadData();
         }
     }
@@ -124,7 +139,8 @@ public class HorariosviewController implements AdminGenericController {
     private void createItem(){
         if(horariosSelected.isEmpty()){
             HorariosClass item = getFormData();
-            //db.createItem(DataBaseManager.horarios_table, fields, values);
+            db.createItem(DataBaseManager.horarios_table, "`idHorario`, `nombre`, `startDate`, `endDate`, `lunes`, `martes`, `miercoles`, `jueves`, `viernes`, `sabado`, `domingo`", item.getQueryValues());
+            loadData();
         }
     }
     
@@ -149,6 +165,8 @@ public class HorariosviewController implements AdminGenericController {
     }
     
     private void setItemToForm(HorariosClass item){
+        txtFieldName.setText(item.getName());
+        txtFieldIdentifier.setText(Integer.toString(item.getIdHorario()));
         // CHECKBOX
         for(int i=0;i<checkDays.size();i++){
             checkDays.get(i).setSelected(item.haveDateForDay(i));
@@ -177,6 +195,8 @@ public class HorariosviewController implements AdminGenericController {
     }
     
     private void clearForm(){
+        txtFieldName.setText("");
+        txtFieldIdentifier.setText("");
         // CHECKBOX
         for(int i=0;i<checkDays.size();i++){
             checkDays.get(i).setSelected(false);
@@ -207,6 +227,8 @@ public class HorariosviewController implements AdminGenericController {
         }else{
             item = horariosSelected.get(0);
         }
+        item.setName(txtFieldName.getText());
+        item.setIdHorario(Integer.parseInt(txtFieldIdentifier.getText()));
         // CHECKBOX
         for(int i=0;i<checkDays.size();i++){
             if(checkDays.get(i).isSelected()){

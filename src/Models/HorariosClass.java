@@ -29,15 +29,10 @@ public class HorariosClass {
     private String sabado;
     private String domingo;
     
-    public String[] getQueryHeaders(){
-        String[] keys = {DataBaseManager.horarios_id, "name","startDate","endDate","lunes", "martes", "miercoles", "jueves", "viernes", "sabado", "domingo"};
-        return keys;
-    }
-    
     static public HorariosClass getEmptyObj(String name){
         return new HorariosClass(new HashMap<String, Object>() {{
             put(DataBaseManager.horarios_id, 0);
-            put("name", name);
+            put("nombre", name);
             put("startDate", new Date());
             put("endDate", new Date());
             put("lunes", "");
@@ -128,6 +123,7 @@ public class HorariosClass {
     
     public String getQuery(){
        return 
+               "`"+ DataBaseManager.horarios_id + "` = " + idHorario + "," +
                "`nombre` = '" + name + "'," +
                "`startDate` = STR_TO_DATE('"+ DateExtension.getStringDate(startDate, "dd/MM/yyyy") +"','%d/%m/%Y')," +
                "`endDate` = STR_TO_DATE('"+ DateExtension.getStringDate(endDate, "dd/MM/yyyy") +"','%d/%m/%Y')," +
@@ -138,6 +134,21 @@ public class HorariosClass {
                "`viernes` = '" + viernes + "'," +
                "`sabado` = '" + sabado + "'," +
                "`domingo` = '" + domingo + "'";
+    }
+    
+    public String getQueryValues(){
+        return 
+               "'" + idHorario + "'," +
+               "'" + name + "'," +
+               "STR_TO_DATE('"+ DateExtension.getStringDate(startDate, "dd/MM/yyyy") +"','%d/%m/%Y')," +
+               "STR_TO_DATE('"+ DateExtension.getStringDate(endDate, "dd/MM/yyyy") +"','%d/%m/%Y')," +
+               "'" + lunes + "'," +
+               "'" + martes + "'," +
+               "'" + miercoles + "'," +
+               "'" + jueves + "'," +
+               "'" + viernes + "'," +
+               "'" + sabado + "'," +
+               "'" + domingo + "'";
     }
     
     /**
