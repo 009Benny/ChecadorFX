@@ -76,7 +76,7 @@ public class DefaultData {
     private void createHorariosTable(){
         String query = "CREATE TABLE IF NOT EXISTS " + DataBaseManager.horarios_table + " " +
         "(" + DataBaseManager.horarios_id + " INT not NULL, " +
-        " nombre VARCHAR(255) not NULL, " +
+        " horario VARCHAR(255) not NULL, " +
         " startDate DATE, " +
         " endDate DATE, " +
         " lunes VARCHAR(255), " +
@@ -93,7 +93,7 @@ public class DefaultData {
     private void createNivelesTable(){
         String query = "CREATE TABLE IF NOT EXISTS " + DataBaseManager.niveles_table + " " +
         "(" + DataBaseManager.niveles_id + " INT not NULL, " +
-        " nombre VARCHAR(255) not NULL, " +
+        " nivel VARCHAR(255) not NULL, " +
         " PRIMARY KEY ( " + DataBaseManager.niveles_id + "))"; 
         manager.executeQuery(query);
     }
@@ -101,7 +101,7 @@ public class DefaultData {
     private void createFacultadesTable(){
         String query = "CREATE TABLE IF NOT EXISTS " + DataBaseManager.facultades_table + " " +
         "(" + DataBaseManager.facultades_id + " INT not NULL, " +
-        " nombre VARCHAR(255) not NULL, " +
+        " facultad VARCHAR(255) not NULL, " +
         " PRIMARY KEY ( " + DataBaseManager.facultades_id + " ))"; 
         manager.executeQuery(query);
     }
@@ -109,7 +109,7 @@ public class DefaultData {
     private void createCarrerasTable(){
         String query = "CREATE TABLE IF NOT EXISTS " + DataBaseManager.carreras_table + " " +
         "(" + DataBaseManager.carreras_id + " INT not NULL, " +
-        " nombre VARCHAR(255) not NULL, " +
+        " carrera VARCHAR(255) not NULL, " +
         " PRIMARY KEY ( " + DataBaseManager.carreras_id + " ))"; 
         manager.executeQuery(query);
     }
@@ -121,7 +121,7 @@ public class DefaultData {
         if (count == 0) {
             try {
                 ArrayList<String> facultades = FileManager.getData("src/Data/Facultades.txt");
-                String query = "INSERT INTO `checador_fime`.`" + DataBaseManager.facultades_table + "` (`" + DataBaseManager.facultades_id + "`, `nombre`) VALUES";
+                String query = "INSERT INTO `checador_fime`.`" + DataBaseManager.facultades_table + "` (`" + DataBaseManager.facultades_id + "`, `facultad`) VALUES";
                 int identifier = 1;
                 for(String facultad : facultades){
                     query += " ("+ identifier +", '"+ facultad +"')";
@@ -141,7 +141,7 @@ public class DefaultData {
         if (count == 0) {
             try {
                 ArrayList<String> carreras = FileManager.getData("src/Data/Carreras.txt");
-                String query = "INSERT INTO `checador_fime`.`" + DataBaseManager.carreras_table + "` (`" + DataBaseManager.carreras_id + "`, `nombre`) VALUES";
+                String query = "INSERT INTO `checador_fime`.`" + DataBaseManager.carreras_table + "` (`" + DataBaseManager.carreras_id + "`, `carrera`) VALUES";
                 int identifier = 1;
                 for(String carrera : carreras){
                     query += " ("+ identifier +", '"+ carrera +"')";
@@ -161,7 +161,7 @@ public class DefaultData {
         if (count == 0) {
             try {
                 ArrayList<String> niveles = FileManager.getData("src/Data/Niveles.txt");
-                String query = "INSERT INTO `checador_fime`.`" + DataBaseManager.niveles_table + "` (`" + DataBaseManager.niveles_id + "`, `nombre`) VALUES";
+                String query = "INSERT INTO `checador_fime`.`" + DataBaseManager.niveles_table + "` (`" + DataBaseManager.niveles_id + "`, `nivel`) VALUES";
                 int identifier = 1;
                 for(String nivel : niveles){
                     query += " ("+ identifier +", '"+ nivel +"')";
@@ -204,9 +204,7 @@ public class DefaultData {
         if (count == 0) {
             try {
                 ArrayList<String> horarios = FileManager.getData("src/Data/Horarios.txt");
-                String query = "INSERT INTO `checador_fime`.`" + DataBaseManager.horarios_table + "` (`" + DataBaseManager.horarios_id + "`, `nombre`, `startDate`, `endDate`, `lunes`, `martes`, `miercoles`, `jueves`, `viernes`, `sabado`, `domingo`) VALUES";
-                
-                //STR_TO_DATE("03-04-15","%d-%m-%y")
+                String query = "INSERT INTO `checador_fime`.`" + DataBaseManager.horarios_table + "` (`" + DataBaseManager.horarios_id + "`, `horario`, `startDate`, `endDate`, `lunes`, `martes`, `miercoles`, `jueves`, `viernes`, `sabado`, `domingo`) VALUES";
                 int i = 1;
                 for(String horario : horarios){
                     String[] split = horario.split("\\s+");

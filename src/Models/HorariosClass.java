@@ -32,7 +32,7 @@ public class HorariosClass {
     static public HorariosClass getEmptyObj(String name){
         return new HorariosClass(new HashMap<String, Object>() {{
             put(DataBaseManager.horarios_id, 0);
-            put("nombre", name);
+            put("horario", name);
             put("startDate", new Date());
             put("endDate", new Date());
             put("lunes", "");
@@ -47,7 +47,7 @@ public class HorariosClass {
 
     public HorariosClass(HashMap<String, Object> map){
         idHorario = Integer.parseInt(map.get(DataBaseManager.horarios_id).toString());
-        name = map.get("nombre").toString();
+        name = map.get("horario").toString();
         lunes = map.get("lunes").toString();
         martes = map.get("martes").toString();
         miercoles = map.get("miercoles").toString();
@@ -124,7 +124,7 @@ public class HorariosClass {
     public String getQuery(){
        return 
                "`"+ DataBaseManager.horarios_id + "` = " + idHorario + "," +
-               "`nombre` = '" + name + "'," +
+               "`horario` = '" + name + "'," +
                "`startDate` = STR_TO_DATE('"+ DateExtension.getStringDate(startDate, "dd/MM/yyyy") +"','%d/%m/%Y')," +
                "`endDate` = STR_TO_DATE('"+ DateExtension.getStringDate(endDate, "dd/MM/yyyy") +"','%d/%m/%Y')," +
                "`lunes` = '" + lunes + "'," +

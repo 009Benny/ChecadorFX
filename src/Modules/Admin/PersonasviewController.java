@@ -5,12 +5,20 @@
 package Modules.Admin;
 
 import Models.DataBaseManager;
+import Models.HorariosClass;
 import Models.PersonasClass;
+import java.util.HashMap;
+import java.util.List;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 
 /**
  *
@@ -36,15 +44,65 @@ public class PersonasviewController implements AdminGenericController {
         this.btnAdd = add;
         this.btnDownloadFormat = download;
         this.btnDelete = delete;
-        //configViews();
+        configViews();
         //configListeners();
+    }
+    
+     // CONFIGURATION 
+    private void configViews(){
+        // TABLE
+        if (tableContent.getColumns().isEmpty()){
+            addColumns();
+        }
+    }
+    
+    // VIEW ALTERATION
+    private void addColumns(){
+        String[] headers = {"Persona ID", "Nombre", "Apellido Paterno", "Apellido Materno", "Email Personal", "Email Institucional", "Celular", "Carrera", "Facultad", "Horario"};
+        String[] keys = {"idPersona", "nombre", "apPaterno", "apMaterno", "perEmail", "instEmail", "phone", "carrera", "facultad", "horario"};
+
+        TableColumn[] columns = new TableColumn[headers.length];
+        for(int i=0;i<headers.length;i++){
+            TableColumn c = new TableColumn(headers[i]);
+            
+            c.setCellValueFactory(new PropertyValueFactory(keys[i]));
+            columns[i] =  c;
+        }
+        tableContent.getColumns().addAll(columns);
+    }
+    
+    private void configListeners(){
+        /*horariosSelected.addListener((ListChangeListener.Change<? extends HorariosClass> c) -> {
+            didSelectItem(c.getList().get(0));
+        });
+        horarios.addListener((ListChangeListener.Change<? extends HorariosClass> c) -> {
+            //tableContent.setItems(horarios);
+        });*/
+    }
+    
+    // LOAD DATA
+    private void loadData(){
+        List<HashMap<String, Object>> data = db.getDataWithQuery(PersonasClass.getQuerytoAllItems());
+        System.out.println("Data size: " + data.size());
+        if (!data.isEmpty()){
+            personas.clear();
+            for(HashMap<String, Object> map:data){
+                personas.add(new PersonasClass(map));
+            }
+            System.out.println("Se agregan " + personas.size() + " rows");
+            tableContent.setItems(personas);
+        }else{
+            System.out.println("ES NULL");
+        }
     }
     
     
     // ADMIN GENERIC CONTROLLER
     @Override
     public void notify(boolean willAppear) {
-        
+        if (willAppear){
+            loadData();
+        }
     }
     
 }

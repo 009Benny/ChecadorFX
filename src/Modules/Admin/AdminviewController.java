@@ -106,6 +106,7 @@ public class AdminviewController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
         configureSubControllers();
+        personasVC.notify(true);
     }
     
     private void configureSubControllers(){

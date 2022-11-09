@@ -59,6 +59,24 @@ public class DataBaseManager {
         return null;
     }
     
+    public List<HashMap<String, Object>> getDataWithQuery(String query){
+        try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+            Statement stmt = conn.createStatement();
+        ) {
+            ResultSet rs = stmt.executeQuery(query);
+            System.out.println("DataBaseManager getData execute:");
+            System.out.println(query);
+            List<HashMap<String, Object>> list = castData(rs);
+            stmt.close();
+            return list;
+        } catch (SQLException e) {
+            Logger.getLogger(DefaultData.class.getName()).log(Level.SEVERE, null, e);
+        }
+        return null;
+    }
+    
+    
+    
     private List<HashMap<String, Object>> castData(ResultSet data) throws SQLException{
         List<HashMap<String, Object>> list = new ArrayList();
         ResultSetMetaData meta = data.getMetaData();

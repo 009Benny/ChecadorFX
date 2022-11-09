@@ -139,7 +139,7 @@ public class HorariosviewController implements AdminGenericController {
     private void createItem(){
         if(horariosSelected.isEmpty()){
             HorariosClass item = getFormData();
-            db.createItem(DataBaseManager.horarios_table, "`idHorario`, `nombre`, `startDate`, `endDate`, `lunes`, `martes`, `miercoles`, `jueves`, `viernes`, `sabado`, `domingo`", item.getQueryValues());
+            db.createItem(DataBaseManager.horarios_table, "`idHorario`, `horario`, `startDate`, `endDate`, `lunes`, `martes`, `miercoles`, `jueves`, `viernes`, `sabado`, `domingo`", item.getQueryValues());
             loadData();
         }
     }
@@ -262,9 +262,7 @@ public class HorariosviewController implements AdminGenericController {
     private void loadData(){
         List<HashMap<String, Object>> data = db.getData(DataBaseManager.horarios_table);
         if (!data.isEmpty()){
-            horarios.stream().forEach((item) -> {
-                horarios.remove(item);
-            });
+            horarios.clear();
             for(HashMap<String, Object> map:data){
                 horarios.add(new HorariosClass(map));
             }
