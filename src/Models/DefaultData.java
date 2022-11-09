@@ -31,6 +31,7 @@ public class DefaultData {
         createNivelesTable();
         createFacultadesTable();
         createPersonasTable();
+        createRegistrosTable();
         createUsersTable();
     }
     
@@ -43,6 +44,17 @@ public class DefaultData {
     }
     
     // CREATION OF TABLES
+    private void createRegistrosTable(){
+        String query = "CREATE TABLE IF NOT EXISTS " + DataBaseManager.registros_table + " " +
+        "(" + DataBaseManager.registros_id + " INT not NULL, " +
+        " checkDate DATE not NULL, " +
+        " status Boolean not NULL, " +
+        " id_Persona Int not NULL, " +
+        " CONSTRAINT fkPersona FOREIGN KEY (id_Persona) REFERENCES "+DataBaseManager.personas_table+"(" + DataBaseManager.personas_id + ")," +
+        " PRIMARY KEY ( " + DataBaseManager.registros_id + " ))"; 
+        manager.executeQuery(query);
+    }
+    
     private void createUsersTable(){
         String query = "CREATE TABLE IF NOT EXISTS " + DataBaseManager.usuarios_table + " " +
         "(" + DataBaseManager.usuarios_id + " INT not NULL, " +

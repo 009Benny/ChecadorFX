@@ -16,6 +16,8 @@ public class DataBaseManager {
     static private final String USER = "root";
     static private final String PASS = "Fime1671335";
     // DB KEYS
+    static public String registros_table = "REGISTROS";
+    static public String registros_id = "idRegistro";
     static public String personas_table = "PERSONAS";
     static public String personas_id = "idPersona";
     static public String horarios_table = "HORARIOS";
