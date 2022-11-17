@@ -4,21 +4,25 @@
  */
 package Models;
 
+import java.util.Date;
+
 /**
  *
  * @author bennyreyes
  */
 public class RegistroClass {
-    String matricula;
-    String nombre;
-    String horaregistro;
-    String status;
+    int idRegistro;
+    Date checkDate;
+    boolean status;
+    int idPersona;
+    String namePersona;
 
-    public RegistroClass(String matricula, String nombre, String horaregistro, String status) {
-        this.matricula = matricula;
-        this.nombre = nombre;
-        this.horaregistro = horaregistro;
+    public RegistroClass(int idRegistro, Date checkDate, boolean status, int idPersona) {
+        this.idRegistro = idRegistro;
+        this.checkDate = checkDate;
         this.status = status;
+        this.idPersona = idPersona;
+        this.namePersona = "";
     }
     
 }
