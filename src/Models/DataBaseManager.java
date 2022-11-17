@@ -62,9 +62,11 @@ public class DataBaseManager {
     }
     
     public List<HashMap<String, Object>> getDataWithQuery(String query){
+        System.out.println(query);
         try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
             Statement stmt = conn.createStatement();
         ) {
+            System.out.println(query);
             ResultSet rs = stmt.executeQuery(query);
             System.out.println("DataBaseManager getData execute:");
             System.out.println(query);

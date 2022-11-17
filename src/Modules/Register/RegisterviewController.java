@@ -7,9 +7,10 @@ package Modules.Register;
 import Models.DataBaseManager;
 import Models.RegistroClass;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -23,39 +24,57 @@ import javafx.scene.control.cell.PropertyValueFactory;
  * @author bennyreyes
  */
 public class RegisterviewController implements Initializable {
-    ObservableList<RegistroClass> registros;
-    DataBaseManager db;
+    ObservableList<RegistroClass> registros = FXCollections.observableArrayList();
+    DataBaseManager db = new DataBaseManager();
     @FXML
-    private TableView<RegistroClass> tableContent;
-    @FXML
-    private TableColumn horaColumn;
-    @FXML
-    private TableColumn statusColumn;
-    @FXML
-    private TableColumn matriculaColumn;
-    @FXML
-    private TableColumn nombreColumn;
+    private TableView<RegistroClass> tableContent; 
     
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        db = new DataBaseManager();
-        registros = FXCollections.observableArrayList();
-        registros.addListener(registrosListener());
-        
-        horaColumn.setCellValueFactory(new PropertyValueFactory("horaregistro"));
-        statusColumn.setCellValueFactory(new PropertyValueFactory("status"));
-        matriculaColumn.setCellValueFactory(new PropertyValueFactory("matricula"));
-        nombreColumn.setCellValueFactory(new PropertyValueFactory("nombre"));
+        configViews();
+        loadData();
     }
     
-    private ListChangeListener<RegistroClass> registrosListener(){
-        return (ListChangeListener.Change<? extends RegistroClass> c) -> {
+     // CONFIGURATION 
+    private void configViews(){
+        // TABLE
+        if (tableContent.getColumns().isEmpty()){
+            addColumns();
+        }
+    }
+    
+    // VIEW ALTERATION
+    private void addColumns(){
+        String[] headers = {"Fecha", "Status", "Nombre"};
+        String[] keys = {"checkDate", "status", "namePersona"};
+
+        TableColumn[] columns = new TableColumn[headers.length];
+        for(int i=0;i<headers.length;i++){
+            TableColumn c = new TableColumn(headers[i]);
+            
+            c.setCellValueFactory(new PropertyValueFactory(keys[i]));
+            columns[i] =  c;
+        }
+        tableContent.getColumns().addAll(columns);
+    }
+    
+    // LOAD DATA
+    private void loadData(){
+        List<HashMap<String, Object>> data = db.getDataWithQuery(RegistroClass.getQuerytoAllItems());
+        System.out.println("Data size: " + data.size());
+        if (!data.isEmpty()){
+            registros.clear();
+            for(HashMap<String, Object> map:data){
+                registros.add(new RegistroClass(map));
+            }
+            System.out.println("Se agregan " + registros.size() + " rows");
             tableContent.setItems(registros);
-            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-        };
+        }else{
+            System.out.println("ES NULL");
+        }
     }
     
 }
