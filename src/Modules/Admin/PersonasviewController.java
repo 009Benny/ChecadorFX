@@ -5,20 +5,20 @@
 package Modules.Admin;
 
 import Models.DataBaseManager;
-import Models.HorariosClass;
 import Models.PersonasClass;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -41,6 +41,8 @@ public class PersonasviewController implements AdminGenericController {
     TableView<PersonasClass> tableSuccess;
     TableView<PersonasClass> tableFailure;
     ObservableList<PersonasClass> personas = FXCollections.observableArrayList();
+    ObservableList<PersonasClass> personasSuccess = FXCollections.observableArrayList();
+    ObservableList<PersonasClass> personasFailure = FXCollections.observableArrayList();
     ObservableList<PersonasClass> personasSelected = FXCollections.observableArrayList();
     TextField txtFieldSearch;
     Button btnAdd;
@@ -63,7 +65,19 @@ public class PersonasviewController implements AdminGenericController {
     private void configViews(){
         // TABLE
         if (tableContent.getColumns().isEmpty()){
-            addColumns();
+            String[] headers = {"Persona ID", "Nombre", "Apellido Paterno", "Apellido Materno", "Email Personal", "Email Institucional", "Celular", "Carrera", "Facultad", "Horario"};
+            String[] keys = {"idPersona", "nombre", "apPaterno", "apMaterno", "perEmail", "instEmail", "phone", "carrera", "facultad", "horario"};
+            configColumnsToTable(tableContent, headers, keys);
+        }
+        if (tableSuccess.getColumns().isEmpty()){
+            String[] headers = {"Persona ID", "Nombre"};
+            String[] keys = {"idPersona", "nombre"};
+            configColumnsToTable(tableSuccess, headers, keys);
+        }
+        if (tableFailure.getColumns().isEmpty()){
+            String[] headers = {"Linea"};
+            String[] keys = {"lineFailure"};
+            configColumnsToTable(tableFailure, headers, keys);
         }
     }
     
@@ -80,6 +94,17 @@ public class PersonasviewController implements AdminGenericController {
             columns[i] =  c;
         }
         tableContent.getColumns().addAll(columns);
+    }
+    
+    private void configColumnsToTable(TableView table, String[] headers, String[] keys){
+        TableColumn[] columns = new TableColumn[headers.length];
+        for(int i=0;i<headers.length;i++){
+            TableColumn c = new TableColumn(headers[i]);
+            
+            c.setCellValueFactory(new PropertyValueFactory(keys[i]));
+            columns[i] =  c;
+        }
+        table.getColumns().addAll(columns);
     }
     
     // BUTTON ACTIONS
@@ -110,32 +135,63 @@ public class PersonasviewController implements AdminGenericController {
     
     private void addElements(){
         File file = getFile();
+        System.out.println(file.list());
+        // REMOVE HEADER
+        
+        personasSuccess.clear();
+        personasFailure.clear();
+        for(String line:getListFromCSV(file.getAbsolutePath())){
+            System.out.println(line);
+            if(!line.startsWith("ID,NOMBRE")){
+                PersonasClass persona = new PersonasClass(line);
+                if (persona.isValid()){
+                    personasSuccess.add(persona);
+                }else{
+                    personasFailure.add(persona);
+                }
+            }
+        }
+        System.out.println("SUCCES: " + personasSuccess.size());
+        System.out.println("FAILURE: " + personasFailure.size());
+        tableSuccess.setItems(personasSuccess);
+        tableFailure.setItems(personasFailure);
+    }
+    
+    private List<String> getListFromCSV(String path){
+        List<String> lines = new ArrayList<>();
+        try{
+            BufferedReader br = new BufferedReader(new FileReader(path));
+            String line;
+            while ((line = br.readLine()) != null) {
+                lines.add(line);
+            }
+        }catch(IOException e){
+            System.out.println(e.getMessage());
+        }
+        return lines;
     }
     
     private static File getFile(){
-        System.out.println("getFile");
         JFileChooser fc = new JFileChooser();
         File file = null;
         FileNameExtensionFilter filter = new FileNameExtensionFilter("Solo soporto csv", "csv");
         fc.setFileFilter(filter);
         int selected = fc.showOpenDialog(null);
         if (selected == JFileChooser.APPROVE_OPTION){
-            System.out.println("APPROVE");
             file = fc.getSelectedFile();
         }
-        System.out.println("TERMINO");
-        
-        
         return file;
     }
     
     private void downloadFormatAction() throws IOException{
-        copyFile(new File("/Users/bennyreyes/Developer/FIME/ChecadorFX/src/Data/PersonasFormat.csv"), new File("/Users/bennyreyes/Downloads/PersonasFormat.csv"));
+        String home = System.getProperty("user.home");
+        String project = System.getProperty("user.dir");
+        copyFile(new File(project + "/src/Data/PersonasFormat.csv"), new File(home + "/Downloads/PersonasFormat.csv"));
     }
     
     private void copyFile(File sourceFile, File destFile) throws IOException {
-        System.out.println("LO INTENTA");
         if (!sourceFile.exists()) {
+            System.out.println("src: " + sourceFile.getAbsolutePath());
             JOptionPane.showMessageDialog(null, "Hubo un error, no se enconro el archivo", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
@@ -164,16 +220,14 @@ public class PersonasviewController implements AdminGenericController {
     // LOAD DATA
     private void loadData(){
         List<HashMap<String, Object>> data = db.getDataWithQuery(PersonasClass.getQuerytoAllItems());
-        System.out.println("Data size: " + data.size());
         if (!data.isEmpty()){
             personas.clear();
             for(HashMap<String, Object> map:data){
                 personas.add(new PersonasClass(map));
             }
-            System.out.println("Se agregan " + personas.size() + " rows");
             tableContent.setItems(personas);
         }else{
-            System.out.println("ES NULL");
+            System.out.println("LOAD DATA: NO REGRESA INFO");
         }
     }
     

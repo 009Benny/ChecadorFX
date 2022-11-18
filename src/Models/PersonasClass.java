@@ -8,6 +8,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Optional;
 
 /**
  *
@@ -24,10 +25,27 @@ public class PersonasClass {
     String carrera;
     String facultad;
     String horario;
+    Boolean isValid;
+    String lineFailure;
+    
+    public PersonasClass(String csvLine){
+        String[] split = csvLine.split(",");
+        isValid = split.length == 10;
+        if (isValid){
+            idPersona = Optional.ofNullable(Integer.valueOf(split[0])).orElse(1);
+            nombre = Optional.ofNullable(split[1]).orElse("");
+            apPaterno = Optional.ofNullable(split[2]).orElse("");
+            apMaterno = Optional.ofNullable(split[3]).orElse("");
+            perEmail = Optional.ofNullable(split[4]).orElse("");
+            instEmail = Optional.ofNullable(split[4]).orElse("");
+            phone = Optional.ofNullable(split[4]).orElse("");
+            carrera = Optional.ofNullable(split[4]).orElse("");
+        }else{
+            lineFailure = csvLine;
+        }
+    }
     
     public PersonasClass(HashMap<String, Object> map){
-        System.out.println("DATA");
-        System.out.print(map);
         idPersona = Integer.parseInt(map.get(DataBaseManager.personas_id).toString());
         nombre = map.get("nombre").toString();
         apPaterno = map.get("apPaterno").toString();
@@ -38,6 +56,7 @@ public class PersonasClass {
         carrera = map.get("carrera").toString();
         facultad = map.get("facultad").toString();
         horario = map.get("horario").toString();
+        isValid = true;
     }
     
     static public String getQuerytoAllItems(){
@@ -100,6 +119,14 @@ public class PersonasClass {
 
     public String getHorario() {
         return horario;
+    }
+
+    public Boolean isValid() {
+        return isValid;
+    }
+
+    public String getLineFailure() {
+        return lineFailure.replace(",", " ");
     }
     
 }

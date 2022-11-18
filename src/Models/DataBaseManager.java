@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 public class DataBaseManager {
     static private final String DB_URL = "jdbc:mysql://localhost:3306/checador_fime";
     static private final String USER = "root";
-    static private final String PASS = "Fime1671335";
+    static private final String PASS = "";
     // DB KEYS
     static public String registros_table = "REGISTROS";
     static public String registros_id = "idRegistro";
