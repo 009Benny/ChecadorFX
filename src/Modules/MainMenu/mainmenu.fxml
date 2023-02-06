@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import java.net.URL?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
@@ -8,34 +14,46 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Modules.MainMenu.MainmenuController">
+<AnchorPane id="AnchorPane" cacheShape="false" centerShape="false" maxHeight="-Infinity" maxWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" prefHeight="600.0" prefWidth="800.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Modules.MainMenu.MainmenuController">
     <stylesheets>
         <URL value="@mainmenu.css" />
     </stylesheets>
    <children>
-      <AnchorPane maxHeight="400.0" maxWidth="600.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" snapToPixel="false" styleClass="modal" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="100.0">
+      <StackPane layoutX="441.0" layoutY="387.0" prefHeight="150.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Button alignment="CENTER" mnemonicParsing="false" onAction="#showRegisterTable" styleClass="btn" text="Registro de entrada y salida" textAlignment="CENTER" textFill="WHITE" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="250.0">
-               <font>
-                  <Font name="Arial" size="14.0" />
-               </font>
-            </Button>
-            <Button alignment="CENTER" mnemonicParsing="false" onAction="#showAdmin" styleClass="btn" text="Administrar registros" textAlignment="CENTER" textFill="WHITE" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="300.0">
-               <font>
-                  <Font name="Arial" size="14.0" />
-               </font>
-            </Button>
-            <ImageView fitHeight="150.0" fitWidth="149.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="230.0" AnchorPane.rightAnchor="230.0" AnchorPane.topAnchor="80.0">
-               <image>
-                  <Image url="@../../Images/fime.jpg" />
-               </image>
-            </ImageView>
-            <Label alignment="CENTER" prefWidth="400.0" text="Checador FIME" textFill="WHITE" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="20.0">
-               <font>
-                  <Font name="Arial Bold" size="26.0" />
-               </font>
-            </Label>
+            <AnchorPane cacheShape="false" maxHeight="400.0" maxWidth="600.0" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" prefHeight="600.0" prefWidth="800.0" scaleShape="false" snapToPixel="false" styleClass="modal">
+               <children>
+                  <Label alignment="CENTER" prefWidth="400.0" text="Checador FIME" textFill="WHITE" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="20.0">
+                     <font>
+                        <Font name="Arial Bold" size="26.0" />
+                     </font>
+                  </Label>
+                  <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="80.0">
+                     <children>
+                        <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="300.0" spacing="40.0">
+                           <children>
+                              <ImageView fitHeight="250.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../Images/fime.jpg" />
+                                 </image>
+                              </ImageView>
+                              <Button alignment="CENTER" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#showRegisterTable" prefHeight="35.0" styleClass="btn" text="Registro de entrada y salida" textAlignment="CENTER" textFill="WHITE">
+                                 <font>
+                                    <Font name="Arial" size="14.0" />
+                                 </font>
+                              </Button>
+                              <Button alignment="CENTER" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#showAdmin" prefHeight="35.0" styleClass="btn" text="Administrar registros" textAlignment="CENTER" textFill="WHITE">
+                                 <font>
+                                    <Font name="Arial" size="14.0" />
+                                 </font>
+                              </Button>
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+               </children>
+            </AnchorPane>
          </children>
-      </AnchorPane>
+      </StackPane>
    </children>
 </AnchorPane>

@@ -4,15 +4,16 @@
  */
 package checadorfx;
 
-import Models.DataBaseManager;
 import Models.DefaultData;
 import Modules.Admin.AdminviewController;
 import Modules.MainMenu.MainmenuController;
 import Modules.Register.RegisterviewController;
+import java.awt.geom.Rectangle2D;
 import java.io.IOException;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 /**
@@ -33,9 +34,14 @@ public class ChecadorFX extends Application {
             
             primaryStage.setTitle("Checador de entrada y salida");
             primaryStage.setScene(scene);
-            primaryStage.setResizable(true);
             primaryStage.setMinWidth(800);
             primaryStage.setMinHeight(600);
+            javafx.geometry.Rectangle2D screenBounds = Screen.getPrimary().getBounds();
+            primaryStage.setWidth(screenBounds.getWidth());
+            primaryStage.setHeight(screenBounds.getHeight());
+            primaryStage.setX(0);
+            primaryStage.setY(0);
+            primaryStage.setResizable(true);
             primaryStage.show();
         }catch(IOException e){
             System.out.println("No se pudo cargar!");
@@ -43,6 +49,9 @@ public class ChecadorFX extends Application {
         }
     }
     
+    /*
+    * This method is to call all methods to load data in our local
+    */
     private void loadData(){
         DefaultData def = new DefaultData();
         def.checkAll();
