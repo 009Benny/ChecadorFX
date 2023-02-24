@@ -3,7 +3,11 @@
  */
 
 .mainFxmlClass {
-    -fx-background-color: #0B6937;
+    -fx-background-color: #a9a9a9;
+}
+
+.topBar{
+    -fx-background-color: #3D3D3D;
 }
 
 .box{

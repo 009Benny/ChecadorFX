@@ -6,16 +6,23 @@ package Modules.Register;
 
 import Models.DataBaseManager;
 import Models.RegistroClass;
+import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 /**
@@ -27,7 +34,15 @@ public class RegisterviewController implements Initializable {
     ObservableList<RegistroClass> registros = FXCollections.observableArrayList();
     DataBaseManager db = new DataBaseManager();
     @FXML
-    private TableView<RegistroClass> tableContent; 
+    private TableView<RegistroClass> tableContent;
+    @FXML
+    private Label labelTime;
+    @FXML
+    private TextField textFieldMatricula;
+    @FXML
+    private PasswordField textFieldPassword;
+    @FXML
+    private Button btnRegister;
     
     /**
      * Initializes the controller class.
@@ -44,6 +59,24 @@ public class RegisterviewController implements Initializable {
         if (tableContent.getColumns().isEmpty()){
             addColumns();
         }
+        // Register Form
+        textFieldMatricula.setText("");
+        textFieldPassword.setText("");
+        btnRegister.setDisable(true);
+        
+        textFieldMatricula.setOnKeyReleased(new EventHandler(){
+            @Override
+            public void handle(Event event) {
+                didTextFieldChange();
+            } 
+        });
+        
+        textFieldPassword.setOnKeyReleased(new EventHandler(){
+            @Override
+            public void handle(Event event) {
+                didTextFieldChange();
+            } 
+        });
     }
     
     // VIEW ALTERATION
@@ -75,6 +108,29 @@ public class RegisterviewController implements Initializable {
         }else{
             System.out.println("ES NULL");
         }
+    }
+    
+    /// this method will validate the data
+    private void registerUser(String matricula, String password){
+        System.out.println("Registrar usuario "+ matricula+" con contraseña: " + password);
+    }
+    
+    /*
+    * Gestures
+    */
+    @FXML
+    private void didTapRegisterButton() throws IOException {
+       System.out.println("didTapRegisterButton");
+       registerUser(textFieldMatricula.getText(), textFieldPassword.getText());
+    }
+    
+    // This method will enable/disable the button to make a register
+    private void didTextFieldChange(){
+        String matricula = textFieldMatricula.getText();
+        String password = textFieldPassword.getText();
+        System.out.println("Matricula: " + matricula);
+        System.out.println("Password: " + password);
+        btnRegister.setDisable(!(matricula.length() >= 6 && password.length() >= 6));
     }
     
 }
