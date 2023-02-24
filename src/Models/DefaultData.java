@@ -26,6 +26,7 @@ public class DefaultData {
     }
     
     public void checkTables(){
+        createDeportesTable();
         createCarrerasTable();
         createHorariosTable();
         createNivelesTable();
@@ -41,6 +42,7 @@ public class DefaultData {
         checkNiveles();
         checkDefaultUsers();
         checkDefaultHorarios();
+        checkDeportes();
     }
     
     // CREATION OF TABLES
@@ -78,9 +80,11 @@ public class DefaultData {
         " id_Carrera INT, " +
         " id_Facultad INT not NULL, " +
         " id_Horario INT not NULL, " +
-        " CONSTRAINT fkCarrera FOREIGN KEY (id_Carrera) REFERENCES CARRERAS(" + DataBaseManager.carreras_id + ")," +
-        " CONSTRAINT fkFacultad FOREIGN KEY (id_Facultad) REFERENCES FACULTADES(" + DataBaseManager.facultades_id + ")," +
-        " CONSTRAINT fkHorario FOREIGN KEY (id_Horario) REFERENCES HORARIOS(" + DataBaseManager.horarios_id + ")," +
+        " id_DEPORTE INT, " +
+        " CONSTRAINT fkCarrera FOREIGN KEY (id_Carrera) REFERENCES " + DataBaseManager.carreras_table + "(" + DataBaseManager.carreras_id + ")," +
+        " CONSTRAINT fkFacultad FOREIGN KEY (id_Facultad) REFERENCES " + DataBaseManager.facultades_table + "(" + DataBaseManager.facultades_id + ")," +
+        " CONSTRAINT fkHorario FOREIGN KEY (id_Horario) REFERENCES " + DataBaseManager.horarios_table + "(" + DataBaseManager.horarios_id + ")," +
+        " CONSTRAINT fkDeporte FOREIGN KEY (id_Deporte) REFERENCES " + DataBaseManager.deportes_table + "(" + DataBaseManager.deportes_id + ")," +
         " PRIMARY KEY ( " + DataBaseManager.personas_id + " ))"; 
         manager.executeQuery(query);
     }
@@ -123,6 +127,14 @@ public class DefaultData {
         "(" + DataBaseManager.carreras_id + " INT not NULL, " +
         " carrera VARCHAR(255) not NULL, " +
         " PRIMARY KEY ( " + DataBaseManager.carreras_id + " ))"; 
+        manager.executeQuery(query);
+    }
+    
+    private void createDeportesTable(){
+        String query = "CREATE TABLE IF NOT EXISTS " + DataBaseManager.deportes_table + " " +
+        "(" + DataBaseManager.deportes_id + " INT not NULL, " +
+        " deporte VARCHAR(255) not NULL, " +
+        " PRIMARY KEY ( " + DataBaseManager.deportes_id + " ))"; 
         manager.executeQuery(query);
     }
     
@@ -174,6 +186,26 @@ public class DefaultData {
             try {
                 ArrayList<String> niveles = FileManager.getData("src/Data/Niveles.txt");
                 String query = "INSERT INTO `checador_fime`.`" + DataBaseManager.niveles_table + "` (`" + DataBaseManager.niveles_id + "`, `nivel`) VALUES";
+                int identifier = 1;
+                for(String nivel : niveles){
+                    query += " ("+ identifier +", '"+ nivel +"')";
+                    query += (identifier != niveles.size()) ? "," : "";
+                    identifier ++;
+                }
+                manager.executeQuery(query);
+            } catch (IOException ex) {
+                Logger.getLogger(DefaultData.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+    
+    public void checkDeportes(){
+        int count = manager.getCountOf(DataBaseManager.deportes_table);
+        System.out.println("DEPORTES || Cantidad de lineas " + count);
+        if (count == 0) {
+            try {
+                ArrayList<String> niveles = FileManager.getData("src/Data/Deportes.txt");
+                String query = "INSERT INTO `checador_fime`.`" + DataBaseManager.deportes_table + "` (`" + DataBaseManager.deportes_id + "`, `deporte`) VALUES";
                 int identifier = 1;
                 for(String nivel : niveles){
                     query += " ("+ identifier +", '"+ nivel +"')";

@@ -134,13 +134,14 @@ public class PersonasviewController implements AdminGenericController {
     }
     
     private void addElements(){
-        File file = getFile();
-        System.out.println(file.list());
+        //File file = getFile();
+        //System.out.println(file.list());
         // REMOVE HEADER
         
         personasSuccess.clear();
         personasFailure.clear();
-        for(String line:getListFromCSV(file.getAbsolutePath())){
+        //for(String line:getListFromCSV(file.getAbsolutePath())){
+        for(String line:getListFromCSV("/Users/bennyreyes/Downloads/PersonasFormat.csv")){
             System.out.println(line);
             if(!line.startsWith("ID,NOMBRE")){
                 PersonasClass persona = new PersonasClass(line);
