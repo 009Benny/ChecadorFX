@@ -36,9 +36,13 @@ public class ChecadorFX extends Application {
             primaryStage.setScene(scene);
             primaryStage.setMinWidth(800);
             primaryStage.setMinHeight(600);
-            javafx.geometry.Rectangle2D screenBounds = Screen.getPrimary().getBounds();
+            
+            javafx.geometry.Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
+            primaryStage.setX(screenBounds.getMinX());
+            primaryStage.setY(screenBounds.getMinY());
             primaryStage.setWidth(screenBounds.getWidth());
             primaryStage.setHeight(screenBounds.getHeight());
+            
             primaryStage.setX(0);
             primaryStage.setY(0);
             primaryStage.setResizable(true);

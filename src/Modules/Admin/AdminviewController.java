@@ -7,6 +7,8 @@ package Modules.Admin;
 import Models.HorariosClass;
 import Models.PersonasClass;
 import Models.UsuariosClass;
+import checadorfx.ChecadorFX;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.beans.value.ChangeListener;
@@ -108,6 +110,11 @@ public class AdminviewController implements Initializable {
         configureSubControllers();
         personasVC.notify(true);
     }
+    
+    @FXML
+    private void didTapBackButton() throws IOException {
+       ChecadorFX.showMenu();
+    } 
     
     private void configureSubControllers(){
         horariosVC = new HorariosviewController(tableHorarios, horariosForm, btnNewHorario, btnClearHorario, btnEditHorario, btnDeleteHorario);
