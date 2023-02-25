@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
@@ -17,7 +24,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="600.0" prefWidth="800.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Modules.Register.RegisterviewController">
+<AnchorPane id="AnchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="600.0" prefWidth="800.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Modules.Register.RegisterviewController">
     <stylesheets>
         <URL value="@registerview.css" />
     </stylesheets>
@@ -26,7 +33,8 @@
          <children>
             <AnchorPane maxHeight="-Infinity" minHeight="-Infinity" prefHeight="60.0" styleClass="topBar">
                <children>
-                  <Label alignment="CENTER" text="Registro de entrada y salida" textFill="WHITE" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="15.0">
+                  <Button layoutX="4.0" layoutY="18.0" mnemonicParsing="false" onAction="#didTapBackButton" text="&lt;" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="16.0" />
+                  <Label alignment="CENTER" text="Registro de entrada y salida" textFill="WHITE" AnchorPane.leftAnchor="60.0" AnchorPane.topAnchor="15.0">
                      <font>
                         <Font name="Arial Bold" size="26.0" />
                      </font>

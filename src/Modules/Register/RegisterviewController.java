@@ -4,10 +4,14 @@
  */
 package Modules.Register;
 
+import Extensions.StringExtension;
 import Models.DataBaseManager;
+import Models.PersonasClass;
 import Models.RegistroClass;
+import checadorfx.ChecadorFX;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -17,6 +21,8 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
@@ -94,6 +100,12 @@ public class RegisterviewController implements Initializable {
         tableContent.getColumns().addAll(columns);
     }
     
+    private void showMessage(String message){
+        Alert alert = new Alert(AlertType.WARNING);
+        alert.setContentText(message);
+        alert.show();
+    }
+    
     // LOAD DATA
     private void loadData(){
         List<HashMap<String, Object>> data = db.getDataWithQuery(RegistroClass.getQuerytoAllItems());
@@ -112,7 +124,22 @@ public class RegisterviewController implements Initializable {
     
     /// this method will validate the data
     private void registerUser(String matricula, String password){
-        System.out.println("Registrar usuario "+ matricula+" con contraseña: " + password);
+        if (StringExtension.onlyDigits(matricula) && matricula.length() > 5){
+            PersonasClass persona = PersonasClass.getPersonaBy(matricula);
+            int count = db.getCountOf(DataBaseManager.registros_table);
+            RegistroClass last =  RegistroClass.getLastRegistroBy(matricula);
+            boolean status = (last != null) ? !last.isSalida() : false;
+            if (persona != null){
+                RegistroClass registro = new RegistroClass(count + 1, new Date(), status, persona.getIdPersona());
+                db.createItem(DataBaseManager.registros_table, RegistroClass.getQueryFields() , registro.getQueryValues());
+                loadData();
+                showMessage("Se registro la entrada correctamente");
+            }else{
+                showMessage("La persona con la matricula " + matricula + "no existe");
+            }
+        }else{
+            showMessage("Ingresa una matricula valida");
+        }
     }
     
     /*
@@ -124,12 +151,15 @@ public class RegisterviewController implements Initializable {
        registerUser(textFieldMatricula.getText(), textFieldPassword.getText());
     }
     
+    @FXML
+    private void didTapBackButton() throws IOException {
+       ChecadorFX.showMenu();
+    }    
+    
     // This method will enable/disable the button to make a register
     private void didTextFieldChange(){
         String matricula = textFieldMatricula.getText();
         String password = textFieldPassword.getText();
-        System.out.println("Matricula: " + matricula);
-        System.out.println("Password: " + password);
         btnRegister.setDisable(!(matricula.length() >= 6 && password.length() >= 6));
     }
     

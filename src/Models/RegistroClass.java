@@ -4,8 +4,10 @@
  */
 package Models;
 
+import Extensions.DateExtension;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  *
@@ -36,6 +38,17 @@ public class RegistroClass {
         this.namePersona = map.get("nombre").toString();
     }
     
+    static public RegistroClass getLastRegistroBy(String matricula){
+        String query = RegistroClass.getQuerytoAllItems().replace(";", "") + " WHERE id_Persona = " + matricula;
+        DataBaseManager db = new DataBaseManager();
+        List<HashMap<String, Object>> data = db.getDataWithQuery(query);
+        int count = data.size();
+        if(count > 0){
+            return new RegistroClass(data.get(count - 1));
+        }
+        return null;
+    }
+    
     static public String getQuerytoAllItems(){
         String tablePersonas = DataBaseManager.personas_table;
         String tableRegistros = DataBaseManager.registros_table;
@@ -48,6 +61,16 @@ public class RegistroClass {
                 +tableRegistros+" "
                 +"INNER JOIN "+tablePersonas+" ON "+tableRegistros+".id_Persona= "+tablePersonas+"."+DataBaseManager.personas_id+";";
     }
+    
+    static public String getQueryFields(){
+        return "`idRegistro`, `checkDate`, `status`, `id_Persona`";
+    }
+    
+    public String getQueryValues(){
+        String newStatus = status?"0":"1";
+        return "'"+idRegistro+"', '"+DateExtension.getStringDate(checkDate, "YYYYY-MM-dd")+"', '"+newStatus+"', '"+idPersona+"'";
+    }
+    
 
     public Date getCheckDate() {
         return checkDate;
@@ -55,6 +78,10 @@ public class RegistroClass {
 
     public String getStatus() {
         return (status) ? "Entrada" : "Salida";
+    }
+    
+    public boolean isSalida(){
+        return status;
     }
 
     public String getNamePersona() {

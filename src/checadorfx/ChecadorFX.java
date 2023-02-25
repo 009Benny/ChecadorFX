@@ -57,6 +57,15 @@ public class ChecadorFX extends Application {
         def.checkAll();
     }
     
+    public static void showMenu(){
+        try{
+            FXMLLoader fxmlLoader = new FXMLLoader(MainmenuController.class.getResource("mainmenu.fxml"));
+            scene.setRoot(fxmlLoader.load());
+        }catch(IOException e){
+            System.out.println(e);
+        }
+    }
+    
     public static void showRegisterView(){
         try{
             FXMLLoader fxmlLoader = new FXMLLoader(RegisterviewController.class.getResource("registerview.fxml"));

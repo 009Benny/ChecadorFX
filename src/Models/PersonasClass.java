@@ -8,6 +8,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -59,10 +60,22 @@ public class PersonasClass {
         isValid = true;
     }
     
+    // REVISAR SI SE UTILIZARA
+    static public PersonasClass getPersonaBy(String matricula){
+        String query = PersonasClass.getQuerytoAllItems().replace(";", "") + " WHERE " + DataBaseManager.personas_id + " = " + matricula;
+        DataBaseManager db = new DataBaseManager();
+        List<HashMap<String, Object>> data = db.getDataWithQuery(query);
+        if(data.size() > 0){
+            return new PersonasClass(data.get(0));
+        }
+        return null;
+    }
+    
     static public String getQuerytoAllItems(){
         String tablePersonas = DataBaseManager.personas_table;
         String tableCarreras = DataBaseManager.carreras_table;
         String tableFacultades = DataBaseManager.facultades_table;
+        String tableDeportes = DataBaseManager.deportes_table;
         String tableHorarios = DataBaseManager.horarios_table;
         return "SELECT "+tablePersonas+"."
                 +DataBaseManager.personas_id+", "
@@ -74,10 +87,12 @@ public class PersonasClass {
                 +tablePersonas+".celular, "
                 +tableCarreras+".carrera, "
                 +tableFacultades+".facultad, "
+                +tableDeportes+".deporte, "
                 +tableHorarios+".horario FROM "
                 +tablePersonas+" "
                 +"INNER JOIN "+tableCarreras+" ON "+tablePersonas+".id_Carrera = "+tableCarreras+"."+DataBaseManager.carreras_id+" "
                 +"INNER JOIN "+tableFacultades+" ON "+tablePersonas+".id_Facultad = "+tableFacultades+"."+DataBaseManager.facultades_id+" "
+                +"INNER JOIN "+tableDeportes+" ON "+tablePersonas+".id_Deporte = "+tableDeportes+"."+DataBaseManager.deportes_id+" "
                 +"INNER JOIN "+tableHorarios+" ON "+tablePersonas+".id_Horario = "+tableHorarios+"."+DataBaseManager.horarios_id+";";
     }
 
