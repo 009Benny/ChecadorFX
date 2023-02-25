@@ -5,8 +5,13 @@
 package Extensions;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -20,7 +25,24 @@ public class DateExtension extends Date {
         return today;
     }
     
+    static public Date getDateByString(String string, String format){
+        try {
+            Date casted = new SimpleDateFormat(format).parse(string);
+            return casted;
+        } catch (ParseException ex) {
+            Logger.getLogger(DateExtension.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
+    
     static public boolean isValidDate(String text){
         return text.matches("([0-9]{2})/([0-9]{2})/([0-9]{4})");
     }
+    
+    static public LocalDateTime getNow(){
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("uuuu/MM/dd HH:mm:ss");
+        LocalDateTime now = LocalDateTime.now();
+        return now;
+    }
+    
 }

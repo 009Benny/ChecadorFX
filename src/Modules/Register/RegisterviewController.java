@@ -140,6 +140,8 @@ public class RegisterviewController implements Initializable {
         }else{
             showMessage("Ingresa una matricula valida");
         }
+        textFieldMatricula.setText("");
+        textFieldPassword.setText("");
     }
     
     /*
@@ -147,7 +149,6 @@ public class RegisterviewController implements Initializable {
     */
     @FXML
     private void didTapRegisterButton() throws IOException {
-       System.out.println("didTapRegisterButton");
        registerUser(textFieldMatricula.getText(), textFieldPassword.getText());
     }
     

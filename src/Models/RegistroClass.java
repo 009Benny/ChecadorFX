@@ -30,16 +30,21 @@ public class RegistroClass {
     
     public RegistroClass(HashMap<String, Object> map){
         this.idRegistro = Integer.parseInt(map.get(DataBaseManager.registros_id).toString());
-        this.checkDate = new Date();
-        this.status = false;
-        //this.checkDate = map.get("checkDate");
-        //this.status = map.get("status");
+        String date = map.get("checkDate").toString();
+        if (date.length() > 0){
+            System.out.println("FECHAAAAAA" + date);
+            Date newDate = DateExtension.getDateByString(date, "yyyy-MM-dd");
+            this.checkDate = (newDate != null) ? newDate : new Date();
+        }else{
+            this.checkDate = new Date();
+        }
+        this.status = ((Boolean)map.get("status")).booleanValue();
         this.idPersona = Integer.parseInt(map.get("id_Persona").toString());
         this.namePersona = map.get("nombre").toString();
     }
     
     static public RegistroClass getLastRegistroBy(String matricula){
-        String query = RegistroClass.getQuerytoAllItems().replace(";", "") + " WHERE id_Persona = " + matricula;
+        String query = RegistroClass.getQuerytoAllItems().replace(";", "") + " WHERE id_Persona = " + matricula+ " AND checkDate = CURDATE()";
         DataBaseManager db = new DataBaseManager();
         List<HashMap<String, Object>> data = db.getDataWithQuery(query);
         int count = data.size();
@@ -67,7 +72,7 @@ public class RegistroClass {
     }
     
     public String getQueryValues(){
-        String newStatus = status?"0":"1";
+        String newStatus = status ? "1":"0";
         return "'"+idRegistro+"', '"+DateExtension.getStringDate(checkDate, "YYYYY-MM-dd")+"', '"+newStatus+"', '"+idPersona+"'";
     }
     
@@ -77,7 +82,7 @@ public class RegistroClass {
     }
 
     public String getStatus() {
-        return (status) ? "Entrada" : "Salida";
+        return (status) ? "Salida" : "Entrada";
     }
     
     public boolean isSalida(){
