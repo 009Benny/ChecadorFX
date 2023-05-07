@@ -11,10 +11,14 @@ import Models.RegistroClass;
 import checadorfx.ChecadorFX;
 import java.io.IOException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.Timer;
+import java.util.TimerTask;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
@@ -57,6 +61,7 @@ public class RegisterviewController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         configViews();
         loadData();
+        startHourCounter();
     }
     
      // CONFIGURATION 
@@ -163,5 +168,24 @@ public class RegisterviewController implements Initializable {
         String password = textFieldPassword.getText();
         btnRegister.setDisable(!(matricula.length() >= 6 && password.length() >= 6));
     }
+    
+    /*
+        TIMER
+    */
+    private void startHourCounter(){
+        TimerTask task = new TimerTask(){
+            @Override
+            public void run() {
+                Platform.runLater(() -> {
+                    Date now = new Date();
+                    SimpleDateFormat simpleformat = new SimpleDateFormat("HH:mm:ss");
+                    labelTime.setText(simpleformat.format(now));
+                });
+            }
+        };
+        Timer timer = new Timer();
+        timer.scheduleAtFixedRate(task, 0, 1000                                             );
+    }
+    
     
 }
