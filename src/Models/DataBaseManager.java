@@ -106,7 +106,7 @@ public class DataBaseManager {
     }
     
     public void createItem(String table, String fields, String values){
-        executeQuery("INSERT INTO " + table + " (" + fields + ") VALUES (" + values + ");");
+        executeQuery("INSERT INTO " + table + " " + fields + " VALUES " + values + ";");
     }
     
     public int getCountOf(String table){

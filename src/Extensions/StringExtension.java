@@ -10,6 +10,8 @@ package Extensions;
  */
 public class StringExtension {
     
+    public static int kPASSWORD_LENGTH = 6;
+    
     public static boolean onlyDigits(String str) {
         for (int i = 0; i < str.length(); i++) {
             if (str.charAt(i) < '0'

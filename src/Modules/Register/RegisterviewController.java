@@ -4,8 +4,10 @@
  */
 package Modules.Register;
 
+import DataBase.Models.PersonasClass;
 import DataBase.Models.RegistrosClass;
 import DataBase.Tables.RegistrosTable;
+import Extensions.DateExtension;
 import Extensions.StringExtension;
 import Models.DataBaseManager;
 import checadorfx.ChecadorFX;
@@ -120,34 +122,46 @@ public class RegisterviewController implements Initializable {
             for(HashMap<String, Object> map:data){
                 registros.add(new RegistrosClass(map));
             }
-            System.out.println("Se agregan " + registros.size() + " rows");
+            System.out.println("RegisterView || Se agregan " + registros.size() + " rows");
             tableContent.setItems(registros);
         }else{
-            System.out.println("ES NULL");
+            System.out.println("RegisterView || No tiene elementos en la base de datos");
         }
     }
     
     /// this method will validate the data
     private void registerUser(String matricula, String password){
-//        RegistrosTable registros = new RegistrosTable();
-//        if (StringExtension.onlyDigits(matricula) && matricula.length() > 5){
-//            PersonasClass persona = PersonasClass.getPersonaBy(matricula);
-//            int count = db.getCountOf(registros.getTableName());
-//            RegistroClass last =  RegistroClass.getLastRegistroBy(matricula);
-//            boolean status = (last != null) ? !last.isSalida() : false;
-//            if (persona != null){
-//                RegistroClass registro = new RegistroClass(count + 1, new Date(), status, persona.getIdPersona());
-//                db.createItem(registros.getTableName(), RegistroClass.getQueryFields() , registro.getQueryValues());
-//                loadData();
-//                showMessage("Se registro la entrada correctamente");
-//            }else{
-//                showMessage("La persona con la matricula " + matricula + "no existe");
-//            }
-//        }else{
-//            showMessage("Ingresa una matricula valida");
-//        }
-//        textFieldMatricula.setText("");
-//        textFieldPassword.setText("");
+        RegistrosTable registros = new RegistrosTable();
+        
+        if (StringExtension.onlyDigits(matricula) && matricula.length() > 5){
+            if (password.length() >= StringExtension.kPASSWORD_LENGTH){
+                PersonasClass persona = PersonasClass.getPersonaBy(matricula);
+                if (persona != null){
+                    if (persona.getPassword().equals(password)){
+                        int count = db.getCountOf(registros.getTableName());
+                        RegistrosClass last =  RegistrosClass.getLastRegistroBy(matricula);
+                        boolean status = (last != null) ? !last.isSalida() : false;
+
+                        // CREAR REGISTRO
+                        String today = DateExtension.getStringDate(new Date(), "dd/MM/YYYY");
+                        RegistrosClass registro = new RegistrosClass(count + 1, today, !status, matricula);
+                        db.createItem(registros.getTableName(), registro.getInsertHeader() , registro.getValuesQuery());
+                        loadData();
+                        showMessage("Se registro la entrada correctamente");
+                    }else{
+                        showMessage("La contraseña es incorrecta");
+                    }
+                }else{
+                    showMessage("La persona con la matricula " + matricula + "no existe");
+                }
+            }else{
+                showMessage("Ingresa una contraseña mayor a " + StringExtension.kPASSWORD_LENGTH);
+            }
+        }else{
+            showMessage("Ingresa una matricula valida");
+        }
+        textFieldMatricula.setText("");
+        textFieldPassword.setText("");
     }
     
     /*
@@ -167,7 +181,7 @@ public class RegisterviewController implements Initializable {
     private void didTextFieldChange(){
         String matricula = textFieldMatricula.getText();
         String password = textFieldPassword.getText();
-        btnRegister.setDisable(!(matricula.length() >= 6 && password.length() >= 6));
+        btnRegister.setDisable(!(matricula.length() >= StringExtension.kPASSWORD_LENGTH && password.length() >= StringExtension.kPASSWORD_LENGTH));
     }
     
     /*

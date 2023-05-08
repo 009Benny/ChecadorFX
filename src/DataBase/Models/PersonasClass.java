@@ -5,9 +5,14 @@
 package DataBase.Models;
 
 import DataBase.Tables.CarrerasTable;
+import DataBase.Tables.FacultadesTable;
+import DataBase.Tables.HorariosTable;
 import DataBase.Tables.PersonasTable;
+import DataBase.Tables.ServiciosTable;
 import DataBase.Tables.TableProtocol;
+import Models.DataBaseManager;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -79,47 +84,55 @@ public class PersonasClass implements ModelClassProtocol {
         phone =  map.get(keyPhone).toString();
         birthDate =  map.get(keyBirthDate).toString();
         email =  map.get(keyEmail).toString();
-        facultad =  map.get(keyFacultad).toString();
-        map.get(keyName).toString();
+        facultad = (String) map.getOrDefault("facultad", "");
+        carrera = (String) map.getOrDefault("carrea", "");
+        horario = (String) map.getOrDefault("horario", "");
+        servicio = (String) map.getOrDefault("servicio", "");
         isValid = true;
     }
     
-    // REVISAR SI SE UTILIZARA
     static public PersonasClass getPersonaBy(String matricula){
-//        String query = PersonasClass.getQuerytoAllItems().replace(";", "") + " WHERE " + keyId + " = " + matricula;
-//        DataBaseManager db = new DataBaseManager();
-//        List<HashMap<String, Object>> data = db.getDataWithQuery(query);
-//        if(data.size() > 0){
-//            return new PersonasClass(data.get(0));
-//        }
-//        return null;
+        PersonasClass persona = new PersonasClass();
+        String query = PersonasClass.getQuerytoAllItems().replace(";", "") + " WHERE " + persona.getKeyId() + " = " + matricula;
+        DataBaseManager db = new DataBaseManager();
+        List<HashMap<String, Object>> data = db.getDataWithQuery(query);
+        if(data.size() > 0){
+            return new PersonasClass(data.get(0));
+        }
         return null;
     }
     
     static public String getQuerytoAllItems(){
-//        String tablePersonas = DataBaseManager.personas_table;
-//        String tableCarreras = DataBaseManager.carreras_table;
-//        String tableFacultades = DataBaseManager.facultades_table;
-//        String tableDeportes = DataBaseManager.deportes_table;
-//        String tableHorarios = DataBaseManager.horarios_table;
-//        return "SELECT "+tablePersonas+"."
-//                +DataBaseManager.personas_id+", "
-//                +tablePersonas+".nombre, "
-//                +tablePersonas+".apPaterno, "
-//                +tablePersonas+".apMaterno, "
-//                +tablePersonas+".perCorreo, "
-//                +tablePersonas+".insCorreo, "
-//                +tablePersonas+".celular, "
-//                +tableCarreras+".carrera, "
-//                +tableFacultades+".facultad, "
-//                +tableDeportes+".deporte, "
-//                +tableHorarios+".horario FROM "
-//                +tablePersonas+" "
-//                +"INNER JOIN "+tableCarreras+" ON "+tablePersonas+".id_Carrera = "+tableCarreras+"."+DataBaseManager.carreras_id+" "
-//                +"INNER JOIN "+tableFacultades+" ON "+tablePersonas+".id_Facultad = "+tableFacultades+"."+DataBaseManager.facultades_id+" "
-//                +"INNER JOIN "+tableDeportes+" ON "+tablePersonas+".id_Deporte = "+tableDeportes+"."+DataBaseManager.deportes_id+" "
-//                +"INNER JOIN "+tableHorarios+" ON "+tablePersonas+".id_Horario = "+tableHorarios+"."+DataBaseManager.horarios_id+";";
-        return "";
+        PersonasClass persona = new PersonasClass();
+        PersonasTable personas = new PersonasTable();
+        CarrerasTable carreras = new CarrerasTable();
+        FacultadesTable facultades = new FacultadesTable();
+        ServiciosTable servicios = new ServiciosTable();
+        HorariosTable horarios = new HorariosTable();
+        String tablePersonas = personas.getTableName();
+        String tableCarreras = carreras.getTableName();
+        String tableFacultades = facultades.getTableName();
+        String tableServicios = servicios.getTableName();
+        String tableHorarios = horarios.getTableName();
+        return "SELECT "+tablePersonas+"."
+                +personas.getIdKey()+", "
+                +tablePersonas+"."+persona.getNameKey()+", "
+                +tablePersonas+"."+persona.getKeyPassword()+", "
+                +tablePersonas+"."+persona.getKeyName()+", "
+                +tablePersonas+"."+persona.getKeySemester()+", "
+                +tablePersonas+"."+persona.getKeyPhone()+", "
+                +tablePersonas+"."+persona.getKeyBirthDate()+", "
+                +tablePersonas+"."+persona.getKeyEmail()+", "
+                +tablePersonas+"."+persona.getNameKey()+", "
+                +tableFacultades+".name as facultad, "
+                +tableCarreras+".name as carrera, "
+                +tableHorarios+".name as horario, "
+                +tableServicios+".name as servicio FROM "
+                +tablePersonas+" "
+                +"INNER JOIN "+tableCarreras+" ON "+tablePersonas+"." + persona.keyCarrera + " = "+tableCarreras+"."+carreras.getIdKey()+" "
+                +"INNER JOIN "+tableFacultades+" ON "+tablePersonas+"." + persona.keyFacultad + " = "+tableFacultades+"."+facultades.getIdKey()+" "
+                +"INNER JOIN "+tableServicios+" ON "+tablePersonas+"." + persona.keyServicio + " = "+tableServicios+"."+servicios.getIdKey()+" "
+                +"INNER JOIN "+tableHorarios+" ON "+tablePersonas+"." + persona.keyHorario + " = "+tableHorarios+"."+horarios.getIdKey()+";";
     }
 
     @Override
@@ -189,7 +202,9 @@ public class PersonasClass implements ModelClassProtocol {
     public String getKeyServicio() {
         return keyServicio;
     }
-    
-    
 
+    public String getPassword() {
+        return password;
+    }
+    
 }
