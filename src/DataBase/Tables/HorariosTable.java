@@ -4,6 +4,8 @@
  */
 package DataBase.Tables;
 
+import DataBase.Models.HorariosClass;
+
 /**
  *
  * @author Benny
@@ -28,6 +30,22 @@ public class HorariosTable implements TableProtocol {
         " domingo VARCHAR(255), " +
         " PRIMARY KEY ( " + getIdKey() + " ))"; 
         return query;
+    }
+    
+    @Override
+    public String getHeadersQuery(){
+        HorariosClass horario = new HorariosClass();
+        return "(`" + getIdKey() + "`,"
+                + " `" + horario.getNameKey() + "`,"
+                + " `" + horario.getKeyStartDate() + "`,"
+                + " `" + horario.getKeyEndDate() + "`,"
+                + " `" + horario.getKeyLunes() + "`,"
+                + " `" + horario.getKeyMartes() + "`,"
+                + " `" + horario.getKeyMiercoles() + "`,"
+                + " `" + horario.getKeyJueves() + "`,"
+                + " `" + horario.getKeyViernes() + "`,"
+                + " `" + horario.getKeySabado() + "`,"
+                + " `" + horario.getKeyDomingo() + "`)";
     }
     
     @Override

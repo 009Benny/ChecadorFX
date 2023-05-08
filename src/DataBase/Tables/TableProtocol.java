@@ -26,4 +26,9 @@ public interface TableProtocol {
         " PRIMARY KEY ( " + getIdKey() + " ))"; 
         return query;
     }
+    
+    default String getHeadersQuery(){
+     String query = "(`" + getIdKey() + "`, `name`)";
+        return query;
+    }
 }

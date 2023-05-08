@@ -30,6 +30,12 @@ public class UsuariosTable implements TableProtocol {
     }
     
     @Override
+    public String getHeadersQuery(){
+        UsuariosClass usuario = new UsuariosClass();
+        return "(`" + getIdKey() + "`, `" + usuario.getNameKey() + "`, `" + usuario.getKeyPassword() + "`, `" + usuario.getKeyIdNivel() + "`)";
+    }
+    
+    @Override
     public String getTableName() {
        return this.tableName;
     }

@@ -46,6 +46,22 @@ public class PersonasTable implements TableProtocol {
     }
     
     @Override
+    public String getHeadersQuery(){
+        PersonasClass persona = new PersonasClass();
+        return "(`" + getIdKey() + "`,"
+                + " `" + persona.getKeyPassword() + "`,"
+                + " `" + persona.getKeyName() + "`,"
+                + " `" + persona.getKeySemester() + "`,"
+                + " `" + persona.getKeyPhone() + "`,"
+                + " `" + persona.getKeyBirthDate() + "`,"
+                + " `" + persona.getKeyEmail() + "`,"
+                + " `" + persona.getKeyFacultad() + "`,"
+                + " `" + persona.getKeyCarrera() + "`,"
+                + " `" + persona.getKeyHorario() + "`,"
+                + " `" + persona.getKeyServicio() + "`)";
+    }
+    
+    @Override
     public String getTableName() {
        return this.tableName;
     }

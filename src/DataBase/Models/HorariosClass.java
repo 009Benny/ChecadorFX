@@ -19,23 +19,25 @@ public class HorariosClass implements ModelClassProtocol {
     String name;
     String keyName = "name";
     private String startDate;
-    private String keyStartDate;
+    private String keyStartDate = "startDate";
     private String endDate;
-    private String keyEndDate;
+    private String keyEndDate = "endDate";
     private String lunes;
-    private String keyLunes;
+    private String keyLunes = "lunes";
     private String martes;
-    private String keyMartes;
+    private String keyMartes = "martes";
     private String miercoles;
-    private String keyMiercoles;
+    private String keyMiercoles = "miercoles";
     private String jueves;
-    private String keyJueves;
+    private String keyJueves = "jueves";
     private String viernes;
-    private String keyViernes;
+    private String keyViernes = "viernes";
     private String sabado;
-    private String keySabado;
+    private String keySabado = "sabado";
     private String domingo;
-    private String keyDomingo;
+    private String keyDomingo = "domingo";
+    
+    public HorariosClass(){}
     
     static public HorariosClass getEmptyObj(String name){
         HorariosTable horarios = new HorariosTable();
@@ -306,4 +308,51 @@ public class HorariosClass implements ModelClassProtocol {
     public void setDomingo(String domingo) {
         this.domingo = domingo;
     }
+
+    public String getKeyId() {
+        return keyId;
+    }
+
+    public String getKeyName() {
+        return keyName;
+    }
+
+    public String getKeyStartDate() {
+        return keyStartDate;
+    }
+
+    public String getKeyEndDate() {
+        return keyEndDate;
+    }
+
+    public String getKeyLunes() {
+        return keyLunes;
+    }
+
+    public String getKeyMartes() {
+        return keyMartes;
+    }
+
+    public String getKeyMiercoles() {
+        return keyMiercoles;
+    }
+
+    public String getKeyJueves() {
+        return keyJueves;
+    }
+
+    public String getKeyViernes() {
+        return keyViernes;
+    }
+
+    public String getKeySabado() {
+        return keySabado;
+    }
+
+    public String getKeyDomingo() {
+        return keyDomingo;
+    }
+    
+    
+    
 }

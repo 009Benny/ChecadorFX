@@ -18,7 +18,7 @@ import java.util.logging.Logger;
  */
 public class DefaultData {
     DataBaseManager manager;
-    Boolean debug = FALSE;
+    Boolean debug = TRUE;
     
     public DefaultData(){
         manager = new DataBaseManager();
@@ -28,10 +28,10 @@ public class DefaultData {
         try{
             DataBaseManager.createDataBaseIfDoesntExist();
             checkTables();
+            checkInstances();
         }catch (Exception e){
                System.out.print(e);
         }
-//        checkInstances();
     }
     
     public void checkTables(){
@@ -70,7 +70,7 @@ public class DefaultData {
         if (count == 0) {
             try {
                 ArrayList<String> array = FileManager.getData("src/Data/Facultades.txt");
-                String query = "INSERT INTO `" + DataBaseManager.getDataBaseName() + "`.`" + facultades.getTableName() + "` (`" + facultades.getIdKey() + "`, `name`) VALUES";
+                String query = "INSERT INTO `" + DataBaseManager.getDataBaseName() + "`.`" + facultades.getTableName() + "` " + facultades.getHeadersQuery() + " VALUES";
                 int identifier = 1;
                 for(String facultad : array){
                     query += " ("+ identifier +", '"+ facultad +"')";
@@ -91,7 +91,7 @@ public class DefaultData {
         if (count == 0) {
             try {
                 ArrayList<String> array = FileManager.getData("src/Data/Carreras.txt");
-                String query = "INSERT INTO `" + DataBaseManager.getDataBaseName() + "`.`" + carreras.getTableName() + "` (`" + carreras.getIdKey() + "`, `name`) VALUES";
+                String query = "INSERT INTO `" + DataBaseManager.getDataBaseName() + "`.`" + carreras.getTableName() + "` " + carreras.getHeadersQuery() + " VALUES";
                 int identifier = 1;
                 for(String carrera : array){
                     query += " ("+ identifier +", '"+ carrera +"')";
@@ -112,7 +112,7 @@ public class DefaultData {
         if (count == 0) {
             try {
                 ArrayList<String> array = FileManager.getData("src/Data/Niveles.txt");
-                String query = "INSERT INTO `" + DataBaseManager.getDataBaseName() + "`.`" + niveles.getTableName() + "` (`" + niveles.getIdKey() + "`, `name`) VALUES";
+                String query = "INSERT INTO `" + DataBaseManager.getDataBaseName() + "`.`" + niveles.getTableName() + "` " + niveles.getHeadersQuery() + " VALUES";
                 int identifier = 1;
                 for(String nivel : array){
                     query += " ("+ identifier +", '"+ nivel +"')";
@@ -132,8 +132,8 @@ public class DefaultData {
         System.out.println("DEPORTES || Cantidad de lineas " + count);
         if (count == 0) {
             try {
-                ArrayList<String> array = FileManager.getData("src/Data/Deportes.txt");
-                String query = "INSERT INTO `" + DataBaseManager.getDataBaseName() + "`.`" + servicios.getTableName() + "` (`" + servicios.getIdKey() + "`, `name`) VALUES";
+                ArrayList<String> array = FileManager.getData("src/Data/Servicios.txt");
+                String query = "INSERT INTO `" + DataBaseManager.getDataBaseName() + "`.`" + servicios.getTableName() + "` " + servicios.getHeadersQuery() + " VALUES";
                 int identifier = 1;
                 for(String nivel : array){
                     query += " ("+ identifier +", '"+ nivel +"')";
@@ -154,7 +154,7 @@ public class DefaultData {
         if (count == 0) {
             try {
                 ArrayList<String> array = FileManager.getData("src/Data/Usuarios.txt");
-                String query = "INSERT INTO `" + DataBaseManager.getDataBaseName() + "`.`" + usuarios.getTableName() + "` (`" + usuarios.getIdKey() + "`, `nombre`, `password`, `id_Nivel`) VALUES";
+                String query = "INSERT INTO `" + DataBaseManager.getDataBaseName() + "`.`" + usuarios.getTableName() + "` " + usuarios.getHeadersQuery() + " VALUES";
                 int i = 1;
                 for(String usuario : array){
                     
@@ -178,11 +178,11 @@ public class DefaultData {
         if (count == 0) {
             try {
                 ArrayList<String> array = FileManager.getData("src/Data/Horarios.txt");
-                String query = "INSERT INTO `" + DataBaseManager.getDataBaseName() + "`.`" + horarios.getTableName() + "` (`" + horarios.getIdKey() + "`, `horario`, `startDate`, `endDate`, `lunes`, `martes`, `miercoles`, `jueves`, `viernes`, `sabado`, `domingo`) VALUES";
+                String query = "INSERT INTO `" + DataBaseManager.getDataBaseName() + "`.`" + horarios.getTableName() + "` " + horarios.getHeadersQuery() + " VALUES";
                 int i = 1;
                 for(String horario : array){
                     String[] split = horario.split("\\s+");
-                    query += " ("+ split[0] +", '"+ split[1] +"', STR_TO_DATE('"+ split[2] +"','%d/%m/%Y'), STR_TO_DATE('"+ split[3] +"','%d/%m/%Y'), '"+ split[4] +"', '"+ split[5] +"', '"+ split[6] +"', '"+ split[7] +"', '"+ split[8] +"', '"+ split[9] +"', '"+ split[10] +"')";
+                    query += " ("+ split[0] +", '"+ split[1] +"', '"+ split[2] +"', '"+ split[3] +"', '"+ split[4] +"', '"+ split[5] +"', '"+ split[6] +"', '"+ split[7] +"', '"+ split[8] +"', '"+ split[9] +"', '"+ split[10] +"')";
                     
                     query += (i != array.size()) ? "," : "";
                     i ++;
@@ -199,15 +199,15 @@ public class DefaultData {
         if(debug){
             PersonasTable personas = new PersonasTable();
             int count = manager.getCountOf(personas.getTableName());
-            System.out.println("Horarios || Cantidad de lineas " + count);
+            System.out.println("Personas || Cantidad de lineas " + count);
             if (count == 0) {
                 try {
-                    ArrayList<String> array = FileManager.getData("src/Data/Horarios.txt");
-                    String query = "INSERT INTO `" + DataBaseManager.getDataBaseName() + "`.`" + personas.getTableName() + "` (`" + personas.getIdKey() + "`, `horario`, `startDate`, `endDate`, `lunes`, `martes`, `miercoles`, `jueves`, `viernes`, `sabado`, `domingo`) VALUES";
+                    ArrayList<String> array = FileManager.getData("src/Data/Personas.txt");
+                    String query = "INSERT INTO `" + DataBaseManager.getDataBaseName() + "`.`" + personas.getTableName() + "` " + personas.getHeadersQuery() + " VALUES";
                     int i = 1;
-                    for(String horario : array){
-                        String[] split = horario.split("\\s+");
-                        query += " ("+ split[0] +", '"+ split[1] +"', STR_TO_DATE('"+ split[2] +"','%d/%m/%Y'), STR_TO_DATE('"+ split[3] +"','%d/%m/%Y'), '"+ split[4] +"', '"+ split[5] +"', '"+ split[6] +"', '"+ split[7] +"', '"+ split[8] +"', '"+ split[9] +"', '"+ split[10] +"')";
+                    for(String persona : array){
+                        String[] split = persona.split(",");
+                        query += " ("+ split[0] +", '"+ split[1] +"', '"+ split[2] +"', '"+ split[3] +"', '"+ split[4] +"', '"+ split[5] +"', '"+ split[6] +"', '"+ split[7] +"', '"+ split[8] +"', '"+ split[9] +"', '"+ split[10] +"')";
 
                         query += (i != array.size()) ? "," : "";
                         i ++;
