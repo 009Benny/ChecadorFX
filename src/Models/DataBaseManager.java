@@ -1,5 +1,6 @@
 package Models;
 
+import Models.DefaultData;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,29 +13,28 @@ import java.util.logging.Logger;
  * @author Benny
  */
 public class DataBaseManager {
-    static private final String DB_URL = "jdbc:mysql://localhost:3306/checador_fime";
+    static private final String DB_NAME = "checador_fime";
     static private final String USER = "root";
     static private final String PASS = "";
-    // DB KEYS
-    static public String registros_table = "REGISTROS";
-    static public String registros_id = "idRegistro";
-    static public String personas_table = "PERSONAS";
-    static public String personas_id = "idPersona";
-    static public String horarios_table = "HORARIOS";
-    static public String horarios_id = "idHorario";
-    static public String carreras_table = "CARRERAS";
-    static public String carreras_id = "idCarrera";
-    static public String facultades_table = "FACULTADES";
-    static public String facultades_id = "idFacultad";
-    static public String niveles_table = "NIVELES";
-    static public String niveles_id = "idNiveles";
-    static public String deportes_table = "DEPORTES";
-    static public String deportes_id = "idDeporte";
-    static public String usuarios_table = "USUARIOS";
-    static public String usuarios_id = "idUsuarios";
+    
+    
+    public String getUrlDataBase(){
+       return "jdbc:mysql://localhost:3306/" + DataBaseManager.DB_NAME;
+    }
+    
+    public static String getDataBaseName(){
+        return DB_NAME;
+    }
+    
+    static public void createDataBaseIfDoesntExist() throws SQLException{
+        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/", USER, PASS);
+        String createDatabaseQuery = "CREATE DATABASE IF NOT EXISTS " + DB_NAME;
+        Statement statement = connection.createStatement();
+        statement.execute(createDatabaseQuery);
+    }
     
     public void executeQuery(String query){
-        try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+        try(Connection conn = DriverManager.getConnection(getUrlDataBase(), USER, PASS);
             Statement stmt = conn.createStatement();
         ) {
             System.out.println("DataBaseManager execute:");
@@ -48,7 +48,7 @@ public class DataBaseManager {
 
     public List<HashMap<String, Object>> getData(String table){
         String query = "SELECT * FROM "+ table +";";
-        try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+        try(Connection conn = DriverManager.getConnection(getUrlDataBase(), USER, PASS);
             Statement stmt = conn.createStatement();
         ) {
             ResultSet rs = stmt.executeQuery(query);
@@ -65,7 +65,7 @@ public class DataBaseManager {
     
     public List<HashMap<String, Object>> getDataWithQuery(String query){
         System.out.println(query);
-        try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+        try(Connection conn = DriverManager.getConnection(getUrlDataBase(), USER, PASS);
             Statement stmt = conn.createStatement();
         ) {
             System.out.println(query);
@@ -111,7 +111,7 @@ public class DataBaseManager {
     
     public int getCountOf(String table){
         String query = "SELECT COUNT(*) FROM "+ table +";";
-        try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+        try(Connection conn = DriverManager.getConnection(getUrlDataBase(), USER, PASS);
             Statement stmt = conn.createStatement();
         ) {
             ResultSet rs = stmt.executeQuery(query);

@@ -2,39 +2,48 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package Models;
+package DataBase.Models;
 
-import Extensions.DateExtension;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
+import DataBase.Tables.HorariosTable;
+import DataBase.Tables.TableProtocol;
+import Models.DayEnum;
 import java.util.HashMap;
-import java.util.List;
 
 /**
  *
- * @author bennyreyes
+ * @author Benny
  */
-public class HorariosClass {
-    int idHorario;
+public class HorariosClass implements ModelClassProtocol {
+    int id = 0;
+    String keyId = "idHorarios";
     String name;
-    private Date startDate;
-    private Date endDate;
+    String keyName = "name";
+    private String startDate;
+    private String keyStartDate;
+    private String endDate;
+    private String keyEndDate;
     private String lunes;
+    private String keyLunes;
     private String martes;
+    private String keyMartes;
     private String miercoles;
+    private String keyMiercoles;
     private String jueves;
+    private String keyJueves;
     private String viernes;
+    private String keyViernes;
     private String sabado;
+    private String keySabado;
     private String domingo;
+    private String keyDomingo;
     
     static public HorariosClass getEmptyObj(String name){
+        HorariosTable horarios = new HorariosTable();
         return new HorariosClass(new HashMap<String, Object>() {{
-            put(DataBaseManager.horarios_id, 0);
+            put(horarios.getIdKey(), 0);
             put("horario", name);
-            put("startDate", new Date());
-            put("endDate", new Date());
+            put("startDate", "");
+            put("endDate", "");
             put("lunes", "");
             put("martes", "");
             put("miercoles", "");
@@ -44,9 +53,9 @@ public class HorariosClass {
             put("domingo", "");
         }});
     }
-
+    
     public HorariosClass(HashMap<String, Object> map){
-        idHorario = Integer.parseInt(map.get(DataBaseManager.horarios_id).toString());
+        id = Integer.parseInt(map.get(getTable().getIdKey()).toString());
         name = map.get("horario").toString();
         lunes = map.get("lunes").toString();
         martes = map.get("martes").toString();
@@ -55,21 +64,97 @@ public class HorariosClass {
         viernes = map.get("viernes").toString();
         sabado = map.get("sabado").toString();
         domingo = map.get("domingo").toString();
-        //startDate = new Date();
-        //endDate = new Date();
-        try{
-            startDate = new SimpleDateFormat("dd/MM/yyyy").parse(map.get("startDate").toString());
-            endDate = new SimpleDateFormat("dd/MM/yyyy").parse(map.get("startDate").toString());
-        }catch(ParseException e){
-            startDate = new Date();
-            endDate = new Date();
-            System.out.println(e.getMessage());
-        }
-        
+        startDate = map.get("startDate").toString();
+        endDate = map.get("endDate").toString();
     }
+    
+    @Override
+    public String getIdentifierKey() {
+        return this.keyId;
+    }
+
+    @Override
+    public String getNameKey() {
+        return this.keyName;
+    }
+
+    @Override
+    public TableProtocol getTable() {
+        return new HorariosTable();
+    }
+    
+    @Override
+    public String getInsertHeader(){
+        return 
+               "('" + getIdentifierKey() + "'," +
+               "'" + getNameKey() + "'," +
+               "'" + keyStartDate + "'," +
+               "'" + keyEndDate + "'," +
+               "'" + keyLunes + "'," +
+               "'" + keyMartes + "'," +
+               "'" + keyMiercoles + "'," +
+               "'" + keyJueves + "'," +
+               "'" + keyViernes + "'," +
+               "'" + keySabado + "'," +
+               "'" + keyDomingo + "')";
+    }
+
+    @Override
+    public String getValuesQuery() {
+        return 
+               "('" + id + "'," +
+               "'" + name + "'," +
+               "'" + startDate + "'," +
+               "'" + endDate + "'," +
+               "'" + lunes + "'," +
+               "'" + martes + "'," +
+               "'" + miercoles + "'," +
+               "'" + jueves + "'," +
+               "'" + viernes + "'," +
+               "'" + sabado + "'," +
+               "'" + domingo + "')";
+    }
+    
+    // PENDIENTE DE BORRAR
+//    public String getQuery(){
+//       return 
+//               "`"+ DataBaseManager.horarios_id + "` = " + idHorario + "," +
+//               "`horario` = '" + name + "'," +
+//               "`startDate` = STR_TO_DATE('"+ DateExtension.getStringDate(startDate, "dd/MM/yyyy") +"','%d/%m/%Y')," +
+//               "`endDate` = STR_TO_DATE('"+ DateExtension.getStringDate(endDate, "dd/MM/yyyy") +"','%d/%m/%Y')," +
+//               "`lunes` = '" + lunes + "'," +
+//               "`martes` = '" + martes + "'," +
+//               "`miercoles` = '" + miercoles + "'," +
+//               "`jueves` = '" + jueves + "'," +
+//               "`viernes` = '" + viernes + "'," +
+//               "`sabado` = '" + sabado + "'," +
+//               "`domingo` = '" + domingo + "'";
+//    }
     
     public boolean haveDateForDay(int day){
         return (day >= 0 && day <= 6) ? !getValueOfDay(DayEnum.values()[day]).isEmpty() : false;
+    }
+    
+    /// GETTERS AND SETTERS
+    public String getValueOfDay(DayEnum day){
+        switch(day){
+            case monday:
+                return lunes;
+            case tuesday:
+                return martes;
+            case wednesday:
+                return miercoles;
+            case thursday:
+                return jueves;
+            case friday:
+                return viernes;
+            case saturday:
+                return sabado;
+            case sunday:
+                return domingo;
+            default:
+                return "";
+        }
     }
     
     public void setValueOfDay(String value, DayEnum day){
@@ -100,58 +185,7 @@ public class HorariosClass {
         }
     }
     
-    public String getValueOfDay(DayEnum day){
-        switch(day){
-            case monday:
-                return lunes;
-            case tuesday:
-                return martes;
-            case wednesday:
-                return miercoles;
-            case thursday:
-                return jueves;
-            case friday:
-                return viernes;
-            case saturday:
-                return sabado;
-            case sunday:
-                return domingo;
-            default:
-                return "";
-        }
-    }
-    
-    public String getQuery(){
-       return 
-               "`"+ DataBaseManager.horarios_id + "` = " + idHorario + "," +
-               "`horario` = '" + name + "'," +
-               "`startDate` = STR_TO_DATE('"+ DateExtension.getStringDate(startDate, "dd/MM/yyyy") +"','%d/%m/%Y')," +
-               "`endDate` = STR_TO_DATE('"+ DateExtension.getStringDate(endDate, "dd/MM/yyyy") +"','%d/%m/%Y')," +
-               "`lunes` = '" + lunes + "'," +
-               "`martes` = '" + martes + "'," +
-               "`miercoles` = '" + miercoles + "'," +
-               "`jueves` = '" + jueves + "'," +
-               "`viernes` = '" + viernes + "'," +
-               "`sabado` = '" + sabado + "'," +
-               "`domingo` = '" + domingo + "'";
-    }
-    
-    public String getQueryValues(){
-        return 
-               "'" + idHorario + "'," +
-               "'" + name + "'," +
-               "STR_TO_DATE('"+ DateExtension.getStringDate(startDate, "dd/MM/yyyy") +"','%d/%m/%Y')," +
-               "STR_TO_DATE('"+ DateExtension.getStringDate(endDate, "dd/MM/yyyy") +"','%d/%m/%Y')," +
-               "'" + lunes + "'," +
-               "'" + martes + "'," +
-               "'" + miercoles + "'," +
-               "'" + jueves + "'," +
-               "'" + viernes + "'," +
-               "'" + sabado + "'," +
-               "'" + domingo + "'";
-    }
-    
-    /**
+     /**
      * @return the name
      */
     public String getName(){
@@ -162,21 +196,21 @@ public class HorariosClass {
      * @return the idHorario
      */
     public int getIdHorario(){
-        return idHorario;
+        return id;
     }
     
     
     /**
      * @return the startDate
      */
-    public Date getStartDate() {
+    public String getStartDate() {
         return startDate;
     }
 
     /**
      * @return the endDate
      */
-    public Date getEndDate() {
+    public String getEndDate() {
         return endDate;
     }
 
@@ -230,18 +264,18 @@ public class HorariosClass {
     }
 
     public void setIdHorario(int idHorario) {
-        this.idHorario = idHorario;
+        this.id = idHorario;
     }
 
     public void setName(String name) {
         this.name = name;
     }
 
-    public void setStartDate(Date startDate) {
+    public void setStartDate(String startDate) {
         this.startDate = startDate;
     }
 
-    public void setEndDate(Date endDate) {
+    public void setEndDate(String endDate) {
         this.endDate = endDate;
     }
 
@@ -272,5 +306,4 @@ public class HorariosClass {
     public void setDomingo(String domingo) {
         this.domingo = domingo;
     }
-    
 }

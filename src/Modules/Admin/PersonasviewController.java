@@ -4,18 +4,14 @@
  */
 package Modules.Admin;
 
+import DataBase.Models.PersonasClass;
 import Models.DataBaseManager;
-import Models.PersonasClass;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.FileReader;
+import Models.FileManager;
 import java.io.IOException;
-import java.nio.channels.FileChannel;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
@@ -27,9 +23,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
-import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
@@ -82,20 +75,6 @@ public class PersonasviewController implements AdminGenericController {
     }
     
     // VIEW ALTERATION
-    private void addColumns(){
-        String[] headers = {"Persona ID", "Nombre", "Apellido Paterno", "Apellido Materno", "Email Personal", "Email Institucional", "Celular", "Carrera", "Facultad", "Horario"};
-        String[] keys = {"idPersona", "nombre", "apPaterno", "apMaterno", "perEmail", "instEmail", "phone", "carrera", "facultad", "horario"};
-
-        TableColumn[] columns = new TableColumn[headers.length];
-        for(int i=0;i<headers.length;i++){
-            TableColumn c = new TableColumn(headers[i]);
-            
-            c.setCellValueFactory(new PropertyValueFactory(keys[i]));
-            columns[i] =  c;
-        }
-        tableContent.getColumns().addAll(columns);
-    }
-    
     private void configColumnsToTable(TableView table, String[] headers, String[] keys){
         TableColumn[] columns = new TableColumn[headers.length];
         for(int i=0;i<headers.length;i++){
@@ -119,7 +98,7 @@ public class PersonasviewController implements AdminGenericController {
             @Override
             public void handle(Event event) {
                 try {
-                    downloadFormatAction();
+                    FileManager.downloadFormatAction("PersonasFormat.csv");
                 } catch (IOException ex) {
                     Logger.getLogger(PersonasviewController.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -134,89 +113,20 @@ public class PersonasviewController implements AdminGenericController {
     }
     
     private void addElements(){
-        //File file = getFile();
-        //System.out.println(file.list());
         // REMOVE HEADER
-        
         personasSuccess.clear();
         personasFailure.clear();
-        //for(String line:getListFromCSV(file.getAbsolutePath())){
-        for(String line:getListFromCSV("/Users/bennyreyes/Downloads/PersonasFormat.csv")){
-            System.out.println(line);
-            if(!line.startsWith("ID,NOMBRE")){
-                PersonasClass persona = new PersonasClass(line);
-                if (persona.isValid()){
-                    personasSuccess.add(persona);
-                }else{
-                    personasFailure.add(persona);
-                }
-            }
+
+        Map<String, List<PersonasClass>> map = FileManager.getPersonasFromFile();
+        Set<String> keys = map.keySet();
+        
+        if (keys.size() == 2){
+            personasSuccess.addAll(map.get("success"));
+            personasFailure.addAll(map.get("failure"));
+            tableSuccess.setItems(personasSuccess);
+            tableFailure.setItems(personasFailure);
         }
-        System.out.println("SUCCES: " + personasSuccess.size());
-        System.out.println("FAILURE: " + personasFailure.size());
-        tableSuccess.setItems(personasSuccess);
-        tableFailure.setItems(personasFailure);
     }
-    
-    private List<String> getListFromCSV(String path){
-        List<String> lines = new ArrayList<>();
-        try{
-            BufferedReader br = new BufferedReader(new FileReader(path));
-            String line;
-            while ((line = br.readLine()) != null) {
-                lines.add(line);
-            }
-        }catch(IOException e){
-            System.out.println(e.getMessage());
-        }
-        return lines;
-    }
-    
-    private static File getFile(){
-        JFileChooser fc = new JFileChooser();
-        File file = null;
-        FileNameExtensionFilter filter = new FileNameExtensionFilter("Solo soporto csv", "csv");
-        fc.setFileFilter(filter);
-        int selected = fc.showOpenDialog(null);
-        if (selected == JFileChooser.APPROVE_OPTION){
-            file = fc.getSelectedFile();
-        }
-        return file;
-    }
-    
-    private void downloadFormatAction() throws IOException{
-        String home = System.getProperty("user.home");
-        String project = System.getProperty("user.dir");
-        copyFile(new File(project + "/src/Data/PersonasFormat.csv"), new File(home + "/Downloads/PersonasFormat.csv"));
-    }
-    
-    private void copyFile(File sourceFile, File destFile) throws IOException {
-        if (!sourceFile.exists()) {
-            System.out.println("src: " + sourceFile.getAbsolutePath());
-            JOptionPane.showMessageDialog(null, "Hubo un error, no se enconro el archivo", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-        if (!destFile.exists()) {
-            destFile.createNewFile();
-        }else{
-            JOptionPane.showMessageDialog(null, "El archivo ya existe.", "Warning", JOptionPane.WARNING_MESSAGE);
-        }
-        FileChannel source = null;
-        FileChannel destination = null;
-        source = new FileInputStream(sourceFile).getChannel();
-        destination = new FileOutputStream(destFile).getChannel();
-        if (destination != null && source != null) {
-            destination.transferFrom(source, 0, source.size());
-        }
-        if (source != null) {
-            source.close();
-        }
-        if (destination != null) {
-            destination.close();
-        }
-        JOptionPane.showMessageDialog(null, "Se descargó correctamente en su carpeta de descargas.", "Success", JOptionPane.INFORMATION_MESSAGE);
-    }
-    
     
     // LOAD DATA
     private void loadData(){

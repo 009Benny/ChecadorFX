@@ -8,7 +8,6 @@ import Models.DefaultData;
 import Modules.Admin.AdminviewController;
 import Modules.MainMenu.MainmenuController;
 import Modules.Register.RegisterviewController;
-import java.awt.geom.Rectangle2D;
 import java.io.IOException;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

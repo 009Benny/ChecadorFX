@@ -4,10 +4,10 @@
  */
 package Modules.Register;
 
+import DataBase.Models.RegistrosClass;
+import DataBase.Tables.RegistrosTable;
 import Extensions.StringExtension;
 import Models.DataBaseManager;
-import Models.PersonasClass;
-import Models.RegistroClass;
 import checadorfx.ChecadorFX;
 import java.io.IOException;
 import java.net.URL;
@@ -41,10 +41,10 @@ import javafx.scene.control.cell.PropertyValueFactory;
  * @author bennyreyes
  */
 public class RegisterviewController implements Initializable {
-    ObservableList<RegistroClass> registros = FXCollections.observableArrayList();
+    ObservableList<RegistrosClass> registros = FXCollections.observableArrayList();
     DataBaseManager db = new DataBaseManager();
     @FXML
-    private TableView<RegistroClass> tableContent;
+    private TableView<RegistrosClass> tableContent;
     @FXML
     private Label labelTime;
     @FXML
@@ -113,12 +113,12 @@ public class RegisterviewController implements Initializable {
     
     // LOAD DATA
     private void loadData(){
-        List<HashMap<String, Object>> data = db.getDataWithQuery(RegistroClass.getQuerytoAllItems());
+        List<HashMap<String, Object>> data = db.getDataWithQuery(RegistrosClass.getQuerytoAllItems());
         System.out.println("Data size: " + data.size());
         if (!data.isEmpty()){
             registros.clear();
             for(HashMap<String, Object> map:data){
-                registros.add(new RegistroClass(map));
+                registros.add(new RegistrosClass(map));
             }
             System.out.println("Se agregan " + registros.size() + " rows");
             tableContent.setItems(registros);
@@ -129,24 +129,25 @@ public class RegisterviewController implements Initializable {
     
     /// this method will validate the data
     private void registerUser(String matricula, String password){
-        if (StringExtension.onlyDigits(matricula) && matricula.length() > 5){
-            PersonasClass persona = PersonasClass.getPersonaBy(matricula);
-            int count = db.getCountOf(DataBaseManager.registros_table);
-            RegistroClass last =  RegistroClass.getLastRegistroBy(matricula);
-            boolean status = (last != null) ? !last.isSalida() : false;
-            if (persona != null){
-                RegistroClass registro = new RegistroClass(count + 1, new Date(), status, persona.getIdPersona());
-                db.createItem(DataBaseManager.registros_table, RegistroClass.getQueryFields() , registro.getQueryValues());
-                loadData();
-                showMessage("Se registro la entrada correctamente");
-            }else{
-                showMessage("La persona con la matricula " + matricula + "no existe");
-            }
-        }else{
-            showMessage("Ingresa una matricula valida");
-        }
-        textFieldMatricula.setText("");
-        textFieldPassword.setText("");
+//        RegistrosTable registros = new RegistrosTable();
+//        if (StringExtension.onlyDigits(matricula) && matricula.length() > 5){
+//            PersonasClass persona = PersonasClass.getPersonaBy(matricula);
+//            int count = db.getCountOf(registros.getTableName());
+//            RegistroClass last =  RegistroClass.getLastRegistroBy(matricula);
+//            boolean status = (last != null) ? !last.isSalida() : false;
+//            if (persona != null){
+//                RegistroClass registro = new RegistroClass(count + 1, new Date(), status, persona.getIdPersona());
+//                db.createItem(registros.getTableName(), RegistroClass.getQueryFields() , registro.getQueryValues());
+//                loadData();
+//                showMessage("Se registro la entrada correctamente");
+//            }else{
+//                showMessage("La persona con la matricula " + matricula + "no existe");
+//            }
+//        }else{
+//            showMessage("Ingresa una matricula valida");
+//        }
+//        textFieldMatricula.setText("");
+//        textFieldPassword.setText("");
     }
     
     /*
@@ -184,7 +185,7 @@ public class RegisterviewController implements Initializable {
             }
         };
         Timer timer = new Timer();
-        timer.scheduleAtFixedRate(task, 0, 1000                                             );
+        timer.scheduleAtFixedRate(task, 0, 1000);
     }
     
     

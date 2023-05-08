@@ -4,9 +4,9 @@
  */
 package Modules.Admin;
 
-import Models.HorariosClass;
-import Models.PersonasClass;
-import Models.UsuariosClass;
+import DataBase.Models.HorariosClass;
+import DataBase.Models.PersonasClass;
+import DataBase.Models.UsuariosClass;
 import checadorfx.ChecadorFX;
 import java.io.IOException;
 import java.net.URL;

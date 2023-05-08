@@ -4,9 +4,10 @@
  */
 package Modules.Admin;
 
+import DataBase.Models.HorariosClass;
+import DataBase.Tables.HorariosTable;
 import Models.DataBaseManager;
 import Models.DayEnum;
-import Models.HorariosClass;
 import java.util.HashMap;
 import java.util.List;
 import javafx.collections.FXCollections;
@@ -124,23 +125,24 @@ public class HorariosviewController implements AdminGenericController {
         if(horariosSelected.size()==1){
             int identifier = horariosSelected.get(0).getIdHorario();
             HorariosClass item = getFormData();
-            db.updateItem(DataBaseManager.horarios_table, item.getQuery(), "`" + DataBaseManager.horarios_id + "` = " + identifier);
-            loadData();
+            HorariosTable tableH = new HorariosTable();
+//            db.updateItem(tableH.getTableName(), item.getQuery(), "`" + DataBaseManager.horarios_id + "` = " + identifier);
+//            loadData();
         }
     }
     
     private void deleteItem(){
         if(horariosSelected.size()==1){
-            db.deleteItem(DataBaseManager.horarios_table,  DataBaseManager.horarios_id + " = " + horariosSelected.get(0).getIdHorario());
-            loadData();
+//            db.deleteItem(DataBaseManager.horarios_table,  DataBaseManager.horarios_id + " = " + horariosSelected.get(0).getIdHorario());
+//            loadData();
         }
     }
     
     private void createItem(){
         if(horariosSelected.isEmpty()){
-            HorariosClass item = getFormData();
-            db.createItem(DataBaseManager.horarios_table, "`idHorario`, `horario`, `startDate`, `endDate`, `lunes`, `martes`, `miercoles`, `jueves`, `viernes`, `sabado`, `domingo`", item.getQueryValues());
-            loadData();
+//            HorariosClassOLD item = getFormData();
+//            db.createItem(DataBaseManager.horarios_table, "`idHorario`, `horario`, `startDate`, `endDate`, `lunes`, `martes`, `miercoles`, `jueves`, `viernes`, `sabado`, `domingo`", item.getQueryValues());
+//            loadData();
         }
     }
     
@@ -260,16 +262,16 @@ public class HorariosviewController implements AdminGenericController {
     
     // LOAD DATA
     private void loadData(){
-        List<HashMap<String, Object>> data = db.getData(DataBaseManager.horarios_table);
-        if (!data.isEmpty()){
-            horarios.clear();
-            for(HashMap<String, Object> map:data){
-                horarios.add(new HorariosClass(map));
-            }
-            tableContent.setItems(horarios);
-        }else{
-            System.out.println("ES NULL");
-        }
+//        List<HashMap<String, Object>> data = db.getData(DataBaseManager.horarios_table);
+//        if (!data.isEmpty()){
+//            horarios.clear();
+//            for(HashMap<String, Object> map:data){
+//                horarios.add(new HorariosClass(map));
+//            }
+//            tableContent.setItems(horarios);
+//        }else{
+//            System.out.println("ES NULL");
+//        }
     }
     
     // EVENTS

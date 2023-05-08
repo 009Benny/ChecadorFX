@@ -4,8 +4,11 @@
  */
 package Models;
 
+import DataBase.Tables.*;
 import java.io.IOException;
+import static java.lang.Boolean.*;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -15,25 +18,38 @@ import java.util.logging.Logger;
  */
 public class DefaultData {
     DataBaseManager manager;
+    Boolean debug = FALSE;
     
     public DefaultData(){
         manager = new DataBaseManager();
     }
     
     public void checkAll(){
-        checkTables();
-        checkInstances();
+        try{
+            DataBaseManager.createDataBaseIfDoesntExist();
+            checkTables();
+        }catch (Exception e){
+               System.out.print(e);
+        }
+//        checkInstances();
     }
     
     public void checkTables(){
-        createDeportesTable();
-        createCarrerasTable();
-        createHorariosTable();
-        createNivelesTable();
-        createFacultadesTable();
-        createPersonasTable();
-        createRegistrosTable();
-        createUsersTable();
+        List<TableProtocol> list = new ArrayList<>();
+        /// Primero las tablas sin dependencias
+        list.add(new ServiciosTable());
+        list.add(new CarrerasTable());
+        list.add(new HorariosTable());
+        list.add(new NivelesTable());
+        list.add(new FacultadesTable());
+        /// Tablas con dependencias
+        list.add(new PersonasTable());
+        list.add(new RegistrosTable());
+        list.add(new UsuariosTable());
+        // Hacemos el recorrido
+        for (TableProtocol item : list) {
+            manager.executeQuery(item.getCreationTableQuery());
+        }
     }
     
     public void checkInstances(){
@@ -42,114 +58,23 @@ public class DefaultData {
         checkNiveles();
         checkDefaultUsers();
         checkDefaultHorarios();
-        checkDeportes();
-    }
-    
-    // CREATION OF TABLES
-    private void createRegistrosTable(){
-        String query = "CREATE TABLE IF NOT EXISTS " + DataBaseManager.registros_table + " " +
-        "(" + DataBaseManager.registros_id + " INT not NULL, " +
-        " checkDate DATE not NULL, " +
-        " status Boolean not NULL, " +
-        " id_Persona Int not NULL, " +
-        " CONSTRAINT fkPersona FOREIGN KEY (id_Persona) REFERENCES "+DataBaseManager.personas_table+"(" + DataBaseManager.personas_id + ")," +
-        " PRIMARY KEY ( " + DataBaseManager.registros_id + " ))"; 
-        manager.executeQuery(query);
-    }
-    
-    private void createUsersTable(){
-        String query = "CREATE TABLE IF NOT EXISTS " + DataBaseManager.usuarios_table + " " +
-        "(" + DataBaseManager.usuarios_id + " INT not NULL, " +
-        " nombre VARCHAR(255) not NULL, " +
-        " password VARCHAR(255) not NULL, " +
-        " id_Nivel Int not NULL, " +
-        " CONSTRAINT fkNivel FOREIGN KEY (id_Nivel) REFERENCES NIVELES(" + DataBaseManager.niveles_id + ")," +
-        " PRIMARY KEY ( " + DataBaseManager.usuarios_id + " ))"; 
-        manager.executeQuery(query);
-    }
-    
-    private void createPersonasTable(){
-        String query = "CREATE TABLE IF NOT EXISTS " + DataBaseManager.personas_table + " " +
-        "(" + DataBaseManager.personas_id + " INT not NULL, " +
-        " nombre VARCHAR(255) not NULL, " +
-        " apPaterno VARCHAR(255) not NULL, " +
-        " apMaterno VARCHAR(255) not NULL, " +
-        " perCorreo VARCHAR(255), " +
-        " insCorreo VARCHAR(255), " +
-        " celular VARCHAR(12), " +
-        " id_Carrera INT, " +
-        " id_Facultad INT not NULL, " +
-        " id_Horario INT not NULL, " +
-        " id_DEPORTE INT, " +
-        " CONSTRAINT fkCarrera FOREIGN KEY (id_Carrera) REFERENCES " + DataBaseManager.carreras_table + "(" + DataBaseManager.carreras_id + ")," +
-        " CONSTRAINT fkFacultad FOREIGN KEY (id_Facultad) REFERENCES " + DataBaseManager.facultades_table + "(" + DataBaseManager.facultades_id + ")," +
-        " CONSTRAINT fkHorario FOREIGN KEY (id_Horario) REFERENCES " + DataBaseManager.horarios_table + "(" + DataBaseManager.horarios_id + ")," +
-        " CONSTRAINT fkDeporte FOREIGN KEY (id_Deporte) REFERENCES " + DataBaseManager.deportes_table + "(" + DataBaseManager.deportes_id + ")," +
-        " PRIMARY KEY ( " + DataBaseManager.personas_id + " ))"; 
-        manager.executeQuery(query);
-    }
-
-    private void createHorariosTable(){
-        String query = "CREATE TABLE IF NOT EXISTS " + DataBaseManager.horarios_table + " " +
-        "(" + DataBaseManager.horarios_id + " INT not NULL, " +
-        " horario VARCHAR(255) not NULL, " +
-        " startDate DATE, " +
-        " endDate DATE, " +
-        " lunes VARCHAR(255), " +
-        " martes VARCHAR(255), " +
-        " miercoles VARCHAR(255), " +
-        " jueves VARCHAR(255), " +
-        " viernes VARCHAR(255), " +
-        " sabado VARCHAR(255), " +
-        " domingo VARCHAR(255), " +
-        " PRIMARY KEY ( " + DataBaseManager.horarios_id + " ))"; 
-        manager.executeQuery(query);
-    }
-
-    private void createNivelesTable(){
-        String query = "CREATE TABLE IF NOT EXISTS " + DataBaseManager.niveles_table + " " +
-        "(" + DataBaseManager.niveles_id + " INT not NULL, " +
-        " nivel VARCHAR(255) not NULL, " +
-        " PRIMARY KEY ( " + DataBaseManager.niveles_id + "))"; 
-        manager.executeQuery(query);
-    }
-
-    private void createFacultadesTable(){
-        String query = "CREATE TABLE IF NOT EXISTS " + DataBaseManager.facultades_table + " " +
-        "(" + DataBaseManager.facultades_id + " INT not NULL, " +
-        " facultad VARCHAR(255) not NULL, " +
-        " PRIMARY KEY ( " + DataBaseManager.facultades_id + " ))"; 
-        manager.executeQuery(query);
-    }
-
-    private void createCarrerasTable(){
-        String query = "CREATE TABLE IF NOT EXISTS " + DataBaseManager.carreras_table + " " +
-        "(" + DataBaseManager.carreras_id + " INT not NULL, " +
-        " carrera VARCHAR(255) not NULL, " +
-        " PRIMARY KEY ( " + DataBaseManager.carreras_id + " ))"; 
-        manager.executeQuery(query);
-    }
-    
-    private void createDeportesTable(){
-        String query = "CREATE TABLE IF NOT EXISTS " + DataBaseManager.deportes_table + " " +
-        "(" + DataBaseManager.deportes_id + " INT not NULL, " +
-        " deporte VARCHAR(255) not NULL, " +
-        " PRIMARY KEY ( " + DataBaseManager.deportes_id + " ))"; 
-        manager.executeQuery(query);
+        checkServicios();
+        checkDefaultPersonas();
     }
     
     // CREATION OF DEFAULT INSTANCES
     public void checkFacultades(){
-        int count = manager.getCountOf(DataBaseManager.facultades_table);
+        FacultadesTable facultades = new FacultadesTable();
+        int count = manager.getCountOf(facultades.getTableName());
         System.out.println("Facultades || Cantidad de lineas " + count);
         if (count == 0) {
             try {
-                ArrayList<String> facultades = FileManager.getData("src/Data/Facultades.txt");
-                String query = "INSERT INTO `checador_fime`.`" + DataBaseManager.facultades_table + "` (`" + DataBaseManager.facultades_id + "`, `facultad`) VALUES";
+                ArrayList<String> array = FileManager.getData("src/Data/Facultades.txt");
+                String query = "INSERT INTO `" + DataBaseManager.getDataBaseName() + "`.`" + facultades.getTableName() + "` (`" + facultades.getIdKey() + "`, `name`) VALUES";
                 int identifier = 1;
-                for(String facultad : facultades){
+                for(String facultad : array){
                     query += " ("+ identifier +", '"+ facultad +"')";
-                    query += (identifier != facultades.size()) ? "," : "";
+                    query += (identifier != array.size()) ? "," : "";
                     identifier ++;
                 }
                 manager.executeQuery(query);
@@ -160,16 +85,17 @@ public class DefaultData {
     }
     
     public void checkCarreras(){
-        int count = manager.getCountOf(DataBaseManager.carreras_table);
+        CarrerasTable carreras = new CarrerasTable();
+        int count = manager.getCountOf(carreras.getTableName());
         System.out.println("Carreras || Cantidad de lineas " + count);
         if (count == 0) {
             try {
-                ArrayList<String> carreras = FileManager.getData("src/Data/Carreras.txt");
-                String query = "INSERT INTO `checador_fime`.`" + DataBaseManager.carreras_table + "` (`" + DataBaseManager.carreras_id + "`, `carrera`) VALUES";
+                ArrayList<String> array = FileManager.getData("src/Data/Carreras.txt");
+                String query = "INSERT INTO `" + DataBaseManager.getDataBaseName() + "`.`" + carreras.getTableName() + "` (`" + carreras.getIdKey() + "`, `name`) VALUES";
                 int identifier = 1;
-                for(String carrera : carreras){
+                for(String carrera : array){
                     query += " ("+ identifier +", '"+ carrera +"')";
-                    query += (identifier != carreras.size()) ? "," : "";
+                    query += (identifier != array.size()) ? "," : "";
                     identifier ++;
                 }
                 manager.executeQuery(query);
@@ -180,16 +106,17 @@ public class DefaultData {
     }
     
     public void checkNiveles(){
-        int count = manager.getCountOf(DataBaseManager.niveles_table);
+        NivelesTable niveles = new NivelesTable();
+        int count = manager.getCountOf(niveles.getTableName());
         System.out.println("Niveles || Cantidad de lineas " + count);
         if (count == 0) {
             try {
-                ArrayList<String> niveles = FileManager.getData("src/Data/Niveles.txt");
-                String query = "INSERT INTO `checador_fime`.`" + DataBaseManager.niveles_table + "` (`" + DataBaseManager.niveles_id + "`, `nivel`) VALUES";
+                ArrayList<String> array = FileManager.getData("src/Data/Niveles.txt");
+                String query = "INSERT INTO `" + DataBaseManager.getDataBaseName() + "`.`" + niveles.getTableName() + "` (`" + niveles.getIdKey() + "`, `name`) VALUES";
                 int identifier = 1;
-                for(String nivel : niveles){
+                for(String nivel : array){
                     query += " ("+ identifier +", '"+ nivel +"')";
-                    query += (identifier != niveles.size()) ? "," : "";
+                    query += (identifier != array.size()) ? "," : "";
                     identifier ++;
                 }
                 manager.executeQuery(query);
@@ -199,17 +126,18 @@ public class DefaultData {
         }
     }
     
-    public void checkDeportes(){
-        int count = manager.getCountOf(DataBaseManager.deportes_table);
+    public void checkServicios(){
+        ServiciosTable servicios = new ServiciosTable();
+        int count = manager.getCountOf(servicios.getTableName());
         System.out.println("DEPORTES || Cantidad de lineas " + count);
         if (count == 0) {
             try {
-                ArrayList<String> niveles = FileManager.getData("src/Data/Deportes.txt");
-                String query = "INSERT INTO `checador_fime`.`" + DataBaseManager.deportes_table + "` (`" + DataBaseManager.deportes_id + "`, `deporte`) VALUES";
+                ArrayList<String> array = FileManager.getData("src/Data/Deportes.txt");
+                String query = "INSERT INTO `" + DataBaseManager.getDataBaseName() + "`.`" + servicios.getTableName() + "` (`" + servicios.getIdKey() + "`, `name`) VALUES";
                 int identifier = 1;
-                for(String nivel : niveles){
+                for(String nivel : array){
                     query += " ("+ identifier +", '"+ nivel +"')";
-                    query += (identifier != niveles.size()) ? "," : "";
+                    query += (identifier != array.size()) ? "," : "";
                     identifier ++;
                 }
                 manager.executeQuery(query);
@@ -220,19 +148,20 @@ public class DefaultData {
     }
     
     public void checkDefaultUsers(){
-        int count = manager.getCountOf(DataBaseManager.usuarios_table);
+        UsuariosTable usuarios = new UsuariosTable();
+        int count = manager.getCountOf(usuarios.getTableName());
         System.out.println("Users || Cantidad de lineas " + count);
         if (count == 0) {
             try {
-                ArrayList<String> usuarios = FileManager.getData("src/Data/Usuarios.txt");
-                String query = "INSERT INTO `checador_fime`.`" + DataBaseManager.usuarios_table + "` (`" + DataBaseManager.usuarios_id + "`, `nombre`, `password`, `id_Nivel`) VALUES";
+                ArrayList<String> array = FileManager.getData("src/Data/Usuarios.txt");
+                String query = "INSERT INTO `" + DataBaseManager.getDataBaseName() + "`.`" + usuarios.getTableName() + "` (`" + usuarios.getIdKey() + "`, `nombre`, `password`, `id_Nivel`) VALUES";
                 int i = 1;
-                for(String usuario : usuarios){
+                for(String usuario : array){
                     
                     String[] split = usuario.split("\\s+");
                     query += " ("+ split[0] +", '"+ split[1] +"', '"+ split[2] +"', '"+ split[3] +"')";
                     
-                    query += (i != usuarios.size()) ? "," : "";
+                    query += (i != array.size()) ? "," : "";
                     i ++;
                 }
                 manager.executeQuery(query);
@@ -243,24 +172,51 @@ public class DefaultData {
     }
     
     public void checkDefaultHorarios(){
-        int count = manager.getCountOf(DataBaseManager.horarios_table);
+        HorariosTable horarios = new HorariosTable();
+        int count = manager.getCountOf(horarios.getTableName());
         System.out.println("Horarios || Cantidad de lineas " + count);
         if (count == 0) {
             try {
-                ArrayList<String> horarios = FileManager.getData("src/Data/Horarios.txt");
-                String query = "INSERT INTO `checador_fime`.`" + DataBaseManager.horarios_table + "` (`" + DataBaseManager.horarios_id + "`, `horario`, `startDate`, `endDate`, `lunes`, `martes`, `miercoles`, `jueves`, `viernes`, `sabado`, `domingo`) VALUES";
+                ArrayList<String> array = FileManager.getData("src/Data/Horarios.txt");
+                String query = "INSERT INTO `" + DataBaseManager.getDataBaseName() + "`.`" + horarios.getTableName() + "` (`" + horarios.getIdKey() + "`, `horario`, `startDate`, `endDate`, `lunes`, `martes`, `miercoles`, `jueves`, `viernes`, `sabado`, `domingo`) VALUES";
                 int i = 1;
-                for(String horario : horarios){
+                for(String horario : array){
                     String[] split = horario.split("\\s+");
                     query += " ("+ split[0] +", '"+ split[1] +"', STR_TO_DATE('"+ split[2] +"','%d/%m/%Y'), STR_TO_DATE('"+ split[3] +"','%d/%m/%Y'), '"+ split[4] +"', '"+ split[5] +"', '"+ split[6] +"', '"+ split[7] +"', '"+ split[8] +"', '"+ split[9] +"', '"+ split[10] +"')";
                     
-                    query += (i != horarios.size()) ? "," : "";
+                    query += (i != array.size()) ? "," : "";
                     i ++;
                 }
                 System.out.println(query);
                 manager.executeQuery(query);
             } catch (IOException ex) {
                 Logger.getLogger(DefaultData.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+    
+    public void checkDefaultPersonas(){
+        if(debug){
+            PersonasTable personas = new PersonasTable();
+            int count = manager.getCountOf(personas.getTableName());
+            System.out.println("Horarios || Cantidad de lineas " + count);
+            if (count == 0) {
+                try {
+                    ArrayList<String> array = FileManager.getData("src/Data/Horarios.txt");
+                    String query = "INSERT INTO `" + DataBaseManager.getDataBaseName() + "`.`" + personas.getTableName() + "` (`" + personas.getIdKey() + "`, `horario`, `startDate`, `endDate`, `lunes`, `martes`, `miercoles`, `jueves`, `viernes`, `sabado`, `domingo`) VALUES";
+                    int i = 1;
+                    for(String horario : array){
+                        String[] split = horario.split("\\s+");
+                        query += " ("+ split[0] +", '"+ split[1] +"', STR_TO_DATE('"+ split[2] +"','%d/%m/%Y'), STR_TO_DATE('"+ split[3] +"','%d/%m/%Y'), '"+ split[4] +"', '"+ split[5] +"', '"+ split[6] +"', '"+ split[7] +"', '"+ split[8] +"', '"+ split[9] +"', '"+ split[10] +"')";
+
+                        query += (i != array.size()) ? "," : "";
+                        i ++;
+                    }
+                    System.out.println(query);
+                    manager.executeQuery(query);
+                } catch (IOException ex) {
+                    Logger.getLogger(DefaultData.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         }
     }
