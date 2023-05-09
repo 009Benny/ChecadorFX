@@ -5,7 +5,7 @@
 package Modules.Admin;
 
 import DataBase.Models.UsuariosClass;
-import Models.DataBaseManager;
+import DataBase.DataBaseManager;
 import java.util.HashMap;
 import java.util.List;
 import javafx.collections.FXCollections;

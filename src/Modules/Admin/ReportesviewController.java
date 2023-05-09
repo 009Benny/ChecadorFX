@@ -4,7 +4,7 @@
  */
 package Modules.Admin;
 
-import Models.DataBaseManager;
+import DataBase.DataBaseManager;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;

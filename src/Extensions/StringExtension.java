@@ -22,4 +22,8 @@ public class StringExtension {
         return true;
     }
     
+    public static String getOnlyDigits(String str) {
+        return str.replaceAll("[^0-9]", "");
+    }
+    
 }

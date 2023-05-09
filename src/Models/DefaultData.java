@@ -4,6 +4,7 @@
  */
 package Models;
 
+import DataBase.DataBaseManager;
 import DataBase.Tables.*;
 import java.io.IOException;
 import static java.lang.Boolean.*;

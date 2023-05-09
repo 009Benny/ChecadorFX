@@ -4,7 +4,7 @@
  */
 package DataBase.Tables;
 
-import Models.DataBaseManager;
+import DataBase.DataBaseManager;
 
 /**
  *

@@ -10,7 +10,8 @@ import DataBase.Tables.HorariosTable;
 import DataBase.Tables.PersonasTable;
 import DataBase.Tables.ServiciosTable;
 import DataBase.Tables.TableProtocol;
-import Models.DataBaseManager;
+import DataBase.DataBaseManager;
+import Extensions.StringExtension;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
@@ -51,6 +52,34 @@ public class PersonasClass implements ModelClassProtocol {
     
     // INIT DEFAULT FORMAT
     public PersonasClass(){}
+    
+    /*
+    *   Este inizializador es especial para el fomato del polideportivo
+    */
+    public PersonasClass(String csvLine, int index){
+        String[] split = csvLine.split(",");
+        System.out.println("Tamano de csvLine: " + split.length);
+        isValid = split.length > 10;
+        System.out.println("valid: " + isValid);
+        if (isValid){
+            id = Optional.ofNullable(Integer.valueOf(split[1])).orElse(0);
+            name = Optional.ofNullable(split[3]).orElse("");
+            password = "password";
+            semester = Optional.ofNullable(Integer.valueOf(StringExtension.getOnlyDigits(split[8]))).orElse(1);
+            birthDate = Optional.ofNullable(split[10]).orElse("");
+            email = "";
+            phone = "";
+            String carrera = Optional.ofNullable(split[12]).orElse("");
+            CarrerasTable carreras = new CarrerasTable();
+            idCarrera =  carreras.getIdWith(carrera);
+
+            idFacultad = 1;
+            idHorario = 1;
+            idServicio = 1;
+        }else{
+            lineFailure = csvLine;
+        }
+    }
     
     public PersonasClass(String csvLine){
         String[] split = csvLine.split(",");
@@ -132,6 +161,38 @@ public class PersonasClass implements ModelClassProtocol {
                 +"INNER JOIN "+tableServicios+" ON "+tablePersonas+"." + persona.keyServicio + " = "+tableServicios+"."+servicios.getIdKey()+" "
                 +"INNER JOIN "+tableHorarios+" ON "+tablePersonas+"." + persona.keyHorario + " = "+tableHorarios+"."+horarios.getIdKey()+";";
     }
+    
+    @Override
+    public String getInsertHeader(){
+        String header = "(`" + getTable().getIdKey() + "`,"
+                + " `" + keyPassword + "`,"
+                + " `" + getNameKey() + "`,"
+                + " `" + keySemester + "`,"
+                + " `" + keyPhone + "`,"
+                + " `" + keyBirthDate + "`,"
+                + " `" + keyEmail + "`,"
+                + " `" + keyFacultad + "`,"
+                + " `" + keyCarrera + "`,"
+                + " `" + keyHorario + "`,"
+                + " `" + keyServicio + "`)";
+        return header;
+    }
+    
+    @Override
+    public String getValuesQuery() {
+        return 
+               "('" + id + "'," +
+               "'" + password + "'," +
+               "'" + name + "'," +
+               "'" + semester + "'," +
+               "'" + phone + "'," +
+               "'" + birthDate + "'," +
+               "'" + email + "'," +
+               "'" + idFacultad + "'," +
+               "'" + idCarrera + "'," +
+               "'" + idHorario + "'," +
+               "'" + idServicio + "')";
+    }
 
     @Override
     public String getIdentifierKey() {
@@ -146,11 +207,6 @@ public class PersonasClass implements ModelClassProtocol {
     @Override
     public TableProtocol getTable() {
         return new PersonasTable();
-    }
-
-    @Override
-    public String getValuesQuery() {
-        return "(`" + id + "`, `" + name + "`)";
     }
 
     public Boolean getIsValid() {
@@ -244,4 +300,9 @@ public class PersonasClass implements ModelClassProtocol {
     public String getServicio() {
         return servicio;
     }
+
+    public String getLineFailure() {
+        return lineFailure;
+    }
+    
 }

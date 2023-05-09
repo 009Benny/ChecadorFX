@@ -1,5 +1,6 @@
-package Models;
+package DataBase;
 
+import Models.DefaultData;
 import Models.DefaultData;
 import java.sql.*;
 import java.util.ArrayList;

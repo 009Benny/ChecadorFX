@@ -37,8 +37,7 @@ public class FileManager {
         
         File file = FileManager.getFile();
         List<String> lines = FileManager.getListFromCSV(file.getAbsolutePath());
-   
-        if (lines.get(0).startsWith("No.")){
+        if (lines.get(0).startsWith("﻿No.,No.")){
             // EXAMPLE OF UANL
             lines.remove(0);
             lines.remove(0);  // SE REMUEVEN DOS LINEAS
@@ -47,14 +46,13 @@ public class FileManager {
             for(String line: lines){
             //for(String line:getListFromCSV("/Users/bennyreyes/Downloads/PersonasFormat.csv")){
                 System.out.println(line);
-//                PersonasClass persona = new PersonasClass(line, indexList);
-//                if (persona.isValid()){
-//                    success.add(persona);
-//                }else{
-//                    failure.add(persona);
-//                }
+                PersonasClass persona = new PersonasClass(line, 0);
+                if (persona.getIsValid()){
+                    success.add(persona);
+                }else{
+                    failure.add(persona);
+                }
             }
-            
         }else {
             //DEFAULT FORMAT
             for(String line: lines){

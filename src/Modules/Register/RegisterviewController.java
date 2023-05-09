@@ -9,7 +9,7 @@ import DataBase.Models.RegistrosClass;
 import DataBase.Tables.RegistrosTable;
 import Extensions.DateExtension;
 import Extensions.StringExtension;
-import Models.DataBaseManager;
+import DataBase.DataBaseManager;
 import checadorfx.ChecadorFX;
 import java.io.IOException;
 import java.net.URL;

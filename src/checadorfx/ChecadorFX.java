@@ -8,6 +8,7 @@ import Models.DefaultData;
 import Modules.Admin.AdminviewController;
 import Modules.MainMenu.MainmenuController;
 import Modules.Register.RegisterviewController;
+import Server.MessageReceiver;
 import java.io.IOException;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -21,9 +22,12 @@ import javafx.stage.Stage;
  */
 public class ChecadorFX extends Application {
     private static Scene scene;
+    private MessageReceiver server;
     
     @Override
     public void start(Stage primaryStage) {
+        this.server = new MessageReceiver(6000);
+        server.start();
         loadData();
         try{
             
@@ -50,6 +54,12 @@ public class ChecadorFX extends Application {
             System.out.println("No se pudo cargar!");
             System.out.println(e);
         }
+    }
+    
+    @Override
+    public void stop() throws Exception {
+        server.stop();
+        super.stop();
     }
     
     /*

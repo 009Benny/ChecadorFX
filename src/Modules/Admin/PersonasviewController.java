@@ -5,7 +5,8 @@
 package Modules.Admin;
 
 import DataBase.Models.PersonasClass;
-import Models.DataBaseManager;
+import DataBase.DataBaseManager;
+import DataBase.Tables.PersonasTable;
 import Models.FileManager;
 import java.io.IOException;
 import java.util.HashMap;
@@ -64,7 +65,7 @@ public class PersonasviewController implements AdminGenericController {
         }
         if (tableSuccess.getColumns().isEmpty()){
             String[] headers = {"Persona ID", "Nombre"};
-            String[] keys = {"idPersona", "nombre"};
+            String[] keys = {"id", "name"};
             configColumnsToTable(tableSuccess, headers, keys);
         }
         if (tableFailure.getColumns().isEmpty()){
@@ -119,6 +120,20 @@ public class PersonasviewController implements AdminGenericController {
             personasFailure.addAll(map.get("failure"));
             tableSuccess.setItems(personasSuccess);
             tableFailure.setItems(personasFailure);
+        }
+        
+        if(personasSuccess.size() > 0 ){
+            for (PersonasClass persona : personasSuccess){
+                createItem(persona);
+            }
+        }
+    }
+    
+    private void createItem(PersonasClass persona){
+        if(persona.getIsValid()){
+            PersonasTable personasTable = new PersonasTable();
+            db.createItem(personasTable.getTableName(), persona.getInsertHeader(), persona.getValuesQuery());
+            loadData();
         }
     }
     
