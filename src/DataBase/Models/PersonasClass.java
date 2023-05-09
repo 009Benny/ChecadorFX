@@ -84,10 +84,10 @@ public class PersonasClass implements ModelClassProtocol {
         phone =  map.get(keyPhone).toString();
         birthDate =  map.get(keyBirthDate).toString();
         email =  map.get(keyEmail).toString();
-        facultad = (String) map.getOrDefault("facultad", "");
-        carrera = (String) map.getOrDefault("carrea", "");
-        horario = (String) map.getOrDefault("horario", "");
-        servicio = (String) map.getOrDefault("servicio", "");
+        facultad = map.get("facultad").toString();
+        carrera = map.get("carrera").toString();
+        horario = map.get("horario").toString();
+        servicio = map.get("servicio").toString();
         isValid = true;
     }
     
@@ -116,18 +116,16 @@ public class PersonasClass implements ModelClassProtocol {
         String tableHorarios = horarios.getTableName();
         return "SELECT "+tablePersonas+"."
                 +personas.getIdKey()+", "
-                +tablePersonas+"."+persona.getNameKey()+", "
                 +tablePersonas+"."+persona.getKeyPassword()+", "
-                +tablePersonas+"."+persona.getKeyName()+", "
+                +tablePersonas+"."+persona.getNameKey()+", "
                 +tablePersonas+"."+persona.getKeySemester()+", "
                 +tablePersonas+"."+persona.getKeyPhone()+", "
                 +tablePersonas+"."+persona.getKeyBirthDate()+", "
                 +tablePersonas+"."+persona.getKeyEmail()+", "
-                +tablePersonas+"."+persona.getNameKey()+", "
-                +tableFacultades+".name as facultad, "
-                +tableCarreras+".name as carrera, "
-                +tableHorarios+".name as horario, "
-                +tableServicios+".name as servicio FROM "
+                +tableFacultades+".name AS facultad, "
+                +tableCarreras+".name AS carrera, "
+                +tableHorarios+".name AS horario, "
+                +tableServicios+".name AS servicio FROM "
                 +tablePersonas+" "
                 +"INNER JOIN "+tableCarreras+" ON "+tablePersonas+"." + persona.keyCarrera + " = "+tableCarreras+"."+carreras.getIdKey()+" "
                 +"INNER JOIN "+tableFacultades+" ON "+tablePersonas+"." + persona.keyFacultad + " = "+tableFacultades+"."+facultades.getIdKey()+" "
@@ -206,5 +204,44 @@ public class PersonasClass implements ModelClassProtocol {
     public String getPassword() {
         return password;
     }
-    
+
+    public int getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getSemester() {
+        return semester;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public String getBirthDate() {
+        return birthDate;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getCarrera() {
+        return carrera;
+    }
+
+    public String getFacultad() {
+        return facultad;
+    }
+
+    public String getHorario() {
+        return horario;
+    }
+
+    public String getServicio() {
+        return servicio;
+    }
 }

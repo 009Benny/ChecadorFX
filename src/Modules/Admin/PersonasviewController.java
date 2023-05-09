@@ -58,8 +58,8 @@ public class PersonasviewController implements AdminGenericController {
     private void configViews(){
         // TABLE
         if (tableContent.getColumns().isEmpty()){
-            String[] headers = {"Persona ID", "Nombre", "Apellido Paterno", "Apellido Materno", "Email Personal", "Email Institucional", "Celular", "Carrera", "Facultad", "Horario"};
-            String[] keys = {"idPersona", "nombre", "apPaterno", "apMaterno", "perEmail", "instEmail", "phone", "carrera", "facultad", "horario"};
+            String[] headers = {"Matricula", "Nombre", "Semestre", "Celular", "Fecha de nacimiento", "Email", "Facultad", "Carrera", "Servicio", "Horario"};
+            String[] keys = {"id", "name", "semester", "phone", "birthDate", "email", "facultad", "carrera", "servicio", "horario"};
             configColumnsToTable(tableContent, headers, keys);
         }
         if (tableSuccess.getColumns().isEmpty()){
@@ -104,12 +104,6 @@ public class PersonasviewController implements AdminGenericController {
                 }
             }
         });
-        /*horariosSelected.addListener((ListChangeListener.Change<? extends HorariosClass> c) -> {
-            didSelectItem(c.getList().get(0));
-        });
-        horarios.addListener((ListChangeListener.Change<? extends HorariosClass> c) -> {
-            //tableContent.setItems(horarios);
-        });*/
     }
     
     private void addElements(){
@@ -141,7 +135,6 @@ public class PersonasviewController implements AdminGenericController {
             System.out.println("LOAD DATA: NO REGRESA INFO");
         }
     }
-    
     
     // ADMIN GENERIC CONTROLLER
     @Override
