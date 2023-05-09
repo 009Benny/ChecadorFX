@@ -4,6 +4,7 @@
  */
 package DataBase.Models;
 
+import DataBase.Tables.NivelesTable;
 import DataBase.Tables.TableProtocol;
 import DataBase.Tables.UsuariosTable;
 import java.util.HashMap;
@@ -20,15 +21,31 @@ public class UsuariosClass implements ModelClassProtocol {
     String password;
     String keyPassword = "password";
     int idNivel;
+    String nivel;
     String keyIdNivel = "id_Nivel";
 
     public UsuariosClass(){}
     
     public UsuariosClass(HashMap<String, Object> map){
-        this.id = Integer.parseInt(map.get(getTable().getIdKey()).toString());
-        this.name = map.get(getNameKey()).toString();
-        this.password = map.get(keyPassword).toString();
-        this.idNivel = Integer.parseInt(map.get(keyIdNivel).toString());
+        this.id = (int) map.getOrDefault(getTable().getIdKey(), 0);
+        this.name = (String) map.getOrDefault(keyName, "");
+        this.password = (String) map.getOrDefault(keyPassword, "");
+        this.idNivel = (int) map.getOrDefault(keyIdNivel, 0);
+        this.nivel = (String) map.getOrDefault("nivel", "");
+    }
+    
+    static public String getQuerytoAllItems(){
+        UsuariosTable usuarios = new UsuariosTable();
+        UsuariosClass usuario = new UsuariosClass();
+        NivelesTable niveles = new NivelesTable();
+        String tableUsuarios = usuarios.getTableName();
+        String tableNiveles = niveles.getTableName();
+        return "SELECT "+tableUsuarios+"."
+                + usuario.getIdentifierKey()+ ", "
+                +tableUsuarios+"."+usuario.getNameKey()+", "
+                +tableNiveles+".name AS nivel FROM "
+                +tableUsuarios+" "
+                +"INNER JOIN "+tableNiveles+" ON "+tableUsuarios+"." + usuario.keyIdNivel + " = "+tableNiveles+"."+niveles.getIdKey() +";";
     }
     
     @Override

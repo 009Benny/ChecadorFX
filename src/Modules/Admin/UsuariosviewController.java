@@ -68,19 +68,19 @@ public class UsuariosviewController implements AdminGenericController{
     
     // LOAD DATA
     private void loadData(){
-//        List<HashMap<String, Object>> data = db.getDataWithQuery(UsuariosClass.getQuerytoAllItems());
-//        System.out.println("Data size: " + data.size());
-//        System.out.println(data);
-//        if (!data.isEmpty()){
-//            usuarios.clear();
-//            for(HashMap<String, Object> map:data){
-//                usuarios.add(new UsuariosClass(map));
-//            }
-//            System.out.println("Se agregaron " + usuarios.size() + " usuarios" );
-//            tableContent.setItems(usuarios);
-//        }else{
-//            System.out.println("ES NULL");
-//        }
+        List<HashMap<String, Object>> data = db.getDataWithQuery(UsuariosClass.getQuerytoAllItems());
+        System.out.println("Data size: " + data.size());
+        System.out.println(data);
+        if (!data.isEmpty()){
+            usuarios.clear();
+            for(HashMap<String, Object> map:data){
+                usuarios.add(new UsuariosClass(map));
+            }
+            System.out.println("Se agregaron " + usuarios.size() + " usuarios" );
+            tableContent.setItems(usuarios);
+        }else{
+            System.out.println("ES NULL");
+        }
     }
     
     // ADMIN GENERIC CONTROLLER
