@@ -58,16 +58,16 @@ public class HorariosClass implements ModelClassProtocol {
     
     public HorariosClass(HashMap<String, Object> map){
         id = Integer.parseInt(map.get(getTable().getIdKey()).toString());
-        name = map.get("horario").toString();
-        lunes = map.get("lunes").toString();
-        martes = map.get("martes").toString();
-        miercoles = map.get("miercoles").toString();
-        jueves = map.get("jueves").toString();
-        viernes = map.get("viernes").toString();
-        sabado = map.get("sabado").toString();
-        domingo = map.get("domingo").toString();
-        startDate = map.get("startDate").toString();
-        endDate = map.get("endDate").toString();
+        name = (String) map.getOrDefault(keyName, "");
+        lunes = (String) map.getOrDefault(keyLunes, "");;
+        martes = (String) map.getOrDefault(keyMartes, "");;
+        miercoles = (String) map.getOrDefault(keyMiercoles, "");;
+        jueves = (String) map.getOrDefault(keyJueves, "");
+        viernes = (String) map.getOrDefault(keyViernes, "");
+        sabado = (String) map.getOrDefault(keySabado, "");
+        domingo = (String) map.getOrDefault(keyDomingo, "");
+        startDate = (String) map.getOrDefault(keyStartDate, "");;
+        endDate = (String) map.getOrDefault(keyEndDate, "");
     }
     
     @Override
@@ -88,17 +88,17 @@ public class HorariosClass implements ModelClassProtocol {
     @Override
     public String getInsertHeader(){
         return 
-               "('" + getIdentifierKey() + "'," +
-               "'" + getNameKey() + "'," +
-               "'" + keyStartDate + "'," +
-               "'" + keyEndDate + "'," +
-               "'" + keyLunes + "'," +
-               "'" + keyMartes + "'," +
-               "'" + keyMiercoles + "'," +
-               "'" + keyJueves + "'," +
-               "'" + keyViernes + "'," +
-               "'" + keySabado + "'," +
-               "'" + keyDomingo + "')";
+               "(" + getIdentifierKey() + "," +
+               "" + getNameKey() + "," +
+               "" + keyStartDate + "," +
+               "" + keyEndDate + "," +
+               "" + keyLunes + "," +
+               "" + keyMartes + "," +
+               "" + keyMiercoles + "," +
+               "" + keyJueves + "," +
+               "" + keyViernes + "," +
+               "" + keySabado + "," +
+               "" + keyDomingo + ")";
     }
 
     @Override
@@ -115,6 +115,22 @@ public class HorariosClass implements ModelClassProtocol {
                "'" + viernes + "'," +
                "'" + sabado + "'," +
                "'" + domingo + "')";
+    }
+    
+    public String getUpdateQuery(){
+        HorariosTable horarios = new HorariosTable();
+        return 
+            "`"+ getKeyId() + "` = " + getIdHorario() + "," +
+            "`"+ getKeyName() +"` = '" + name + "'," +
+            "`startDate` = '"+startDate+"'," +
+            "`endDate` = '"+endDate+"'," +
+            "`lunes` = '" + lunes + "'," +
+            "`martes` = '" + martes + "'," +
+            "`miercoles` = '" + miercoles + "'," +
+            "`jueves` = '" + jueves + "'," +
+            "`viernes` = '" + viernes + "'," +
+            "`sabado` = '" + sabado + "'," +
+            "`domingo` = '" + domingo + "'";
     }
     
     // PENDIENTE DE BORRAR

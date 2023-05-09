@@ -1,4 +1,4 @@
-/*
+ /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
@@ -38,13 +38,14 @@ public class HorariosviewController implements AdminGenericController {
     ObservableList<HBox> boxDays = FXCollections.observableArrayList();
     TextField txtFieldName;
     TextField txtFieldIdentifier;
+    TextField txtFieldStartDate;
+    TextField txtFieldEndDate;
     Button btnDelete;
     Button btnEdit;
     Button btnClear;
     Button btnNew;
     
     DataBaseManager db = new DataBaseManager();
-    
     
     public HorariosviewController(TableView<HorariosClass> table, VBox form, Button btnNew, Button btnClear, Button btnEdit, Button btnDelete){
         this.tableContent = table;
@@ -76,8 +77,12 @@ public class HorariosviewController implements AdminGenericController {
             }else if(item instanceof TextField){
                 if (this.txtFieldName == null){
                    this.txtFieldName = (TextField)item;
-                }else{
+                }else if (this.txtFieldIdentifier == null ){
                     this.txtFieldIdentifier = (TextField)item;
+                }else if (this.txtFieldStartDate == null ){
+                    this.txtFieldStartDate = (TextField)item;
+                }else if (this.txtFieldEndDate == null ){
+                    this.txtFieldEndDate = (TextField)item;
                 }
             }
         });
@@ -85,10 +90,12 @@ public class HorariosviewController implements AdminGenericController {
     
     private void configListeners(){
         horariosSelected.addListener((ListChangeListener.Change<? extends HorariosClass> c) -> {
-            didSelectItem(c.getList().get(0));
+            if (c.getList().size() >0){
+                didSelectItem(c.getList().get(0));
+            }
         });
         horarios.addListener((Change<? extends HorariosClass> c) -> {
-            //tableContent.setItems(horarios);
+            tableContent.setItems(horarios);
         });
         
         btnClear.setOnAction(new EventHandler(){
@@ -126,23 +133,26 @@ public class HorariosviewController implements AdminGenericController {
             int identifier = horariosSelected.get(0).getIdHorario();
             HorariosClass item = getFormData();
             HorariosTable tableH = new HorariosTable();
-//            db.updateItem(tableH.getTableName(), item.getQuery(), "`" + DataBaseManager.horarios_id + "` = " + identifier);
-//            loadData();
+            db.updateItem(tableH.getTableName(), item.getUpdateQuery(), "`" + item.getKeyId() + "` = " + identifier);
+            loadData();
         }
     }
     
     private void deleteItem(){
         if(horariosSelected.size()==1){
-//            db.deleteItem(DataBaseManager.horarios_table,  DataBaseManager.horarios_id + " = " + horariosSelected.get(0).getIdHorario());
-//            loadData();
+            HorariosTable horariosTable = new HorariosTable();
+            HorariosClass item = horariosSelected.get(0);
+            db.deleteItem(horariosTable.getTableName(),  item.getKeyId() + " = " + item.getIdHorario());
+            loadData();
         }
     }
     
     private void createItem(){
         if(horariosSelected.isEmpty()){
-//            HorariosClassOLD item = getFormData();
-//            db.createItem(DataBaseManager.horarios_table, "`idHorario`, `horario`, `startDate`, `endDate`, `lunes`, `martes`, `miercoles`, `jueves`, `viernes`, `sabado`, `domingo`", item.getQueryValues());
-//            loadData();
+            HorariosClass item = getFormData();
+            HorariosTable horariosTable = new HorariosTable();
+            db.createItem(horariosTable.getTableName(), item.getInsertHeader(), item.getValuesQuery());
+            loadData();
         }
     }
     
@@ -151,7 +161,9 @@ public class HorariosviewController implements AdminGenericController {
         clearForm();
     }
     
-    // VIEW ALTERATION
+    /*
+    * VIEW ALTERATION
+    */
     private void addColumns(){
         String[] headers = {"Horario ID", "Nombre", "Fecha inicio", "Fecha final", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado", "Domingo"};
         String[] keys = {"idHorario", "name", "startDate", "endDate", "lunes", "martes", "miercoles", "jueves", "viernes", "sabado", "domingo"};
@@ -169,6 +181,8 @@ public class HorariosviewController implements AdminGenericController {
     private void setItemToForm(HorariosClass item){
         txtFieldName.setText(item.getName());
         txtFieldIdentifier.setText(Integer.toString(item.getIdHorario()));
+        txtFieldStartDate.setText(item.getStartDate());
+        txtFieldEndDate.setText(item.getEndDate());
         // CHECKBOX
         for(int i=0;i<checkDays.size();i++){
             checkDays.get(i).setSelected(item.haveDateForDay(i));
@@ -199,6 +213,8 @@ public class HorariosviewController implements AdminGenericController {
     private void clearForm(){
         txtFieldName.setText("");
         txtFieldIdentifier.setText("");
+        txtFieldStartDate.setText("");
+        txtFieldEndDate.setText("");
         // CHECKBOX
         for(int i=0;i<checkDays.size();i++){
             checkDays.get(i).setSelected(false);
@@ -230,7 +246,10 @@ public class HorariosviewController implements AdminGenericController {
             item = horariosSelected.get(0);
         }
         item.setName(txtFieldName.getText());
-        item.setIdHorario(Integer.parseInt(txtFieldIdentifier.getText()));
+        String aux = txtFieldIdentifier.getText();
+        item.setIdHorario(Integer.parseInt(aux));
+        item.setStartDate(txtFieldStartDate.getText());
+        item.setEndDate(txtFieldEndDate.getText());
         // CHECKBOX
         for(int i=0;i<checkDays.size();i++){
             if(checkDays.get(i).isSelected()){
@@ -262,16 +281,17 @@ public class HorariosviewController implements AdminGenericController {
     
     // LOAD DATA
     private void loadData(){
-//        List<HashMap<String, Object>> data = db.getData(DataBaseManager.horarios_table);
-//        if (!data.isEmpty()){
-//            horarios.clear();
-//            for(HashMap<String, Object> map:data){
-//                horarios.add(new HorariosClass(map));
-//            }
-//            tableContent.setItems(horarios);
-//        }else{
-//            System.out.println("ES NULL");
-//        }
+        HorariosTable horariosTable = new HorariosTable();
+        List<HashMap<String, Object>> data = db.getData(horariosTable.getTableName());
+        if (!data.isEmpty()){
+            horarios.clear();
+            for(HashMap<String, Object> map:data){
+                horarios.add(new HorariosClass(map));
+            }
+            tableContent.setItems(horarios);
+        }else{
+            System.out.println("ES NULL");
+        }
     }
     
     // EVENTS
