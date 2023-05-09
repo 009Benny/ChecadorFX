@@ -84,10 +84,10 @@ public class PersonasClass implements ModelClassProtocol {
         phone =  map.get(keyPhone).toString();
         birthDate =  map.get(keyBirthDate).toString();
         email =  map.get(keyEmail).toString();
-        facultad = map.get("facultad").toString();
-        carrera = map.get("carrera").toString();
-        horario = map.get("horario").toString();
-        servicio = map.get("servicio").toString();
+        facultad = (String) map.getOrDefault("facultad", "");
+        carrera = (String) map.getOrDefault("carrea", "");
+        horario = (String) map.getOrDefault("horario", "");
+        servicio = (String) map.getOrDefault("servicio", "");
         isValid = true;
     }
     
