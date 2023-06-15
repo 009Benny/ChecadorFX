@@ -40,6 +40,32 @@
       </AnchorPane>
       <TabPane fx:id="mainPane" layoutX="45.0" layoutY="74.0" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0">
         <tabs>
+            <Tab text="Configuracion">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <AnchorPane layoutX="54.0" layoutY="82.0" prefHeight="200.0" prefWidth="200.0" styleClass="card-white" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
+                           <children>
+                              <VBox layoutX="161.0" layoutY="32.0" maxWidth="400.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
+                                 <children>
+                                    <Label text="Direccion de carpeta de imagenes por matricula:">
+                                       <VBox.margin>
+                                          <Insets bottom="10.0" />
+                                       </VBox.margin></Label>
+                                    <TextField fx:id="txtFieldPhotosURL" />
+                                    <Button fx:id="btnSavePhotosURL" mnemonicParsing="false" text="Guardar">
+                                       <VBox.margin>
+                                          <Insets top="10.0" />
+                                       </VBox.margin>
+                                    </Button>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </AnchorPane>
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
           <Tab text="Personas">
                <content>
                   <AnchorPane prefHeight="200.0" prefWidth="200.0">

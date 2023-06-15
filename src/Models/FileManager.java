@@ -11,8 +11,11 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -154,6 +157,42 @@ public class FileManager {
             String line;
             while ((line = br.readLine()) != null) {
                 lines.add(line);
+            }
+        }catch(IOException e){
+            System.out.println(e.getMessage());
+        }
+        return lines;
+    }
+    
+    public static void overwriteTextInDataFolder(String text, String fileName){
+        String dataPath = System.getProperty("user.dir") + File.separator + "src" + File.separator + "Data";
+        String filePath = dataPath + File.separator + fileName;
+        System.out.println("Path de Data: " + dataPath);
+        try{
+            File file = new File(filePath);
+            if (file.exists() && !file.isDirectory()){
+                file.delete();
+            }
+            FileWriter newFile = new FileWriter(filePath);
+            newFile.write(text);
+            newFile.close();
+            System.out.println("Se creo correctamente " + filePath);
+        }catch(IOException e){
+            System.out.println("Hubo un error al crear " + filePath);
+            e.printStackTrace();
+        }
+    }
+    
+    public static String getTextInDataFolder(String fileName){
+        String dataPath = System.getProperty("user.dir") + File.separator + "src" + File.separator + "Data";
+        String filePath = dataPath + File.separator + fileName;
+        String lines = "";
+        System.out.println("Path de Data: " + filePath);
+        try{
+            BufferedReader br = new BufferedReader(new FileReader(filePath));
+            String line;
+            while ((line = br.readLine()) != null) {
+                lines = lines + line;
             }
         }catch(IOException e){
             System.out.println(e.getMessage());

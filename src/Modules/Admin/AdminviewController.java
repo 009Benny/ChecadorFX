@@ -29,6 +29,7 @@ import javafx.scene.layout.VBox;
  * @author bennyreyes
  */
 public class AdminviewController implements Initializable {
+    ConfigviewController configVC;
     HorariosviewController horariosVC;
     PersonasviewController personasVC;
     ReportesviewController reportesVC;
@@ -36,6 +37,14 @@ public class AdminviewController implements Initializable {
    
     @FXML
     private TabPane mainPane;
+    
+    /*
+     * CONFIG VARS
+    */
+    @FXML
+    private TextField txtFieldPhotosURL;
+    @FXML
+    private Button btnSavePhotosURL;
     
     /*
      * PERSONAS VARS
@@ -108,7 +117,7 @@ public class AdminviewController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
         configureSubControllers();
-        personasVC.notify(true);
+        configVC.notify(true);
     }
     
     @FXML
@@ -117,6 +126,7 @@ public class AdminviewController implements Initializable {
     } 
     
     private void configureSubControllers(){
+        configVC = new ConfigviewController(txtFieldPhotosURL, btnSavePhotosURL);
         horariosVC = new HorariosviewController(tableHorarios, horariosForm, btnNewHorario, btnClearHorario, btnEditHorario, btnDeleteHorario);
         personasVC = new PersonasviewController(tablePersonas, tableCorrectPersonas, tableFailurePersonas, txtFieldSearchPersonas, btnAddPersonas, btnDownloadPersonasFormat, btnDeleteUsuarios);
         reportesVC = new ReportesviewController(datePickerReport, btnDownloadReport, btnDownloadFacultades, btnDownloadCarreras);
@@ -137,6 +147,9 @@ public class AdminviewController implements Initializable {
     
     private void notifyAppear(String objective, boolean willOpen){
         switch(objective){
+            case "Configuracion":
+                configVC.notify(willOpen);
+                break;
             case "Personas":
                 personasVC.notify(willOpen);
                 break;
@@ -148,6 +161,7 @@ public class AdminviewController implements Initializable {
                 break;
             case "Usuarios":
                 usuariosVC.notify(willOpen);
+                break;
             default:
                 break;
         }
