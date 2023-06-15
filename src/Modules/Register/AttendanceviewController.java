@@ -10,6 +10,7 @@ import DataBase.Tables.RegistrosTable;
 import Extensions.DateExtension;
 import Extensions.StringExtension;
 import DataBase.DataBaseManager;
+import Models.PhotoManager;
 import checadorfx.ChecadorFX;
 import java.io.IOException;
 import java.net.URL;
@@ -36,15 +37,17 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.ImageView;
 
 /**
  * FXML Controller class
  *
  * @author bennyreyes
  */
-public class RegisterviewController implements Initializable {
+public class AttendanceviewController implements Initializable {
     ObservableList<RegistrosClass> registros = FXCollections.observableArrayList();
     DataBaseManager db = new DataBaseManager();
+    PhotoManager photoManager = PhotoManager.getInstance();
     @FXML
     private TableView<RegistrosClass> tableContent;
     @FXML
@@ -55,6 +58,8 @@ public class RegisterviewController implements Initializable {
     private PasswordField textFieldPassword;
     @FXML
     private Button btnRegister;
+    @FXML
+    private ImageView imgPerson;
     
     /**
      * Initializes the controller class.
@@ -181,7 +186,11 @@ public class RegisterviewController implements Initializable {
     private void didTextFieldChange(){
         String matricula = textFieldMatricula.getText();
         String password = textFieldPassword.getText();
-        btnRegister.setDisable(!(matricula.length() >= StringExtension.kPASSWORD_LENGTH && password.length() >= StringExtension.kPASSWORD_LENGTH));
+        Boolean valid =(matricula.length() >= StringExtension.kPASSWORD_LENGTH && password.length() >= StringExtension.kPASSWORD_LENGTH);
+        btnRegister.setDisable(!valid);
+        if (valid) {
+            imgPerson.setImage( photoManager.getImageIfExistFromMatricula(matricula));
+        }
     }
     
     /*

@@ -14,8 +14,6 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -167,7 +165,6 @@ public class FileManager {
     public static void overwriteTextInDataFolder(String text, String fileName){
         String dataPath = System.getProperty("user.dir") + File.separator + "src" + File.separator + "Data";
         String filePath = dataPath + File.separator + fileName;
-        System.out.println("Path de Data: " + dataPath);
         try{
             File file = new File(filePath);
             if (file.exists() && !file.isDirectory()){
@@ -187,7 +184,6 @@ public class FileManager {
         String dataPath = System.getProperty("user.dir") + File.separator + "src" + File.separator + "Data";
         String filePath = dataPath + File.separator + fileName;
         String lines = "";
-        System.out.println("Path de Data: " + filePath);
         try{
             BufferedReader br = new BufferedReader(new FileReader(filePath));
             String line;
@@ -198,5 +194,10 @@ public class FileManager {
             System.out.println(e.getMessage());
         }
         return lines;
+    }
+    
+    public static boolean checkIfExistImage(String path){
+        File file = new File(path);
+        return file.exists() && file.isFile();
     }
 }

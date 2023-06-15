@@ -5,6 +5,7 @@
 package Models;
 
 import java.io.File;
+import javafx.scene.image.Image;
 
 /**
  *
@@ -33,4 +34,19 @@ public final class PhotoManager {
         FileManager manager = new FileManager();
         manager.overwriteTextInDataFolder(newUrl, fileName);
     }
+    
+    public Image getImageIfExistFromMatricula(String matricula){
+        String path = getUrl() + File.separator + matricula + ".png";
+        System.out.println(path);
+        if (FileManager.checkIfExistImage(path)){
+            System.out.println("SI EXISTE");
+            File f = new File(path);
+            Image img = new Image(f.toURI().toString());
+            System.out.println("SI LA CARGO");
+            return img;
+        }
+        File f = new File("/src/Images/user.png");
+        return new Image(f.toURI().toString());
+    }
+    
 }

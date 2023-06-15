@@ -13,7 +13,7 @@ import Extensions.StringExtension;
 import Models.DefaultData;
 import Modules.Admin.AdminviewController;
 import Modules.MainMenu.MainmenuController;
-import Modules.Register.RegisterviewController;
+import Modules.Register.AttendanceviewController;
 import Server.ServerDelegate;
 import Server.Servidor;
 import java.io.IOException;
@@ -93,7 +93,7 @@ public class ChecadorFX extends Application implements ServerDelegate {
     
     public static void showRegisterView(){
         try{
-            FXMLLoader fxmlLoader = new FXMLLoader(RegisterviewController.class.getResource("registerview.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(AttendanceviewController.class.getResource("attendanceview.fxml"));
             scene.setRoot(fxmlLoader.load());
         }catch(IOException e){
             System.out.println(e);
