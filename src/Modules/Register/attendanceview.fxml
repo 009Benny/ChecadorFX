@@ -77,7 +77,7 @@
                         <Image url="@../../Images/qr-example.png" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="imgPerson" fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="imgPerson" fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" styleClass="user-image">
                      <image>
                         <Image url="@../../Images/user.png" />
                      </image></ImageView>

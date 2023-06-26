@@ -188,7 +188,7 @@ public class AttendanceviewController implements Initializable {
         String password = textFieldPassword.getText();
         Boolean valid =(matricula.length() >= StringExtension.kPASSWORD_LENGTH && password.length() >= StringExtension.kPASSWORD_LENGTH);
         btnRegister.setDisable(!valid);
-        if (valid) {
+        if (matricula.length() >= StringExtension.kPASSWORD_LENGTH) {
             imgPerson.setImage( photoManager.getImageIfExistFromMatricula(matricula));
         }
     }

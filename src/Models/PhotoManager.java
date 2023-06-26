@@ -45,7 +45,7 @@ public final class PhotoManager {
             System.out.println("SI LA CARGO");
             return img;
         }
-        File f = new File("/src/Images/user.png");
+        File f = new File("./src/Images/user.png");
         return new Image(f.toURI().toString());
     }
     

@@ -33,6 +33,9 @@ public class PersonasTable implements TableProtocol {
         " " + persona.getKeyPhone() + " VARCHAR(255), " +
         " " + persona.getKeyBirthDate() + " VARCHAR(255), " +
         " " + persona.getKeyEmail() + " VARCHAR(255), " +
+        " " + persona.getKeyHavePhoto() + " BOOLEAN not NULL default 0, " +
+        " " + persona.getKeyStatus() + " INT not NULL default 0, " +
+        " " + persona.getKeyExpirationDate() + " VARCHAR(255), " +
         " " + persona.getKeyFacultad() + " INT not NULL, " +
         " " + persona.getKeyCarrera() + " INT, " +
         " " + persona.getKeyHorario() + " INT not NULL, " +
@@ -55,6 +58,9 @@ public class PersonasTable implements TableProtocol {
                 + " `" + persona.getKeyPhone() + "`,"
                 + " `" + persona.getKeyBirthDate() + "`,"
                 + " `" + persona.getKeyEmail() + "`,"
+                + " `" + persona.getKeyHavePhoto() + "`,"
+                + " `" + persona.getKeyStatus() + "`,"
+                + " `" + persona.getKeyExpirationDate() + "`,"
                 + " `" + persona.getKeyFacultad() + "`,"
                 + " `" + persona.getKeyCarrera() + "`,"
                 + " `" + persona.getKeyHorario() + "`,"

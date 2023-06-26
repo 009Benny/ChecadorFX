@@ -208,7 +208,7 @@ public class DefaultData {
                     int i = 1;
                     for(String persona : array){
                         String[] split = persona.split(",");
-                        query += " ("+ split[0] +", '"+ split[1] +"', '"+ split[2] +"', '"+ split[3] +"', '"+ split[4] +"', '"+ split[5] +"', '"+ split[6] +"', '"+ split[7] +"', '"+ split[8] +"', '"+ split[9] +"', '"+ split[10] +"')";
+                        query += " ("+ split[0] +", '"+ split[1] +"', '"+ split[2] +"', '"+ split[3] +"', '"+ split[4] +"', '"+ split[5] +"', '"+ split[6] +"', '"+ split[7] +"', '"+ split[8] +"', '"+ split[9] +"', '"+ split[10] +"', '"+ split[11] +"', '"+ split[12] +"', '"+ split[13] +"')";
 
                         query += (i != array.size()) ? "," : "";
                         i ++;

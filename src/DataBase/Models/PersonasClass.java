@@ -35,6 +35,12 @@ public class PersonasClass implements ModelClassProtocol {
     String keyBirthDate = "birthDate";
     String email;
     String keyEmail = "email";
+    boolean havePhoto;
+    String keyHavePhoto = "havePhoto";
+    int status;
+    String keyStatus = "status";
+    String expirationDate;
+    String keyExpirationDate = "expirationDate";
     String carrera;
     int idCarrera;
     String keyCarrera = "id_Carrera";
@@ -68,6 +74,9 @@ public class PersonasClass implements ModelClassProtocol {
             semester = Optional.ofNullable(Integer.valueOf(StringExtension.getOnlyDigits(split[8]))).orElse(1);
             birthDate = Optional.ofNullable(split[10]).orElse("");
             email = "";
+            havePhoto = true;
+            status = 0;
+            expirationDate = "";
             phone = "";
             String carrera = Optional.ofNullable(split[12]).orElse("");
             CarrerasTable carreras = new CarrerasTable();
@@ -96,6 +105,10 @@ public class PersonasClass implements ModelClassProtocol {
             CarrerasTable carreras = new CarrerasTable();
             idCarrera =  carreras.getIdWith(carrera);
             
+            havePhoto = true;
+            status = 0;
+            expirationDate = "";
+            
             idFacultad = 1;
             idHorario = 1;
             idServicio = 1;
@@ -113,6 +126,9 @@ public class PersonasClass implements ModelClassProtocol {
         phone =  map.get(keyPhone).toString();
         birthDate =  map.get(keyBirthDate).toString();
         email =  map.get(keyEmail).toString();
+        havePhoto = (boolean) map.get(keyHavePhoto);
+        status = Integer.parseInt(map.get(keyStatus).toString());
+        expirationDate = map.get(keyExpirationDate).toString();;
         facultad = (String) map.getOrDefault("facultad", "");
         carrera = (String) map.getOrDefault("carrea", "");
         horario = (String) map.getOrDefault("horario", "");
@@ -151,6 +167,9 @@ public class PersonasClass implements ModelClassProtocol {
                 +tablePersonas+"."+persona.getKeyPhone()+", "
                 +tablePersonas+"."+persona.getKeyBirthDate()+", "
                 +tablePersonas+"."+persona.getKeyEmail()+", "
+                +tablePersonas+"."+persona.getKeyHavePhoto()+", "
+                +tablePersonas+"."+persona.getKeyStatus()+", "
+                +tablePersonas+"."+persona.getKeyExpirationDate()+", "
                 +tableFacultades+".name AS facultad, "
                 +tableCarreras+".name AS carrera, "
                 +tableHorarios+".name AS horario, "
@@ -171,6 +190,9 @@ public class PersonasClass implements ModelClassProtocol {
                 + " `" + keyPhone + "`,"
                 + " `" + keyBirthDate + "`,"
                 + " `" + keyEmail + "`,"
+                + " `" + keyHavePhoto + "`,"
+                + " `" + keyStatus + "`,"
+                + " `" + keyExpirationDate + "`,"
                 + " `" + keyFacultad + "`,"
                 + " `" + keyCarrera + "`,"
                 + " `" + keyHorario + "`,"
@@ -188,6 +210,9 @@ public class PersonasClass implements ModelClassProtocol {
                "'" + phone + "'," +
                "'" + birthDate + "'," +
                "'" + email + "'," +
+               "'" + havePhoto + "'," +
+               "'" + status + "'," +
+               "'" + expirationDate + "'," +
                "'" + idFacultad + "'," +
                "'" + idCarrera + "'," +
                "'" + idHorario + "'," +
@@ -240,7 +265,19 @@ public class PersonasClass implements ModelClassProtocol {
     public String getKeyEmail() {
         return keyEmail;
     }
+    
+    public String getKeyHavePhoto(){
+        return keyHavePhoto;
+    }
 
+    public String getKeyStatus(){
+        return keyStatus;
+    }
+    
+    public String getKeyExpirationDate(){
+        return keyExpirationDate;
+    }
+    
     public String getKeyCarrera() {
         return keyCarrera;
     }

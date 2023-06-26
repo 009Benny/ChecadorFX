@@ -82,8 +82,6 @@ public class DataBaseManager {
         return null;
     }
     
-    
-    
     private List<HashMap<String, Object>> castData(ResultSet data) throws SQLException{
         List<HashMap<String, Object>> list = new ArrayList();
         ResultSetMetaData meta = data.getMetaData();
