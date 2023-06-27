@@ -165,8 +165,8 @@ public class HorariosviewController implements AdminGenericController {
     * VIEW ALTERATION
     */
     private void addColumns(){
-        String[] headers = {"Horario ID", "Nombre", "Fecha inicio", "Fecha final", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado", "Domingo"};
-        String[] keys = {"idHorario", "name", "startDate", "endDate", "lunes", "martes", "miercoles", "jueves", "viernes", "sabado", "domingo"};
+        String[] headers = {"Horario ID", "Nombre", "Fecha inicio", "Fecha final", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado", "Domingo", "Tolerancia"};
+        String[] keys = {"idHorario", "name", "startDate", "endDate", "lunes", "martes", "miercoles", "jueves", "viernes", "sabado", "domingo", "tolerancia"};
 
         TableColumn[] columns = new TableColumn[headers.length];
         for(int i=0;i<headers.length;i++){

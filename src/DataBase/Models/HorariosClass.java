@@ -36,6 +36,8 @@ public class HorariosClass implements ModelClassProtocol {
     private String keySabado = "sabado";
     private String domingo;
     private String keyDomingo = "domingo";
+    private int tolerancia;
+    private String keyTolerancia = "tolerancia";
     
     public HorariosClass(){}
     
@@ -53,6 +55,7 @@ public class HorariosClass implements ModelClassProtocol {
             put("viernes", "");
             put("sabado", "");
             put("domingo", "");
+            put("tolerancia", 0);
         }});
     }
     
@@ -68,6 +71,7 @@ public class HorariosClass implements ModelClassProtocol {
         domingo = (String) map.getOrDefault(keyDomingo, "");
         startDate = (String) map.getOrDefault(keyStartDate, "");;
         endDate = (String) map.getOrDefault(keyEndDate, "");
+        tolerancia = Integer.parseInt(map.get(keyTolerancia).toString());
     }
     
     @Override
@@ -98,7 +102,8 @@ public class HorariosClass implements ModelClassProtocol {
                "" + keyJueves + "," +
                "" + keyViernes + "," +
                "" + keySabado + "," +
-               "" + keyDomingo + ")";
+               "" + keyDomingo + "," +
+               "" + keyTolerancia + ")";
     }
 
     @Override
@@ -114,7 +119,8 @@ public class HorariosClass implements ModelClassProtocol {
                "'" + jueves + "'," +
                "'" + viernes + "'," +
                "'" + sabado + "'," +
-               "'" + domingo + "')";
+               "'" + domingo + "'," +
+               "'" + tolerancia + "')";
     }
     
     public String getUpdateQuery(){
@@ -122,32 +128,17 @@ public class HorariosClass implements ModelClassProtocol {
         return 
             "`"+ getKeyId() + "` = " + getIdHorario() + "," +
             "`"+ getKeyName() +"` = '" + name + "'," +
-            "`startDate` = '"+startDate+"'," +
-            "`endDate` = '"+endDate+"'," +
-            "`lunes` = '" + lunes + "'," +
-            "`martes` = '" + martes + "'," +
-            "`miercoles` = '" + miercoles + "'," +
-            "`jueves` = '" + jueves + "'," +
-            "`viernes` = '" + viernes + "'," +
-            "`sabado` = '" + sabado + "'," +
-            "`domingo` = '" + domingo + "'";
+            "`" + keyStartDate + "` = '"+startDate+"'," +
+            "`" + keyEndDate + "` = '"+endDate+"'," +
+            "`" + keyLunes + "` = '" + lunes + "'," +
+            "`" + keyMartes + "` = '" + martes + "'," +
+            "`" + keyMiercoles + "` = '" + miercoles + "'," +
+            "`" + keyJueves + "` = '" + jueves + "'," +
+            "`" + keyViernes + "` = '" + viernes + "'," +
+            "`" + keySabado + "` = '" + sabado + "'," +
+            "`" + keyDomingo + "` = '" + domingo + "'," +
+            "`" + keyTolerancia + "` = '" + tolerancia + "'";
     }
-    
-    // PENDIENTE DE BORRAR
-//    public String getQuery(){
-//       return 
-//               "`"+ DataBaseManager.horarios_id + "` = " + idHorario + "," +
-//               "`horario` = '" + name + "'," +
-//               "`startDate` = STR_TO_DATE('"+ DateExtension.getStringDate(startDate, "dd/MM/yyyy") +"','%d/%m/%Y')," +
-//               "`endDate` = STR_TO_DATE('"+ DateExtension.getStringDate(endDate, "dd/MM/yyyy") +"','%d/%m/%Y')," +
-//               "`lunes` = '" + lunes + "'," +
-//               "`martes` = '" + martes + "'," +
-//               "`miercoles` = '" + miercoles + "'," +
-//               "`jueves` = '" + jueves + "'," +
-//               "`viernes` = '" + viernes + "'," +
-//               "`sabado` = '" + sabado + "'," +
-//               "`domingo` = '" + domingo + "'";
-//    }
     
     public boolean haveDateForDay(int day){
         return (day >= 0 && day <= 6) ? !getValueOfDay(DayEnum.values()[day]).isEmpty() : false;
@@ -280,6 +271,13 @@ public class HorariosClass implements ModelClassProtocol {
     public String getDomingo() {
         return domingo;
     }
+    
+    /**
+     * @return the tolerancia
+     */
+    public int getTolerancia() {
+        return tolerancia;
+    }
 
     public void setIdHorario(int idHorario) {
         this.id = idHorario;
@@ -323,6 +321,10 @@ public class HorariosClass implements ModelClassProtocol {
 
     public void setDomingo(String domingo) {
         this.domingo = domingo;
+    }
+    
+    public void setTolerancia(int tolerancia) {
+        this.tolerancia = tolerancia;
     }
 
     public String getKeyId() {
@@ -369,6 +371,8 @@ public class HorariosClass implements ModelClassProtocol {
         return keyDomingo;
     }
     
-    
+    public String getKeyTolerancia() {
+        return keyTolerancia;
+    }
     
 }

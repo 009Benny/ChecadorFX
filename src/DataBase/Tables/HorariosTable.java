@@ -28,6 +28,7 @@ public class HorariosTable implements TableProtocol {
         " viernes VARCHAR(255), " +
         " sabado VARCHAR(255), " +
         " domingo VARCHAR(255), " +
+        " tolerancia INT not NULL default 0, " +
         " PRIMARY KEY ( " + getIdKey() + " ))"; 
         return query;
     }
@@ -45,7 +46,8 @@ public class HorariosTable implements TableProtocol {
                 + " `" + horario.getKeyJueves() + "`,"
                 + " `" + horario.getKeyViernes() + "`,"
                 + " `" + horario.getKeySabado() + "`,"
-                + " `" + horario.getKeyDomingo() + "`)";
+                + " `" + horario.getKeyDomingo() + "`,"
+                + " `" + horario.getKeyTolerancia() + "`)";
     }
     
     @Override
