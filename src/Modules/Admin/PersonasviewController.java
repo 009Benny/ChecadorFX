@@ -105,6 +105,12 @@ public class PersonasviewController implements AdminGenericController {
                 }
             }
         });
+        txtFieldSearch.setOnKeyReleased(new EventHandler(){
+            @Override
+            public void handle(Event event) {
+                didTextFieldSearchChange();
+            } 
+        });
     }
     
     private void addElements(){
@@ -136,6 +142,32 @@ public class PersonasviewController implements AdminGenericController {
             loadData();
         }
     }
+    
+    // Interactiones
+    private void didTextFieldSearchChange(){
+        String search = txtFieldSearch.getText();
+        if(search.length() > 0){
+            String query = "";
+            if (search.matches("[0-9]+") && search.length() > 0) {
+                query = PersonasClass.getQuerytoAllItemsByMatricula("'" + search + "%'");
+            } else {
+                query = PersonasClass.getQuerytoAllItemsByText("'" + search + "%'");
+            }
+            List<HashMap<String, Object>> data = db.getDataWithQuery(query);
+            if (!data.isEmpty()){
+                personas.clear();
+                for(HashMap<String, Object> map:data){
+                    personas.add(new PersonasClass(map));
+                }
+                tableContent.setItems(personas);
+            }else{
+                System.out.println("LOAD DATA SEARCH: NO REGRESA INFO");
+            }
+        } else {
+            loadData();
+        }
+    }
+    
     
     // LOAD DATA
     private void loadData(){
