@@ -148,7 +148,7 @@ public class AttendanceviewController implements Initializable {
                         boolean status = (last != null) ? !last.isSalida() : false;
 
                         // CREAR REGISTRO
-                        String today = DateExtension.getStringDate(new Date(), "dd/MM/YYYY");
+                        String today = DateExtension.getStringDate(new Date(), "dd/MM/YYYY HH:mm:ss");
                         RegistrosClass registro = new RegistrosClass(count + 1, today, !status, matricula);
                         db.createItem(registros.getTableName(), registro.getInsertHeader() , registro.getValuesQuery());
                         loadData();
