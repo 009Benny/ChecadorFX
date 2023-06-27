@@ -52,7 +52,7 @@ public class RegistrosClass implements ModelClassProtocol {
     static public RegistrosClass getLastRegistroBy(String matricula){
         RegistrosClass registro = new RegistrosClass();
         String today = DateExtension.getStringDate(new Date(), "dd/MM/YYYY");
-        String query = RegistrosClass.getQuerytoAllItems().replace(";", "") + " WHERE "+registro.keyIdPersona+" = " + matricula+ " AND checkDate = '%{"+ today +"}%'";
+        String query = RegistrosClass.getQuerytoAllItems().replace(";", "") + " WHERE "+registro.keyIdPersona+" = " + matricula+ " AND checkDate LIKE '"+ today +"%'";
         DataBaseManager db = new DataBaseManager();
         List<HashMap<String, Object>> data = db.getDataWithQuery(query);
         int count = data.size();
@@ -60,6 +60,13 @@ public class RegistrosClass implements ModelClassProtocol {
             return new RegistrosClass(data.get(count - 1));
         }
         return null;
+    }
+    
+    static public String getQueryAllItemsWithDay(String day){
+        RegistrosTable registros = new RegistrosTable();
+        String tableRegistros = registros.getTableName();
+        String validation = " WHERE " + tableRegistros + ".checkDate LIKE '" + day + "%'";
+        return RegistrosClass.getQuerytoAllItems().replace(";", "") + validation;
     }
     
     static public String getQuerytoAllItems(){

@@ -120,8 +120,10 @@ public class AttendanceviewController implements Initializable {
     
     // LOAD DATA
     private void loadData(){
-        List<HashMap<String, Object>> data = db.getDataWithQuery(RegistrosClass.getQuerytoAllItems());
-        System.out.println("Data size: " + data.size());
+        String today = DateExtension.getStringDate(new Date(), "dd/MM/YYYY");
+        List<HashMap<String, Object>> data = db.getDataWithQuery(RegistrosClass.getQueryAllItemsWithDay(today));
+        // Adding day validation
+        
         if (!data.isEmpty()){
             registros.clear();
             for(HashMap<String, Object> map:data){
@@ -149,7 +151,7 @@ public class AttendanceviewController implements Initializable {
 
                         // CREAR REGISTRO
                         String today = DateExtension.getStringDate(new Date(), "dd/MM/YYYY HH:mm:ss");
-                        RegistrosClass registro = new RegistrosClass(count + 1, today, !status, matricula);
+                        RegistrosClass registro = new RegistrosClass(count + 1, today, status, matricula);
                         db.createItem(registros.getTableName(), registro.getInsertHeader() , registro.getValuesQuery());
                         loadData();
                         showMessage("Se registro la entrada correctamente");
@@ -167,6 +169,7 @@ public class AttendanceviewController implements Initializable {
         }
         textFieldMatricula.setText("");
         textFieldPassword.setText("");
+        imgPerson.setImage( photoManager.getImageIfExistFromMatricula(""));
     }
     
     /*
