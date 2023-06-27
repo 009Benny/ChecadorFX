@@ -145,7 +145,7 @@
                                                 <Font name="Arial Bold" size="14.0" />
                                              </font>
                                           </Label>
-                                          <TextField maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
+                                          <TextField fx:id="txtFieldSearchHorarios" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
                                        </children>
                                        <padding>
                                           <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
@@ -187,11 +187,13 @@
                                                 <Font name="Arial Bold" size="16.0" />
                                              </font>
                                           </Label>
+                                          <Label alignment="CENTER" maxWidth="1.7976931348623157E308" text="Nombre del horario" />
                                           <TextField promptText="Nombre">
                                              <font>
                                                 <Font name="Arial" size="13.0" />
                                              </font>
                                           </TextField>
+                                          <Label alignment="CENTER" maxWidth="1.7976931348623157E308" text="Identificador (No debe repetirse)" />
                                           <TextField promptText="Identificador(Numero)">
                                              <font>
                                                 <Font name="Arial" size="13.0" />
@@ -205,6 +207,12 @@
                                           </TextField>
                                           <Label alignment="CENTER" maxWidth="1.7976931348623157E308" text="Fecha de Fin" />
                                           <TextField promptText="(dd/MM/YYYY)">
+                                             <font>
+                                                <Font name="Arial" size="13.0" />
+                                             </font>
+                                          </TextField>
+                                          <Label alignment="CENTER" maxWidth="1.7976931348623157E308" text="Tolerancia" />
+                                          <TextField promptText="0">
                                              <font>
                                                 <Font name="Arial" size="13.0" />
                                              </font>

@@ -79,7 +79,8 @@ public class AdminviewController implements Initializable {
     private Button btnEditHorario;
     @FXML
     private Button btnDeleteHorario;
-    
+    @FXML
+    private TextField txtFieldSearchHorarios;    
     /*
      * REPORTES VARS
     */
@@ -127,7 +128,7 @@ public class AdminviewController implements Initializable {
     
     private void configureSubControllers(){
         configVC = new ConfigviewController(txtFieldPhotosURL, btnSavePhotosURL);
-        horariosVC = new HorariosviewController(tableHorarios, horariosForm, btnNewHorario, btnClearHorario, btnEditHorario, btnDeleteHorario);
+        horariosVC = new HorariosviewController(tableHorarios, horariosForm, btnNewHorario, btnClearHorario, btnEditHorario, btnDeleteHorario, txtFieldSearchHorarios);
         personasVC = new PersonasviewController(tablePersonas, tableCorrectPersonas, tableFailurePersonas, txtFieldSearchPersonas, btnAddPersonas, btnDownloadPersonasFormat, btnDeletePersonas);
         reportesVC = new ReportesviewController(datePickerReport, btnDownloadReport, btnDownloadFacultades, btnDownloadCarreras);
         usuariosVC = new UsuariosviewController(tableUsuarios, tableCorrectUsuarios, tableFailureUsuarios, txtFieldSearchUsuarios, btnAddUsuarios, btnDownloadUsuariosFormat, btnDeleteUsuarios);

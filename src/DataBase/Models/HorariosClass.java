@@ -140,6 +140,12 @@ public class HorariosClass implements ModelClassProtocol {
             "`" + keyTolerancia + "` = '" + tolerancia + "'";
     }
     
+    static public String getQuerytoAllItemsByText(String text){
+        HorariosTable horariosTable = new HorariosTable();
+        HorariosClass horarios = new HorariosClass();
+        return "SELECT * FROM " + horariosTable.getTableName() + " WHERE " + horarios.getKeyName() + " LIKE '" + text + "%'";
+    }
+    
     public boolean haveDateForDay(int day){
         return (day >= 0 && day <= 6) ? !getValueOfDay(DayEnum.values()[day]).isEmpty() : false;
     }

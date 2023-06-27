@@ -40,6 +40,8 @@ public class HorariosviewController implements AdminGenericController {
     TextField txtFieldIdentifier;
     TextField txtFieldStartDate;
     TextField txtFieldEndDate;
+    TextField txtFieldTolerancia;
+    TextField txtFieldSearch;
     Button btnDelete;
     Button btnEdit;
     Button btnClear;
@@ -47,14 +49,14 @@ public class HorariosviewController implements AdminGenericController {
     
     DataBaseManager db = new DataBaseManager();
     
-    public HorariosviewController(TableView<HorariosClass> table, VBox form, Button btnNew, Button btnClear, Button btnEdit, Button btnDelete){
+    public HorariosviewController(TableView<HorariosClass> table, VBox form, Button btnNew, Button btnClear, Button btnEdit, Button btnDelete, TextField txtFieldSearch){
         this.tableContent = table;
         horariosSelected = tableContent.getSelectionModel().getSelectedItems();
         this.btnNew = btnNew;
         this.btnClear = btnClear;
         this.btnEdit = btnEdit;
         this.btnDelete = btnDelete;
-        
+        this.txtFieldSearch = txtFieldSearch;
         setComponents(form);
         configViews();
         configListeners();
@@ -66,6 +68,10 @@ public class HorariosviewController implements AdminGenericController {
         if (tableContent.getColumns().isEmpty()){
             addColumns();
         }
+        btnNew.setDisable(false);
+        btnEdit.setDisable(true);
+        btnDelete.setDisable(true);
+        btnClear.setDisable(false);
     }
     
     private void setComponents(VBox form){
@@ -77,12 +83,14 @@ public class HorariosviewController implements AdminGenericController {
             }else if(item instanceof TextField){
                 if (this.txtFieldName == null){
                    this.txtFieldName = (TextField)item;
-                }else if (this.txtFieldIdentifier == null ){
+                }else if (this.txtFieldIdentifier == null){
                     this.txtFieldIdentifier = (TextField)item;
-                }else if (this.txtFieldStartDate == null ){
+                }else if (this.txtFieldStartDate == null){
                     this.txtFieldStartDate = (TextField)item;
-                }else if (this.txtFieldEndDate == null ){
+                }else if (this.txtFieldEndDate == null){
                     this.txtFieldEndDate = (TextField)item;
+                }else if (this.txtFieldTolerancia == null){
+                    this.txtFieldTolerancia = (TextField)item;
                 }
             }
         });
@@ -125,6 +133,13 @@ public class HorariosviewController implements AdminGenericController {
                 deleteItem();
             }
         });
+        
+        txtFieldSearch.setOnKeyReleased(new EventHandler(){
+            @Override
+            public void handle(Event event) {
+                didTextFieldSearchChange();
+            } 
+        });
     }
     
     // ALTER DATA   
@@ -134,6 +149,7 @@ public class HorariosviewController implements AdminGenericController {
             HorariosClass item = getFormData();
             HorariosTable tableH = new HorariosTable();
             db.updateItem(tableH.getTableName(), item.getUpdateQuery(), "`" + item.getKeyId() + "` = " + identifier);
+            clearForm();
             loadData();
         }
     }
@@ -143,6 +159,7 @@ public class HorariosviewController implements AdminGenericController {
             HorariosTable horariosTable = new HorariosTable();
             HorariosClass item = horariosSelected.get(0);
             db.deleteItem(horariosTable.getTableName(),  item.getKeyId() + " = " + item.getIdHorario());
+            clearForm();
             loadData();
         }
     }
@@ -152,6 +169,7 @@ public class HorariosviewController implements AdminGenericController {
             HorariosClass item = getFormData();
             HorariosTable horariosTable = new HorariosTable();
             db.createItem(horariosTable.getTableName(), item.getInsertHeader(), item.getValuesQuery());
+            clearForm();
             loadData();
         }
     }
@@ -159,6 +177,10 @@ public class HorariosviewController implements AdminGenericController {
     private void clearSelection(){
         tableContent.getSelectionModel().clearSelection();
         clearForm();
+        btnNew.setDisable(false);
+        btnEdit.setDisable(true);
+        btnDelete.setDisable(true);
+        btnClear.setDisable(false);
     }
     
     /*
@@ -183,6 +205,7 @@ public class HorariosviewController implements AdminGenericController {
         txtFieldIdentifier.setText(Integer.toString(item.getIdHorario()));
         txtFieldStartDate.setText(item.getStartDate());
         txtFieldEndDate.setText(item.getEndDate());
+        txtFieldTolerancia.setText(Integer.toString(item.getTolerancia()));
         // CHECKBOX
         for(int i=0;i<checkDays.size();i++){
             checkDays.get(i).setSelected(item.haveDateForDay(i));
@@ -215,6 +238,7 @@ public class HorariosviewController implements AdminGenericController {
         txtFieldIdentifier.setText("");
         txtFieldStartDate.setText("");
         txtFieldEndDate.setText("");
+        txtFieldTolerancia.setText("");
         // CHECKBOX
         for(int i=0;i<checkDays.size();i++){
             checkDays.get(i).setSelected(false);
@@ -247,9 +271,11 @@ public class HorariosviewController implements AdminGenericController {
         }
         item.setName(txtFieldName.getText());
         String aux = txtFieldIdentifier.getText();
+        String auxTolerancia = txtFieldTolerancia.getText();
         item.setIdHorario(Integer.parseInt(aux));
         item.setStartDate(txtFieldStartDate.getText());
         item.setEndDate(txtFieldEndDate.getText());
+        item.setTolerancia(Integer.parseInt(auxTolerancia));
         // CHECKBOX
         for(int i=0;i<checkDays.size();i++){
             if(checkDays.get(i).isSelected()){
@@ -299,6 +325,29 @@ public class HorariosviewController implements AdminGenericController {
         if (item != null){ 
             System.out.println("Se selecciono: " + item.getName());
             setItemToForm(item);
+            btnNew.setDisable(false);
+            btnEdit.setDisable(false);
+            btnDelete.setDisable(false);
+            btnClear.setDisable(false);
+        }
+    }
+    
+    private void didTextFieldSearchChange(){
+        String search = txtFieldSearch.getText();
+        if(search.length() > 0){
+            String query = HorariosClass.getQuerytoAllItemsByText(search);
+            List<HashMap<String, Object>> data = db.getDataWithQuery(query);
+            if (!data.isEmpty()){
+                horarios.clear();
+                for(HashMap<String, Object> map:data){
+                    horarios.add(new HorariosClass(map));
+                }
+                tableContent.setItems(horarios);
+            }else{
+                System.out.println("LOAD DATA SEARCH: NO REGRESA INFO");
+            }
+        } else {
+            loadData();
         }
     }
 

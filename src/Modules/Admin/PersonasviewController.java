@@ -189,7 +189,6 @@ public class PersonasviewController implements AdminGenericController {
         }
     }
     
-    
     // LOAD DATA
     private void loadData(){
         List<HashMap<String, Object>> data = db.getDataWithQuery(PersonasClass.getQuerytoAllItems());
