@@ -16,6 +16,7 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -51,6 +52,7 @@ public class PersonasviewController implements AdminGenericController {
         this.btnAdd = add;
         this.btnDownloadFormat = download;
         this.btnDelete = delete;
+        personasSelected = tableContent.getSelectionModel().getSelectedItems();
         configViews();
         configListeners();
     }
@@ -73,6 +75,7 @@ public class PersonasviewController implements AdminGenericController {
             String[] keys = {"lineFailure"};
             configColumnsToTable(tableFailure, headers, keys);
         }
+         btnDelete.setDisable(true);
     }
     
     // VIEW ALTERATION
@@ -105,6 +108,21 @@ public class PersonasviewController implements AdminGenericController {
                 }
             }
         });
+        txtFieldSearch.setOnKeyReleased(new EventHandler(){
+            @Override
+            public void handle(Event event) {
+                didTextFieldSearchChange();
+            } 
+        });
+        personasSelected.addListener((ListChangeListener.Change<? extends PersonasClass> c) -> {
+            btnDelete.setDisable(!(c.getList().size() >0));
+        });
+        btnDelete.setOnAction(new EventHandler(){
+            @Override
+            public void handle(Event event) {
+                deleteElementSelected();
+            }
+        });
     }
     
     private void addElements(){
@@ -129,6 +147,15 @@ public class PersonasviewController implements AdminGenericController {
         }
     }
     
+    private void deleteElementSelected(){
+        if (personasSelected.size() == 1){
+            PersonasClass persona = personasSelected.get(0);
+            PersonasTable personasTable = new PersonasTable();
+            db.deleteItem(personasTable.getTableName(), persona.getKeyId() + " = " + persona.getId());
+            loadData();
+        }
+    }
+    
     private void createItem(PersonasClass persona){
         if(persona.getIsValid()){
             PersonasTable personasTable = new PersonasTable();
@@ -136,6 +163,32 @@ public class PersonasviewController implements AdminGenericController {
             loadData();
         }
     }
+    
+    // Interactiones
+    private void didTextFieldSearchChange(){
+        String search = txtFieldSearch.getText();
+        if(search.length() > 0){
+            String query = "";
+            if (search.matches("[0-9]+") && search.length() > 0) {
+                query = PersonasClass.getQuerytoAllItemsByMatricula("'" + search + "%'");
+            } else {
+                query = PersonasClass.getQuerytoAllItemsByText("'" + search + "%'");
+            }
+            List<HashMap<String, Object>> data = db.getDataWithQuery(query);
+            if (!data.isEmpty()){
+                personas.clear();
+                for(HashMap<String, Object> map:data){
+                    personas.add(new PersonasClass(map));
+                }
+                tableContent.setItems(personas);
+            }else{
+                System.out.println("LOAD DATA SEARCH: NO REGRESA INFO");
+            }
+        } else {
+            loadData();
+        }
+    }
+    
     
     // LOAD DATA
     private void loadData(){

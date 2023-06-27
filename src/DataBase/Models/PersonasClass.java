@@ -137,14 +137,26 @@ public class PersonasClass implements ModelClassProtocol {
     }
     
     static public PersonasClass getPersonaBy(String matricula){
-        PersonasClass persona = new PersonasClass();
-        String query = PersonasClass.getQuerytoAllItems().replace(";", "") + " WHERE " + persona.getKeyId() + " = " + matricula;
+        String query = PersonasClass.getQuerytoAllItemsByMatricula(matricula).replace("LIKE", "=");
         DataBaseManager db = new DataBaseManager();
         List<HashMap<String, Object>> data = db.getDataWithQuery(query);
         if(data.size() > 0){
             return new PersonasClass(data.get(0));
         }
         return null;
+    }
+    
+    static public String getQuerytoAllItemsByMatricula(String matricula){
+        PersonasClass persona = new PersonasClass();
+        PersonasTable tablePersonas = new PersonasTable();
+        return PersonasClass.getQuerytoAllItems().replace(";", "") + " WHERE " + tablePersonas.getTableName() + "." + persona.getKeyId() + " LIKE " + matricula;
+    }
+    
+    
+    static public String getQuerytoAllItemsByText(String text){
+        PersonasClass persona = new PersonasClass();
+        PersonasTable tablePersonas = new PersonasTable();
+        return PersonasClass.getQuerytoAllItems().replace(";", "") + " WHERE " + tablePersonas.getTableName() + "." + persona.getNameKey() + " LIKE " + text;
     }
     
     static public String getQuerytoAllItems(){
