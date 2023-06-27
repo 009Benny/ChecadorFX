@@ -16,6 +16,7 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -51,6 +52,7 @@ public class PersonasviewController implements AdminGenericController {
         this.btnAdd = add;
         this.btnDownloadFormat = download;
         this.btnDelete = delete;
+        personasSelected = tableContent.getSelectionModel().getSelectedItems();
         configViews();
         configListeners();
     }
@@ -73,6 +75,7 @@ public class PersonasviewController implements AdminGenericController {
             String[] keys = {"lineFailure"};
             configColumnsToTable(tableFailure, headers, keys);
         }
+         btnDelete.setDisable(true);
     }
     
     // VIEW ALTERATION
@@ -111,6 +114,15 @@ public class PersonasviewController implements AdminGenericController {
                 didTextFieldSearchChange();
             } 
         });
+        personasSelected.addListener((ListChangeListener.Change<? extends PersonasClass> c) -> {
+            btnDelete.setDisable(!(c.getList().size() >0));
+        });
+        btnDelete.setOnAction(new EventHandler(){
+            @Override
+            public void handle(Event event) {
+                deleteElementSelected();
+            }
+        });
     }
     
     private void addElements(){
@@ -132,6 +144,15 @@ public class PersonasviewController implements AdminGenericController {
             for (PersonasClass persona : personasSuccess){
                 createItem(persona);
             }
+        }
+    }
+    
+    private void deleteElementSelected(){
+        if (personasSelected.size() == 1){
+            PersonasClass persona = personasSelected.get(0);
+            PersonasTable personasTable = new PersonasTable();
+            db.deleteItem(personasTable.getTableName(), persona.getKeyId() + " = " + persona.getId());
+            loadData();
         }
     }
     
