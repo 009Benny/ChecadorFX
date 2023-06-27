@@ -38,37 +38,20 @@ public class FileManager {
         
         File file = FileManager.getFile();
         List<String> lines = FileManager.getListFromCSV(file.getAbsolutePath());
-        if (lines.get(0).startsWith("﻿No.,No.")){
-            // EXAMPLE OF UANL
-            lines.remove(0);
-            lines.remove(0);  // SE REMUEVEN DOS LINEAS
-            int[] indexList = {1, 3, 8, 10, 12, 14};
-            // MATRICULA, NOMBRE COMPLETO, SEMESTRE, FECHA DE NACIMIENTO, CARRERA, DEPORTE
-            for(String line: lines){
-            //for(String line:getListFromCSV("/Users/bennyreyes/Downloads/PersonasFormat.csv")){
+        
+        //DEFAULT FORMAT
+        for(String line: lines){
+            if(!line.startsWith("MATRICULA*")){
                 System.out.println(line);
-                PersonasClass persona = new PersonasClass(line, 0);
+                PersonasClass persona = new PersonasClass(line);
                 if (persona.getIsValid()){
                     success.add(persona);
                 }else{
                     failure.add(persona);
                 }
             }
-        }else {
-            //DEFAULT FORMAT
-            for(String line: lines){
-            //for(String line:getListFromCSV("/Users/bennyreyes/Downloads/PersonasFormat.csv"))
-                if(!line.startsWith("ID,NOMBRE")){
-                    System.out.println(line);
-                    PersonasClass persona = new PersonasClass(line);
-                    if (persona.getIsValid()){
-                        success.add(persona);
-                    }else{
-                        failure.add(persona);
-                    }
-                }
-            }
         }
+        
         map.put("success", success);
         map.put("failure", failure);
         return map;
@@ -90,7 +73,7 @@ public class FileManager {
     public static void downloadFormatAction(String name) throws IOException{
         String home = System.getProperty("user.home");
         String project = System.getProperty("user.dir");
-        FileManager.copyFile(new File(project + "/src/Data/" + name), new File(home + "/Downloads/name"));
+        FileManager.copyFile(new File(project + "/src/Data/" + name), new File(home + "/Downloads/" + name));
     }
     
     private static void copyFile(File sourceFile, File destFile) throws IOException {

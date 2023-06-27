@@ -59,60 +59,30 @@ public class PersonasClass implements ModelClassProtocol {
     // INIT DEFAULT FORMAT
     public PersonasClass(){}
     
-    /*
-    *   Este inizializador es especial para el fomato del polideportivo
-    */
-    public PersonasClass(String csvLine, int index){
-        String[] split = csvLine.split(",");
-        System.out.println("Tamano de csvLine: " + split.length);
-        isValid = split.length > 10;
-        System.out.println("valid: " + isValid);
-        if (isValid){
-            id = Optional.ofNullable(Integer.valueOf(split[1])).orElse(0);
-            name = Optional.ofNullable(split[3]).orElse("");
-            password = "password";
-            semester = Optional.ofNullable(Integer.valueOf(StringExtension.getOnlyDigits(split[8]))).orElse(1);
-            birthDate = Optional.ofNullable(split[10]).orElse("");
-            email = "";
-            havePhoto = true;
-            status = 0;
-            expirationDate = "";
-            phone = "";
-            String carrera = Optional.ofNullable(split[12]).orElse("");
-            CarrerasTable carreras = new CarrerasTable();
-            idCarrera =  carreras.getIdWith(carrera);
-
-            idFacultad = 1;
-            idHorario = 1;
-            idServicio = 1;
-        }else{
-            lineFailure = csvLine;
-        }
-    }
-    
     public PersonasClass(String csvLine){
         String[] split = csvLine.split(",");
-        System.out.println("Tamano de csvLine: " + split.length);
-        isValid = split.length == 10;
+        System.out.println("Tamano de csvLine: " + split.length); // DEBEN SER 13
+        isValid = split.length == 13;
         if (isValid){
-            id = Optional.ofNullable(Integer.valueOf(split[1])).orElse(0);
-            name = Optional.ofNullable(split[3]).orElse("");
-            password = "password";
-            semester = Optional.ofNullable(Integer.valueOf(split[8])).orElse(1);
-            birthDate = Optional.ofNullable(split[10]).orElse("");
+            id = Optional.ofNullable(Integer.valueOf(split[0])).orElse(0);
+            password = Optional.ofNullable(split[1]).orElse("password");
+            name = Optional.ofNullable(split[2]).orElse("");
+            semester = Optional.ofNullable(Integer.valueOf(split[3])).orElse(1);
+            phone = Optional.ofNullable(split[4]).orElse("");
+            birthDate = Optional.ofNullable(split[5]).orElse("");
+            email = Optional.ofNullable(split[6]).orElse("");
+            String auxPhoto = Optional.ofNullable(split[7]).orElse("");
+            havePhoto = auxPhoto.equals("1");
+            expirationDate = Optional.ofNullable(split[8]).orElse("");
+            idFacultad = Optional.ofNullable(Integer.valueOf(split[9])).orElse(0);
+            idCarrera = Optional.ofNullable(Integer.valueOf(split[10])).orElse(0);
+            idHorario = Optional.ofNullable(Integer.valueOf(split[11])).orElse(0);
+            idServicio = Optional.ofNullable(Integer.valueOf(split[12])).orElse(0);
             
-            String carrera = Optional.ofNullable(split[12]).orElse("");
-            CarrerasTable carreras = new CarrerasTable();
-            idCarrera =  carreras.getIdWith(carrera);
-            
-            havePhoto = true;
             status = 0;
-            expirationDate = "";
-            
-            idFacultad = 1;
-            idHorario = 1;
-            idServicio = 1;
-            
+            if (id <= 0 || name.length() <= 0 || semester < 0 || semester > 10){
+                lineFailure = csvLine;
+            }
         }else{
             lineFailure = csvLine;
         }
@@ -214,6 +184,7 @@ public class PersonasClass implements ModelClassProtocol {
     
     @Override
     public String getValuesQuery() {
+        String photo = (havePhoto)?"1":"0";
         return 
                "('" + id + "'," +
                "'" + password + "'," +
@@ -222,7 +193,7 @@ public class PersonasClass implements ModelClassProtocol {
                "'" + phone + "'," +
                "'" + birthDate + "'," +
                "'" + email + "'," +
-               "'" + havePhoto + "'," +
+               "" + photo + "," +
                "'" + status + "'," +
                "'" + expirationDate + "'," +
                "'" + idFacultad + "'," +
