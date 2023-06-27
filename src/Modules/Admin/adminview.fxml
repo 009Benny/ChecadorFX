@@ -400,33 +400,6 @@
                                     <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                                  </padding>
                               </VBox>
-                              <VBox prefWidth="250.0" styleClass="card-white">
-                                 <children>
-                                    <Label alignment="CENTER" maxWidth="1.7976931348623157E308" text="Descarga de tablas" textAlignment="CENTER" wrapText="true">
-                                       <font>
-                                          <Font name="Arial Bold" size="20.0" />
-                                       </font>
-                                       <VBox.margin>
-                                          <Insets bottom="20.0" />
-                                       </VBox.margin>
-                                    </Label>
-                                    <Label alignment="CENTER" maxWidth="1.7976931348623157E308" text="Tabla de facultades">
-                                       <VBox.margin>
-                                          <Insets bottom="5.0" />
-                                       </VBox.margin>
-                                    </Label>
-                                    <Button fx:id="btnDownloadFacultades" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Descargar" textAlignment="CENTER">
-                                       <VBox.margin>
-                                          <Insets bottom="20.0" />
-                                       </VBox.margin>
-                                    </Button>
-                                    <Label alignment="CENTER" maxWidth="1.7976931348623157E308" text="Tabla de carreras" />
-                                    <Button fx:id="btnDownloadCarreras" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Descargar" textAlignment="CENTER" />
-                                 </children>
-                                 <padding>
-                                    <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-                                 </padding>
-                              </VBox>
                            </children>
                            <padding>
                               <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />

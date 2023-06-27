@@ -214,5 +214,4 @@ public class AttendanceviewController implements Initializable {
         timer.scheduleAtFixedRate(task, 0, 1000);
     }
     
-    
 }

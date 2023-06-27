@@ -85,6 +85,15 @@ public class RegistrosClass implements ModelClassProtocol {
                 +"INNER JOIN "+tablePersonas+" ON "+tableRegistros+".id_Persona= "+tablePersonas+"."+personas.getIdKey()+";";
     }
     
+    static public String getHeaderToCSV(){
+        return "ID,Fecha,Status,Matricula";
+    }
+    
+    public String getCSVLine(){
+        return id + "," + checkDate + "," + status + "," + idPersona;
+    }
+    
+    
     @Override
     public String getIdentifierKey() {
         return this.keyId;

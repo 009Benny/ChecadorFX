@@ -183,4 +183,16 @@ public class FileManager {
         File file = new File(path);
         return file.exists() && file.isFile();
     }
+    
+    // CREATE CSV
+    public static void createCSVWithData(String header, List<String> data, String name) throws IOException{
+        String home = System.getProperty("user.home");
+        File csvFile = new File(home + "/Downloads/" + name + ".csv");
+        try (FileWriter fileWriter = new FileWriter(csvFile)) {
+            fileWriter.write(header);
+            for (String lineAux : data) {
+                fileWriter.write("\n" + lineAux);
+            }
+        }
+    }
 }
