@@ -4,7 +4,10 @@
  */
 package Models;
 
+import DataBase.DataBaseManager;
+import DataBase.Models.FacultadesClass;
 import DataBase.Models.PersonasClass;
+import DataBase.Tables.FacultadesTable;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -40,10 +43,11 @@ public class FileManager {
         List<String> lines = FileManager.getListFromCSV(file.getAbsolutePath());
         
         //DEFAULT FORMAT
+        List<String> facultades = DataBaseManager.getFacultadesList();
         for(String line: lines){
             if(!line.startsWith("MATRICULA*")){
                 System.out.println(line);
-                PersonasClass persona = new PersonasClass(line);
+                PersonasClass persona = new PersonasClass(line, facultades);
                 if (persona.getIsValid()){
                     success.add(persona);
                 }else{
@@ -63,9 +67,6 @@ public class FileManager {
         
         return indexList;
     }
-    
-    
-    
     
     /*
     * Download file demo

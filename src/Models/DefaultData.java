@@ -73,10 +73,15 @@ public class DefaultData {
                 ArrayList<String> array = FileManager.getData("src/Data/Facultades.txt");
                 String query = "INSERT INTO `" + DataBaseManager.getDataBaseName() + "`.`" + facultades.getTableName() + "` " + facultades.getHeadersQuery() + " VALUES";
                 int identifier = 1;
-                for(String facultad : array){
-                    query += " ("+ identifier +", '"+ facultad +"')";
-                    query += (identifier != array.size()) ? "," : "";
-                    identifier ++;
+                for(String line : array){
+                    String[] split = line.split(",");
+                    if (split.length == 2){
+                        String facultad = split[0];
+                        String abbreviation = split[1];
+                        query += " ("+ identifier +", '"+ facultad +"', '"+ abbreviation +"')";
+                        query += (identifier != array.size()) ? "," : "";
+                        identifier ++;
+                    }
                 }
                 manager.executeQuery(query);
             } catch (IOException ex) {

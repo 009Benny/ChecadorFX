@@ -6,9 +6,12 @@ package Modules.Admin;
 
 import DataBase.Models.PersonasClass;
 import DataBase.DataBaseManager;
+import DataBase.Models.FacultadesClass;
+import DataBase.Tables.FacultadesTable;
 import DataBase.Tables.PersonasTable;
 import Models.FileManager;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -74,6 +77,7 @@ public class PersonasviewController implements AdminGenericController {
             String[] headers = {"Linea"};
             String[] keys = {"lineFailure"};
             configColumnsToTable(tableFailure, headers, keys);
+            tableFailure.autosize();
         }
          btnDelete.setDisable(true);
     }
@@ -136,6 +140,20 @@ public class PersonasviewController implements AdminGenericController {
         if (keys.size() == 2){
             personasSuccess.addAll(map.get("success"));
             personasFailure.addAll(map.get("failure"));
+            // VALIDAR DUPLICADOS POR MATRICULA
+            List<Integer> duplicated = new ArrayList<>();
+            for (PersonasClass current: personas){
+                for (int i=0;i<personasSuccess.size();i++){
+                    if (current.getId() == personasSuccess.get(i).getId()){
+                        duplicated.add(i);
+                    }
+                }
+            }
+            for (Integer index:duplicated){
+                PersonasClass persona = personasSuccess.get(index);
+                personasSuccess.remove(persona);
+                personasFailure.add(persona);
+            }       
             tableSuccess.setItems(personasSuccess);
             tableFailure.setItems(personasFailure);
         }
@@ -144,6 +162,7 @@ public class PersonasviewController implements AdminGenericController {
             for (PersonasClass persona : personasSuccess){
                 createItem(persona);
             }
+            loadData();
         }
     }
     
@@ -160,7 +179,6 @@ public class PersonasviewController implements AdminGenericController {
         if(persona.getIsValid()){
             PersonasTable personasTable = new PersonasTable();
             db.createItem(personasTable.getTableName(), persona.getInsertHeader(), persona.getValuesQuery());
-            loadData();
         }
     }
     

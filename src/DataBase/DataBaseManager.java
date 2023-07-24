@@ -1,5 +1,7 @@
 package DataBase;
 
+import DataBase.Models.FacultadesClass;
+import DataBase.Tables.FacultadesTable;
 import Models.DefaultData;
 import Models.DefaultData;
 import java.sql.*;
@@ -124,4 +126,20 @@ public class DataBaseManager {
         return 0;
     }
     
+    public static List<String> getFacultadesList(){
+        DataBaseManager db = new DataBaseManager();
+        List<String> list = new ArrayList<>();
+        FacultadesTable facultadesTable = new FacultadesTable();
+        List<HashMap<String, Object>> data = db.getDataWithQuery(facultadesTable.getAllItemsQuery());
+        if (!data.isEmpty()){
+            for(HashMap<String, Object> map:data){
+                FacultadesClass facultad = new FacultadesClass(map);
+                list.add(facultad.getAbbreviation());
+            }
+            return list;
+        }else{
+            System.out.println("LOAD DATA SEARCH: NO REGRESA INFO");
+        }
+        return list;
+    }
 }

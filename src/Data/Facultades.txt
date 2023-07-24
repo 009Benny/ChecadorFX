@@ -1,26 +1,26 @@
-FIME
-Agronomia
-Arquitectura
-Artes Escenicas
-Artes Visuales
-Ciencias Biologicas
-Ciencias de la comunicacion
-Ciencias de la Tierra
-Ciencias Fisico-Matematicas
-Ciencias Forestales
-Ciencias Politicas y Relaciones Internaciones
-Ciencias Quimicas
-Contaduria Publica y Administracion
-Derecho y Criminiologia
-Economia
-Enfermeria
-Filosofia y Letras
-Ingenieria Civil
-Medicina
-Meficina Veterinaria y Zootecnia
-Musica
-Odontologia
-Organizacion Deportiva
-Psicologia
-Salud Publica y Nutricion
-Trabajo Social y Desarrollo Humano
+Mecanica Electrica,FIME
+Agronomia,FA
+Arquitectura,FARQ
+Artes Escenicas,FAE
+Artes Visuales,FAV
+Ciencias Biologicas,FCB
+Ciencias de la comunicacion,FCC
+Ciencias de la Tierra,FCT
+Ciencias Fisico-Matematicas,FCFM
+Ciencias Forestales,FCF
+Ciencias Politicas y Relaciones Internaciones,FCPYRI
+Ciencias Quimicas,FCQ
+Contaduria Publica y Administracion,FACPYA
+Derecho y Criminiologia,FACDYC
+Economia,FAECO
+Enfermeria,FAEN
+Filosofia y Letras,FFYL
+Ingenieria Civil,FIC
+Medicina,MEDICINA
+Medicina Veterinaria y Zootecnia,MVL
+Musica,FAMUS
+Odontologia,FO
+Organizacion Deportiva,FOD
+Psicologia,FAPSI
+Salud Publica y Nutricion,FASPYN
+Trabajo Social y Desarrollo Humano,FTSYDH

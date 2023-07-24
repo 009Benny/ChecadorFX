@@ -11,6 +11,7 @@ import DataBase.Tables.PersonasTable;
 import DataBase.Tables.ServiciosTable;
 import DataBase.Tables.TableProtocol;
 import DataBase.DataBaseManager;
+import Extensions.NumberUtils;
 import Extensions.StringExtension;
 import java.util.HashMap;
 import java.util.List;
@@ -37,7 +38,7 @@ public class PersonasClass implements ModelClassProtocol {
     String keyEmail = "email";
     boolean havePhoto;
     String keyHavePhoto = "havePhoto";
-    int status;
+    int status; // 0 - Regular, 1 - Bloqueado, 2 - Expirado
     String keyStatus = "status";
     String expirationDate;
     String keyExpirationDate = "expirationDate";
@@ -59,32 +60,46 @@ public class PersonasClass implements ModelClassProtocol {
     // INIT DEFAULT FORMAT
     public PersonasClass(){}
     
-    public PersonasClass(String csvLine){
+    public PersonasClass(String csvLine, List<String> facultades){
         String[] split = csvLine.split(",");
         System.out.println("Tamano de csvLine: " + split.length); // DEBEN SER 13
         isValid = split.length == 13;
+        lineFailure = csvLine;
         if (isValid){
-            id = Optional.ofNullable(Integer.valueOf(split[0])).orElse(0);
+            id = NumberUtils.getIntFrom(Optional.ofNullable(split[0]).orElse("0"));
+            if (id == 0){ // VALIDAR MATRICULA NULA O CON LETRAS
+                isValid = false;
+            }
             password = Optional.ofNullable(split[1]).orElse("password");
             name = Optional.ofNullable(split[2]).orElse("");
             semester = Optional.ofNullable(Integer.valueOf(split[3])).orElse(1);
             phone = Optional.ofNullable(split[4]).orElse("");
             birthDate = Optional.ofNullable(split[5]).orElse("");
             email = Optional.ofNullable(split[6]).orElse("");
+            status = 0;
             String auxPhoto = Optional.ofNullable(split[7]).orElse("");
             havePhoto = auxPhoto.equals("1");
             expirationDate = Optional.ofNullable(split[8]).orElse("");
-            idFacultad = Optional.ofNullable(Integer.valueOf(split[9])).orElse(0);
-            idCarrera = Optional.ofNullable(Integer.valueOf(split[10])).orElse(0);
-            idHorario = Optional.ofNullable(Integer.valueOf(split[11])).orElse(0);
-            idServicio = Optional.ofNullable(Integer.valueOf(split[12])).orElse(0);
+            String facultad = Optional.ofNullable(split[9]).orElse("");
+            idFacultad = 1; // DEFAULT FIME
+            if (StringExtension.onlyDigits(facultad)){
+                idFacultad = NumberUtils.getIntFrom(facultad);
+            }else if (facultad.length() > 0){
+                for (int i=0;i<facultades.size();i++){
+                    if (facultad.toUpperCase() == facultades.get(i)){
+                        idFacultad = i + 1;
+                        break;
+                    }
+                }
+            }
+            idCarrera = NumberUtils.getIntFrom(Optional.ofNullable(split[10]).orElse(""));
+            idHorario = NumberUtils.getIntFrom(Optional.ofNullable(split[11]).orElse(""));
+            idServicio = NumberUtils.getIntFrom(Optional.ofNullable(split[12]).orElse(""));
             
             status = 0;
             if (id <= 0 || name.length() <= 0 || semester < 0 || semester > 10){
                 lineFailure = csvLine;
             }
-        }else{
-            lineFailure = csvLine;
         }
     }
     

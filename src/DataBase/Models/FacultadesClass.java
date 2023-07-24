@@ -6,6 +6,9 @@ package DataBase.Models;
 
 import DataBase.Tables.FacultadesTable;
 import DataBase.Tables.TableProtocol;
+import Extensions.NumberUtils;
+import java.util.HashMap;
+import java.util.Optional;
 
 /**
  *
@@ -16,7 +19,17 @@ public class FacultadesClass implements ModelClassProtocol {
     String keyId = "idFacultades";
     String name = "";
     String keyName = "name";
+    String abbreviation = "";
+    String keyAbbreviation = "abbreviation";
 
+    public FacultadesClass(){}
+    
+    public FacultadesClass(HashMap<String, Object> map){
+        id = Optional.ofNullable(NumberUtils.getIntFrom(map.get(keyId).toString())).orElse(0);
+        name = Optional.ofNullable(map.get(keyName).toString()).orElse("");
+        abbreviation = Optional.ofNullable(map.get(keyAbbreviation).toString()).orElse("");
+    }
+    
     @Override
     public String getIdentifierKey() {
         return this.keyId;
@@ -35,6 +48,14 @@ public class FacultadesClass implements ModelClassProtocol {
     @Override
     public String getValuesQuery() {
         return "(`" + id + "`, `" + name + "`)";
+    }
+    
+    public String getKeyAbbreviation(){
+        return keyAbbreviation;
+    }
+    
+    public String getAbbreviation(){
+        return abbreviation;
     }
     
 }
