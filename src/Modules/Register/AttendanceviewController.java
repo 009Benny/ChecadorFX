@@ -10,6 +10,7 @@ import DataBase.Tables.RegistrosTable;
 import Extensions.DateExtension;
 import Extensions.StringExtension;
 import DataBase.DataBaseManager;
+import DataBase.Models.HorariosClass;
 import Models.PhotoManager;
 import checadorfx.ChecadorFX;
 import java.io.IOException;
@@ -32,7 +33,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -55,9 +55,11 @@ public class AttendanceviewController implements Initializable {
     @FXML
     private TextField textFieldMatricula;
     @FXML
-    private PasswordField textFieldPassword;
-    @FXML
     private Button btnRegister;
+    @FXML
+    private Button btnDeny;
+    @FXML
+    private Button btnClear;
     @FXML
     private ImageView imgPerson;
     
@@ -79,17 +81,10 @@ public class AttendanceviewController implements Initializable {
         }
         // Register Form
         textFieldMatricula.setText("");
-        textFieldPassword.setText("");
         btnRegister.setDisable(true);
+        btnDeny.setDisable(true);
         
         textFieldMatricula.setOnKeyReleased(new EventHandler(){
-            @Override
-            public void handle(Event event) {
-                didTextFieldChange();
-            } 
-        });
-        
-        textFieldPassword.setOnKeyReleased(new EventHandler(){
             @Override
             public void handle(Event event) {
                 didTextFieldChange();
@@ -137,38 +132,35 @@ public class AttendanceviewController implements Initializable {
     }
     
     /// this method will validate the data
-    private void registerUser(String matricula, String password){
+    private void registerUser(String matricula){
         RegistrosTable registros = new RegistrosTable();
-        
         if (StringExtension.onlyDigits(matricula) && matricula.length() > 5){
-            if (password.length() >= StringExtension.kPASSWORD_LENGTH){
-                PersonasClass persona = PersonasClass.getPersonaBy(matricula);
-                if (persona != null){
-                    if (persona.getPassword().equals(password)){
-                        int count = db.getCountOf(registros.getTableName());
-                        RegistrosClass last =  RegistrosClass.getLastRegistroBy(matricula);
-                        boolean status = (last != null) ? !last.isSalida() : false;
+            PersonasClass persona = PersonasClass.getPersonaBy(matricula);
+            if (persona != null){
+                // TRAER HORARIO
+                HorariosClass horario = HorariosClass.getHorarioById(persona.getHorario());
+                if (horario != null){
+                    // TODO: VALIDATION OF TIME VS HORARIO
+                    int count = db.getCountOf(registros.getTableName());
+                    RegistrosClass last =  RegistrosClass.getLastRegistroBy(matricula);
+                    boolean status = (last != null) ? !last.isSalida() : false;
 
-                        // CREAR REGISTRO
-                        String today = DateExtension.getStringDate(new Date(), "dd/MM/YYYY HH:mm:ss");
-                        RegistrosClass registro = new RegistrosClass(count + 1, today, status, matricula);
-                        db.createItem(registros.getTableName(), registro.getInsertHeader() , registro.getValuesQuery());
-                        loadData();
-                        showMessage("Se registro la entrada correctamente");
-                    }else{
-                        showMessage("La contraseña es incorrecta");
-                    }
-                }else{
-                    showMessage("La persona con la matricula " + matricula + "no existe");
+                    // CREAR REGISTRO
+                    String today = DateExtension.getStringDate(new Date(), "dd/MM/YYYY HH:mm:ss");
+                    RegistrosClass registro = new RegistrosClass(count + 1, today, status, matricula);
+                    db.createItem(registros.getTableName(), registro.getInsertHeader() , registro.getValuesQuery());
+                    loadData();
+                    showMessage("Se registro la entrada correctamente");
+                }else {
+                    showMessage("No se encontro un horario valido para el estudiante");
                 }
             }else{
-                showMessage("Ingresa una contraseña mayor a " + StringExtension.kPASSWORD_LENGTH);
+                showMessage("La persona con la matricula " + matricula + "no existe");
             }
         }else{
             showMessage("Ingresa una matricula valida");
         }
         textFieldMatricula.setText("");
-        textFieldPassword.setText("");
         imgPerson.setImage( photoManager.getImageIfExistFromMatricula(""));
     }
     
@@ -177,7 +169,17 @@ public class AttendanceviewController implements Initializable {
     */
     @FXML
     private void didTapRegisterButton() throws IOException {
-       registerUser(textFieldMatricula.getText(), textFieldPassword.getText());
+       registerUser(textFieldMatricula.getText());
+    }
+    
+    @FXML
+    private void didTapDenyButton() throws IOException {
+       // TODO: ADD LOGIC TO MARK PENALTY
+    }
+    
+    @FXML
+    private void didTapClearButton() throws IOException {
+       textFieldMatricula.setText("");
     }
     
     @FXML
@@ -188,9 +190,9 @@ public class AttendanceviewController implements Initializable {
     // This method will enable/disable the button to make a register
     private void didTextFieldChange(){
         String matricula = textFieldMatricula.getText();
-        String password = textFieldPassword.getText();
-        Boolean valid =(matricula.length() >= StringExtension.kPASSWORD_LENGTH && password.length() >= StringExtension.kPASSWORD_LENGTH);
+        Boolean valid =(matricula.length() > 0);
         btnRegister.setDisable(!valid);
+        btnDeny.setDisable(!valid);
         if (matricula.length() >= StringExtension.kPASSWORD_LENGTH) {
             imgPerson.setImage( photoManager.getImageIfExistFromMatricula(matricula));
         }

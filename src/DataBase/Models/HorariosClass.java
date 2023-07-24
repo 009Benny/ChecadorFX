@@ -4,10 +4,13 @@
  */
 package DataBase.Models;
 
+import DataBase.DataBaseManager;
 import DataBase.Tables.HorariosTable;
 import DataBase.Tables.TableProtocol;
 import Models.DayEnum;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  *
@@ -72,6 +75,31 @@ public class HorariosClass implements ModelClassProtocol {
         startDate = (String) map.getOrDefault(keyStartDate, "");;
         endDate = (String) map.getOrDefault(keyEndDate, "");
         tolerancia = Integer.parseInt(map.get(keyTolerancia).toString());
+    }
+    
+    public static HorariosClass getHorarioById(String idHorario){
+        String query = HorariosClass.getQuerytoAllItemsById(idHorario);
+        DataBaseManager db = new DataBaseManager();
+        List<HashMap<String, Object>> data = db.getDataWithQuery(query);
+        if(data.size() == 1){
+            return new HorariosClass(data.get(0));
+        }
+        return null;
+    }
+    
+    static public String getQuerytoAllItemsById(String idHorario){
+        HorariosClass horario = new HorariosClass();
+        return HorariosClass.getQuerytoAllItems().replace(";","") + " WHERE " + horario.getTable().getTableName() + "." + horario.getKeyId() + " = " + idHorario;
+    }
+    
+    static public String getQuerytoAllItems(){
+        HorariosTable horarios = new HorariosTable();
+        return "SELECT * FROM `"+ horarios.getTableName() +"`;";
+    }
+    
+    static public Boolean isInValidSchedule(Date date){
+        
+        return false;
     }
     
     @Override
