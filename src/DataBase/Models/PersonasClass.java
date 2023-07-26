@@ -103,7 +103,7 @@ public class PersonasClass implements ModelClassProtocol {
         }
     }
     
-    public PersonasClass(HashMap<String, Object> map){
+    public PersonasClass(HashMap<String, Object> map, boolean useKeys){
         id = Integer.parseInt(map.get(keyId).toString());
         password = map.get(keyPassword).toString();
         name = map.get(keyName).toString();
@@ -113,11 +113,18 @@ public class PersonasClass implements ModelClassProtocol {
         email =  map.get(keyEmail).toString();
         havePhoto = (boolean) map.get(keyHavePhoto);
         status = Integer.parseInt(map.get(keyStatus).toString());
-        expirationDate = map.get(keyExpirationDate).toString();;
-        facultad = (String) map.getOrDefault("facultad", "");
-        carrera = (String) map.getOrDefault("carrea", "");
-        horario = (String) map.getOrDefault("horario", "");
-        servicio = (String) map.getOrDefault("servicio", "");
+        expirationDate = map.get(keyExpirationDate).toString();
+        if (useKeys){
+            idFacultad =  Integer.parseInt(map.get("idFacultades").toString());
+            idCarrera = Integer.parseInt(map.get("idCarreras").toString());
+            idHorario = Integer.parseInt(map.get("idHorarios").toString());
+            idServicio = Integer.parseInt(map.get("idServicios").toString());
+        }else{
+            facultad = (String) map.getOrDefault("facultad", "");
+            carrera = (String) map.getOrDefault("carrea", "");
+            horario = (String) map.getOrDefault("horario", "");
+            servicio = (String) map.getOrDefault("servicio", "");
+        }
         isValid = true;
     }
     
@@ -126,7 +133,7 @@ public class PersonasClass implements ModelClassProtocol {
         DataBaseManager db = new DataBaseManager();
         List<HashMap<String, Object>> data = db.getDataWithQuery(query);
         if(data.size() > 0){
-            return new PersonasClass(data.get(0));
+            return new PersonasClass(data.get(0), true);
         }
         return null;
     }
@@ -167,10 +174,10 @@ public class PersonasClass implements ModelClassProtocol {
                 +tablePersonas+"."+persona.getKeyHavePhoto()+", "
                 +tablePersonas+"."+persona.getKeyStatus()+", "
                 +tablePersonas+"."+persona.getKeyExpirationDate()+", "
-                +tableFacultades+".name AS facultad, "
-                +tableCarreras+".name AS carrera, "
-                +tableHorarios+".name AS horario, "
-                +tableServicios+".name AS servicio FROM "
+                +tableFacultades+"."+facultades.getIdKey()+", "
+                +tableCarreras+"."+carreras.getIdKey()+", "
+                +tableHorarios+"."+horarios.getIdKey()+", "
+                +tableServicios+"."+servicios.getIdKey()+" FROM "
                 +tablePersonas+" "
                 +"INNER JOIN "+tableCarreras+" ON "+tablePersonas+"." + persona.keyCarrera + " = "+tableCarreras+"."+carreras.getIdKey()+" "
                 +"INNER JOIN "+tableFacultades+" ON "+tablePersonas+"." + persona.keyFacultad + " = "+tableFacultades+"."+facultades.getIdKey()+" "
@@ -338,6 +345,10 @@ public class PersonasClass implements ModelClassProtocol {
 
     public String getLineFailure() {
         return lineFailure;
+    }
+    
+    public String getIdHorario(){
+        return String.valueOf(idHorario);
     }
     
 }

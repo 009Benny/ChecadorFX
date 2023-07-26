@@ -138,19 +138,24 @@ public class AttendanceviewController implements Initializable {
             PersonasClass persona = PersonasClass.getPersonaBy(matricula);
             if (persona != null){
                 // TRAER HORARIO
-                HorariosClass horario = HorariosClass.getHorarioById(persona.getHorario());
+                HorariosClass horario = HorariosClass.getHorarioById(persona.getIdHorario());
                 if (horario != null){
-                    // TODO: VALIDATION OF TIME VS HORARIO
+                    Date now = new Date();
                     int count = db.getCountOf(registros.getTableName());
                     RegistrosClass last =  RegistrosClass.getLastRegistroBy(matricula);
                     boolean status = (last != null) ? !last.isSalida() : false;
-
-                    // CREAR REGISTRO
-                    String today = DateExtension.getStringDate(new Date(), "dd/MM/YYYY HH:mm:ss");
-                    RegistrosClass registro = new RegistrosClass(count + 1, today, status, matricula);
-                    db.createItem(registros.getTableName(), registro.getInsertHeader() , registro.getValuesQuery());
-                    loadData();
-                    showMessage("Se registro la entrada correctamente");
+                    if (last.isSalida() || horario.isOnValidTime(now)){
+                        // CREAR REGISTRO
+                        String today = DateExtension.getStringDate(now, "dd/MM/YYYY HH:mm:ss");
+                        RegistrosClass registro = new RegistrosClass(count + 1, today, status, matricula);
+                        db.createItem(registros.getTableName(), registro.getInsertHeader() , registro.getValuesQuery());
+                        loadData();
+                        String mensaje = status ? "entrada": "salida";
+                        showMessage("Se registro la "+mensaje+" correctamente");
+                    }else {
+                        // TODO: ALERT OF HOW MANY TIME
+                        showMessage("La hora no corresponde a su horario");
+                    }
                 }else {
                     showMessage("No se encontro un horario valido para el estudiante");
                 }

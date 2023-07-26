@@ -78,6 +78,7 @@ public class ChecadorFX extends Application implements ServerDelegate {
     * This method is to call all methods to load data in our local
     */
     private void loadData(){
+        DateExtension.valideTimeZone();
         DefaultData def = new DefaultData();
         def.checkAll();
     }

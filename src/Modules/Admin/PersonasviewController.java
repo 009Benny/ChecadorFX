@@ -194,7 +194,7 @@ public class PersonasviewController implements AdminGenericController {
             if (!data.isEmpty()){
                 personas.clear();
                 for(HashMap<String, Object> map:data){
-                    personas.add(new PersonasClass(map));
+                    personas.add(new PersonasClass(map, false));
                 }
                 tableContent.setItems(personas);
             }else{
@@ -211,7 +211,7 @@ public class PersonasviewController implements AdminGenericController {
         if (!data.isEmpty()){
             personas.clear();
             for(HashMap<String, Object> map:data){
-                personas.add(new PersonasClass(map));
+                personas.add(new PersonasClass(map, false));
             }
             tableContent.setItems(personas);
         }else{

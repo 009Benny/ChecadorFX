@@ -10,7 +10,9 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.TimeZone;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -50,5 +52,25 @@ public class DateExtension extends Date {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
         return date.format(formatter);
     }
+    
+    public static int getDayNumberDayOf(Date date) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        return cal.get(Calendar.DAY_OF_WEEK);
+    }
+    
+    public static void valideTimeZone(){
+        System.out.println("Current time zone: " + TimeZone.getDefault());
+        
+        TimeZone.setDefault(TimeZone.getTimeZone("America/Monterrey"));
+        
+        System.out.println("Now time zone: " + TimeZone.getDefault());
+    }
+    
+//    public static Date getNowWithTimeZone(){
+////        SimpleDateFormat isoFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+////        isoFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+////        Date date = isoFormat.parse(source);
+//    }
     
 }
