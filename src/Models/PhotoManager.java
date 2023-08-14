@@ -37,10 +37,17 @@ public final class PhotoManager {
     
     public Image getImageIfExistFromMatricula(String matricula){
         String path = getUrl() + File.separator + matricula + ".png";
+        String pathJPG = getUrl() + File.separator + matricula + ".jpg";
         System.out.println(path);
         if (FileManager.checkIfExistImage(path)){
             System.out.println("SI EXISTE");
             File f = new File(path);
+            Image img = new Image(f.toURI().toString());
+            System.out.println("SI LA CARGO");
+            return img;
+        }else if (FileManager.checkIfExistImage(pathJPG)){
+            System.out.println("SI EXISTE");
+            File f = new File(pathJPG);
             Image img = new Image(f.toURI().toString());
             System.out.println("SI LA CARGO");
             return img;

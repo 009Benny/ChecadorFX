@@ -144,13 +144,13 @@ public class AttendanceviewController implements Initializable {
                     int count = db.getCountOf(registros.getTableName());
                     RegistrosClass last =  RegistrosClass.getLastRegistroBy(matricula);
                     boolean status = (last != null) ? !last.isSalida() : false;
-                    if (last.isSalida() || horario.isOnValidTime(now)){
+                    if (status || horario.isOnValidTime(now)){
                         // CREAR REGISTRO
                         String today = DateExtension.getStringDate(now, "dd/MM/YYYY HH:mm:ss");
                         RegistrosClass registro = new RegistrosClass(count + 1, today, status, matricula);
                         db.createItem(registros.getTableName(), registro.getInsertHeader() , registro.getValuesQuery());
                         loadData();
-                        String mensaje = status ? "entrada": "salida";
+                        String mensaje = !status ? "entrada": "salida";
                         showMessage("Se registro la "+mensaje+" correctamente");
                     }else {
                         // TODO: ALERT OF HOW MANY TIME
