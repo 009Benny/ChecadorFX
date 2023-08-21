@@ -3,11 +3,20 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Benny/Desktop/Developer/ChecadorEntrada/src/Configuration/DataBaseConfiguration.java</file>
-            <file>file:/C:/Users/Benny/Desktop/Developer/ChecadorEntrada/src/DataBase/RequestConfiguration/DataBaseConfigurationViewController.java</file>
-            <file>file:/C:/Users/Benny/Desktop/Developer/ChecadorEntrada/src/checadorentrada/ChecadorEntrada.java</file>
-            <file>file:/C:/Users/Benny/Desktop/Developer/ChecadorEntrada/src/Modules/MainMenu/MainMenuController.java</file>
-            <file>file:/C:/Users/Benny/Desktop/Developer/ChecadorEntrada/src/Modules/MainMenu/MainMenu.fxml</file>
+            <file>file:/C:/Users/Benny/Desktop/Developer/ChecadorFX/src/Modules/Admin/AdminManagerController.java</file>
+            <file>file:/C:/Users/Benny/Desktop/Developer/ChecadorFX/src/Modules/BackupAdmin/UsuariosviewController.java</file>
+            <file>file:/C:/Users/Benny/Desktop/Developer/ChecadorFX/src/Modules/Admin/adminmanager.css</file>
+            <file>file:/C:/Users/Benny/Desktop/Developer/ChecadorFX/src/Modules/BackupAdmin/AdminGenericController.java</file>
+            <file>file:/C:/Users/Benny/Desktop/Developer/ChecadorFX/src/Modules/Admin/Configuration/adminconfiguration.css</file>
+            <file>file:/C:/Users/Benny/Desktop/Developer/ChecadorFX/src/Modules/Admin/TabItemInterface.java</file>
+            <file>file:/C:/Users/Benny/Desktop/Developer/ChecadorFX/src/Modules/Admin/AdminManager.fxml</file>
+            <file>file:/C:/Users/Benny/Desktop/Developer/ChecadorFX/src/Modules/Admin/Configuration/AdminConfigurationController.java</file>
+            <file>file:/C:/Users/Benny/Desktop/Developer/ChecadorFX/src/Modules/BackupAdmin/adminview.css</file>
+            <file>file:/C:/Users/Benny/Desktop/Developer/ChecadorFX/src/checadorentrada/ChecadorEntrada.java</file>
+            <file>file:/C:/Users/Benny/Desktop/Developer/ChecadorFX/src/Modules/Admin/Configuration/AdminConfiguration.fxml</file>
+            <file>file:/C:/Users/Benny/Desktop/Developer/ChecadorFX/src/Modules/MainMenu/mainmenu.css</file>
+            <file>file:/C:/Users/Benny/Desktop/Developer/ChecadorFX/src/Modules/BackupAdmin/ReportesviewController.java</file>
+            <file>file:/C:/Users/Benny/Desktop/Developer/ChecadorFX/src/Modules/BackupAdmin/AdminviewController.java</file>
         </group>
     </open-files>
 </project-private>
