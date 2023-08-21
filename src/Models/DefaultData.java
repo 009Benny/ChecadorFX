@@ -4,6 +4,7 @@
  */
 package Models;
 
+import Configuration.DataBaseConfiguration;
 import DataBase.DataBaseManager;
 import DataBase.Tables.*;
 import java.io.IOException;
@@ -18,16 +19,13 @@ import java.util.logging.Logger;
  * @author bennyreyes
  */
 public class DefaultData {
-    DataBaseManager manager;
+    DataBaseManager manager = new DataBaseManager();
+    DataBaseConfiguration dbConfiguration= DataBaseConfiguration.getInstance();
     Boolean debug = TRUE;
-    
-    public DefaultData(){
-        manager = new DataBaseManager();
-    }
     
     public void checkAll(){
         try{
-            DataBaseManager.createDataBaseIfDoesntExist();
+            manager.createDataBaseIfDoesntExist();
             checkTables();
             checkInstances();
         }catch (Exception e){
@@ -71,7 +69,7 @@ public class DefaultData {
         if (count == 0) {
             try {
                 ArrayList<String> array = FileManager.getData("src/Data/Facultades.txt");
-                String query = "INSERT INTO `" + DataBaseManager.getDataBaseName() + "`.`" + facultades.getTableName() + "` " + facultades.getHeadersQuery() + " VALUES";
+                String query = "INSERT INTO `" + dbConfiguration.getName() + "`.`" + facultades.getTableName() + "` " + facultades.getHeadersQuery() + " VALUES";
                 int identifier = 1;
                 for(String line : array){
                     String[] split = line.split(",");
@@ -97,7 +95,7 @@ public class DefaultData {
         if (count == 0) {
             try {
                 ArrayList<String> array = FileManager.getData("src/Data/Carreras.txt");
-                String query = "INSERT INTO `" + DataBaseManager.getDataBaseName() + "`.`" + carreras.getTableName() + "` " + carreras.getHeadersQuery() + " VALUES";
+                String query = "INSERT INTO `" + dbConfiguration.getName() + "`.`" + carreras.getTableName() + "` " + carreras.getHeadersQuery() + " VALUES";
                 int identifier = 1;
                 for(String carrera : array){
                     query += " ("+ identifier +", '"+ carrera +"')";
@@ -118,7 +116,7 @@ public class DefaultData {
         if (count == 0) {
             try {
                 ArrayList<String> array = FileManager.getData("src/Data/Niveles.txt");
-                String query = "INSERT INTO `" + DataBaseManager.getDataBaseName() + "`.`" + niveles.getTableName() + "` " + niveles.getHeadersQuery() + " VALUES";
+                String query = "INSERT INTO `" + dbConfiguration.getName() + "`.`" + niveles.getTableName() + "` " + niveles.getHeadersQuery() + " VALUES";
                 int identifier = 1;
                 for(String nivel : array){
                     query += " ("+ identifier +", '"+ nivel +"')";
@@ -139,7 +137,7 @@ public class DefaultData {
         if (count == 0) {
             try {
                 ArrayList<String> array = FileManager.getData("src/Data/Servicios.txt");
-                String query = "INSERT INTO `" + DataBaseManager.getDataBaseName() + "`.`" + servicios.getTableName() + "` " + servicios.getHeadersQuery() + " VALUES";
+                String query = "INSERT INTO `" + dbConfiguration.getName() + "`.`" + servicios.getTableName() + "` " + servicios.getHeadersQuery() + " VALUES";
                 int identifier = 1;
                 for(String nivel : array){
                     query += " ("+ identifier +", '"+ nivel +"')";
@@ -160,7 +158,7 @@ public class DefaultData {
         if (count == 0) {
             try {
                 ArrayList<String> array = FileManager.getData("src/Data/Usuarios.txt");
-                String query = "INSERT INTO `" + DataBaseManager.getDataBaseName() + "`.`" + usuarios.getTableName() + "` " + usuarios.getHeadersQuery() + " VALUES";
+                String query = "INSERT INTO `" + dbConfiguration.getName() + "`.`" + usuarios.getTableName() + "` " + usuarios.getHeadersQuery() + " VALUES";
                 int i = 1;
                 for(String usuario : array){
                     
@@ -184,7 +182,7 @@ public class DefaultData {
         if (count == 0) {
             try {
                 ArrayList<String> array = FileManager.getData("src/Data/Horarios.txt");
-                String query = "INSERT INTO `" + DataBaseManager.getDataBaseName() + "`.`" + horarios.getTableName() + "` " + horarios.getHeadersQuery() + " VALUES";
+                String query = "INSERT INTO `" + dbConfiguration.getName() + "`.`" + horarios.getTableName() + "` " + horarios.getHeadersQuery() + " VALUES";
                 int i = 1;
                 for(String horario : array){
                     String[] split = horario.split("\\s+");
@@ -209,7 +207,7 @@ public class DefaultData {
             if (count == 0) {
                 try {
                     ArrayList<String> array = FileManager.getData("src/Data/Personas.txt");
-                    String query = "INSERT INTO `" + DataBaseManager.getDataBaseName() + "`.`" + personas.getTableName() + "` " + personas.getHeadersQuery() + " VALUES";
+                    String query = "INSERT INTO `" + dbConfiguration.getName() + "`.`" + personas.getTableName() + "` " + personas.getHeadersQuery() + " VALUES";
                     int i = 1;
                     for(String persona : array){
                         String[] split = persona.split(",");

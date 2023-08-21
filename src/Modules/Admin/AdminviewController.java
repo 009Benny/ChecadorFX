@@ -7,7 +7,7 @@ package Modules.Admin;
 import DataBase.Models.HorariosClass;
 import DataBase.Models.PersonasClass;
 import DataBase.Models.UsuariosClass;
-import checadorfx.ChecadorFX;
+import checadorentrada.ChecadorEntrada;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -119,7 +119,7 @@ public class AdminviewController implements Initializable {
     
     @FXML
     private void didTapBackButton() throws IOException {
-       ChecadorFX.showMenu();
+       ChecadorEntrada.showMenu();
     } 
     
     private void configureSubControllers(){

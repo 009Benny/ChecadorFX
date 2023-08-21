@@ -67,10 +67,4 @@ public class DateExtension extends Date {
         System.out.println("Now time zone: " + TimeZone.getDefault());
     }
     
-//    public static Date getNowWithTimeZone(){
-////        SimpleDateFormat isoFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-////        isoFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-////        Date date = isoFormat.parse(source);
-//    }
-    
 }

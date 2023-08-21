@@ -1,0 +1,23 @@
+/*
+ * Empty Stylesheet file.
+ */
+
+.mainFxmlClass {
+    -fx-background-color: #a9a9a9;
+}
+
+.topBar{
+    -fx-background-color: #3D3D3D;
+}
+
+.box{
+    -fx-padding: 15px;
+    -fx-background-color: #D6DBDF;
+    -fx-border-radius: 10px;
+}
+.user-image{
+    border-radius: 15px;
+    border-width: 1px;
+    border-color: #000000;
+    border-collapse: true;
+}

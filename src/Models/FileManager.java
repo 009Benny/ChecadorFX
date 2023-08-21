@@ -5,9 +5,7 @@
 package Models;
 
 import DataBase.DataBaseManager;
-import DataBase.Models.FacultadesClass;
 import DataBase.Models.PersonasClass;
-import DataBase.Tables.FacultadesTable;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;

@@ -4,7 +4,7 @@
  */
 package Modules.MainMenu;
 
-import checadorfx.ChecadorFX;
+import checadorentrada.ChecadorEntrada;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -16,8 +16,8 @@ import javafx.fxml.Initializable;
  *
  * @author Benny
  */
-public class MainmenuController implements Initializable {
-
+public class MainMenuController implements Initializable {
+    public static String VIEW = "MainMenu.fxml";
     /**
      * Initializes the controller class.
      */
@@ -29,13 +29,13 @@ public class MainmenuController implements Initializable {
     @FXML
     private void showAdmin() throws IOException {
        System.out.println("Se muestra ADMIN");
-       ChecadorFX.showAdminView();
+       ChecadorEntrada.showAdminView();
     }
     
     @FXML
     private void showRegisterTable() throws IOException {
        System.out.println("TableRegister");
-       ChecadorFX.showRegisterView();
+       ChecadorEntrada.showRegisterView();
     }
     
 }

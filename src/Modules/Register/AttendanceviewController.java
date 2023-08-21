@@ -12,7 +12,7 @@ import Extensions.StringExtension;
 import DataBase.DataBaseManager;
 import DataBase.Models.HorariosClass;
 import Models.PhotoManager;
-import checadorfx.ChecadorFX;
+import checadorentrada.ChecadorEntrada;
 import java.io.IOException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
@@ -189,7 +189,7 @@ public class AttendanceviewController implements Initializable {
     
     @FXML
     private void didTapBackButton() throws IOException {
-       ChecadorFX.showMenu();
+       ChecadorEntrada.showMenu();
     }    
     
     // This method will enable/disable the button to make a register

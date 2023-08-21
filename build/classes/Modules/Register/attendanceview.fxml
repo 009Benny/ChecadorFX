@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="600.0" prefWidth="800.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Modules.Register.AttendanceviewController">
+    <stylesheets>
+        <URL value="@attendanceview.css" />
+    </stylesheets>
+   <children>
+      <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <AnchorPane maxHeight="-Infinity" minHeight="-Infinity" prefHeight="60.0" styleClass="topBar">
+               <children>
+                  <Button layoutX="4.0" layoutY="18.0" mnemonicParsing="false" onAction="#didTapBackButton" text="&lt;" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="16.0" />
+                  <Label alignment="CENTER" text="Registro de entrada y salida" textFill="WHITE" AnchorPane.leftAnchor="60.0" AnchorPane.topAnchor="15.0">
+                     <font>
+                        <Font name="Arial Bold" size="26.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="labelTime" alignment="CENTER" layoutX="10.0" layoutY="10.0" text="00:00 AM" textFill="WHITE" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="15.0">
+                     <font>
+                        <Font name="Arial Bold" size="26.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
+            <HBox alignment="TOP_CENTER" maxHeight="100.0" maxWidth="650.0" minWidth="100.0" prefHeight="100.0" prefWidth="100.0" spacing="20.0">
+               <children>
+                  <VBox maxWidth="400.0" minWidth="350.0" prefWidth="400.0" styleClass="box">
+                     <children>
+                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="5.0" VBox.vgrow="ALWAYS">
+                           <children>
+                              <Label alignment="CENTER" text="Matricula:">
+                                 <font>
+                                    <Font name="Arial Bold" size="14.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="textFieldMatricula" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER" spacing="40.0">
+                           <children>
+                              <Button fx:id="btnRegister" mnemonicParsing="false" onAction="#didTapRegisterButton" text="Registrar" HBox.hgrow="ALWAYS">
+                                 <font>
+                                    <Font name="Arial" size="14.0" />
+                                 </font>
+                              </Button>
+                              <Button fx:id="btnDeny" mnemonicParsing="false" onAction="#didTapDenyButton" text="Denegar">
+                                 <font>
+                                    <Font name="Arial" size="14.0" />
+                                 </font>
+                              </Button>
+                              <Button fx:id="btnClear" mnemonicParsing="false" onAction="#didTapClearButton" text="Limpiar">
+                                 <font>
+                                    <Font name="Arial" size="14.0" />
+                                 </font>
+                              </Button>
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+                  <ImageView fitHeight="150.0" fitWidth="200.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" HBox.hgrow="NEVER">
+                     <image>
+                        <Image url="@../../Images/qr-example.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="imgPerson" fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" styleClass="user-image">
+                     <image>
+                        <Image url="@../../Images/user.png" />
+                     </image></ImageView>
+               </children>
+               <VBox.margin>
+                  <Insets bottom="10.0" top="10.0" />
+               </VBox.margin>
+            </HBox>
+            <TableView fx:id="tableContent" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+               <VBox.margin>
+                  <Insets bottom="10.0" left="20.0" right="20.0" />
+               </VBox.margin>
+            </TableView>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

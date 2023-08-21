@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="900.0" prefWidth="800.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="DataBase.RequestConfiguration.DataBaseConfigurationViewController">
+    <stylesheets>
+        <URL value="@databaseconfigurationview.css" />
+    </stylesheets>
+   <children>
+      <StackPane layoutX="451.0" layoutY="397.0" prefHeight="150.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <AnchorPane cacheShape="false" maxHeight="400.0" maxWidth="600.0" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" prefHeight="800.0" prefWidth="600.0" scaleShape="false" snapToPixel="false" styleClass="modal">
+               <children>
+                  <Label alignment="CENTER" prefWidth="400.0" text="Configuracion de Base de Datos" textFill="WHITE" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="20.0">
+                     <font>
+                        <Font name="Arial Bold" size="26.0" />
+                     </font>
+                  </Label>
+                  <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="80.0">
+                     <children>
+                        <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="300.0" spacing="40.0">
+                           <children>
+                              <ImageView fitHeight="250.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../Images/settings_dev.png" />
+                                 </image>
+                              </ImageView>
+                              <VBox>
+                                 <children>
+                                    <Label alignment="CENTER" contentDisplay="CENTER" text="NOMBRE" textFill="WHITE" VBox.vgrow="NEVER">
+                                       <font>
+                                          <Font name="System Bold" size="16.0" />
+                                       </font>
+                                    </Label>
+                                    <TextField fx:id="txtFieldName" text="checador_fime" />
+                                 </children>
+                              </VBox>
+                              <VBox>
+                                 <children>
+                                    <Label alignment="CENTER" contentDisplay="CENTER" text="USUARIO" textFill="WHITE" VBox.vgrow="NEVER">
+                                       <font>
+                                          <Font name="System Bold" size="16.0" />
+                                       </font>
+                                    </Label>
+                                    <TextField fx:id="txtFieldUser" text="root" />
+                                 </children>
+                              </VBox>
+                              <VBox>
+                                 <children>
+                                    <Label alignment="CENTER" contentDisplay="CENTER" text="CONTRASEÑA" textFill="WHITE" VBox.vgrow="NEVER">
+                                       <font>
+                                          <Font name="System Bold" size="16.0" />
+                                       </font>
+                                    </Label>
+                                    <TextField fx:id="txtFieldPassword" />
+                                 </children>
+                              </VBox>
+                              <Button fx:id="btnSave" alignment="CENTER" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#saveData" prefHeight="35.0" styleClass="btn" text="Guardar Datos" textAlignment="CENTER" textFill="WHITE">
+                                 <font>
+                                    <Font name="Arial" size="14.0" />
+                                 </font>
+                              </Button>
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+               </children>
+            </AnchorPane>
+         </children>
+      </StackPane>
+   </children>
+</AnchorPane>
