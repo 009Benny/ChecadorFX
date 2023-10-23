@@ -6,17 +6,18 @@ package Modules.Admin;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Tab;
+import javafx.scene.layout.Pane;
 
 /**
  *
  * @author Benny
  */
-public interface TabItemInterface {
-    String getTitleTab();
+public interface GenericTabPane {
+    String getTitle();
     String getViewName();
     
     default Tab getTab(){
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(getViewName() + ".fxml"));
-        return new Tab(getTitleTab(), fxmlLoader.getRoot());
+        return new Tab(getTitle(), fxmlLoader.getRoot());
     }
 }

@@ -14,6 +14,7 @@ import Extensions.DateExtension;
 import Extensions.StringExtension;
 import Managers.AlertManager;
 import Managers.FileManagerException;
+import Modules.Admin.AdminManagerController;
 import Modules.BackupAdmin.AdminviewController;
 import Modules.MainMenu.MainMenuController;
 import Modules.Register.AttendanceviewController;
@@ -113,7 +114,11 @@ public class ChecadorEntrada extends Application implements ServerDelegate {
     
     public static void showAdminView(){
         try{
-            FXMLLoader fxmlLoader = new FXMLLoader(AdminviewController.class.getResource("adminview.fxml"));
+            String oldAdmin = "adminview.fxml";
+            
+//            FXMLLoader fxmlLoader = new FXMLLoader(AdminviewController.class.getResource(oldAdmin));
+            String newAdmin = "AdminManager.fxml";
+            FXMLLoader fxmlLoader = new FXMLLoader(AdminManagerController.class.getResource(newAdmin));
             scene.setRoot(fxmlLoader.load());
         }catch(IOException e){
             System.out.println(e);
