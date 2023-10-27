@@ -17,8 +17,8 @@ import java.util.logging.Logger;
  */
 public class DataBaseManager {
     private String JDBC_URL = "jdbc:mysql://localhost:3306/";
-    String dbName = "checador_fime";
-    String dbUser = "root";
+    String dbName = "";
+    String dbUser = "";
     String dbPass = "";
     
     /**

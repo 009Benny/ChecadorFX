@@ -7,6 +7,7 @@ package Modules.Admin;
 import Models.PagesEnum;
 import Modules.Admin.Configuration.AdminConfigurationController;
 import Modules.Admin.Personas.AdminPersonasController;
+import Modules.Admin.Usuarios.AdminUsuariosController;
 import checadorentrada.ChecadorEntrada;
 import java.io.IOException;
 import java.net.URL;
@@ -40,6 +41,7 @@ public class AdminManagerController implements Initializable {
        // TODO REMOVE
        pages.add(PagesEnum.configuration);
        pages.add(PagesEnum.personas);
+       pages.add(PagesEnum.usuarios);
        loadPages();
     }
     
@@ -64,6 +66,8 @@ public class AdminManagerController implements Initializable {
                 case personas:
                     fxmlLoader = new FXMLLoader(AdminPersonasController.class.getResource("AdminPersonas.fxml"));
                     break;
+                case usuarios:
+                    fxmlLoader = new FXMLLoader(AdminUsuariosController.class.getResource("AdminUsuarios.fxml"));
             }
             tabPage.setContent(fxmlLoader.load());
         } catch(Exception e) {

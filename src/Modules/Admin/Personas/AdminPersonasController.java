@@ -35,11 +35,11 @@ import javafx.scene.control.cell.PropertyValueFactory;
 /**
  * FXML Controller class
  *
- * @author Benny
+ * @author bennyreyes
  */
 public class AdminPersonasController implements Initializable {
     @FXML
-    private TextField txtFieldSearchPersonas;
+    private TextField txtFieldSearch;
     @FXML
     private TableView<PersonasClass> tablePersonas;
     @FXML
@@ -47,54 +47,46 @@ public class AdminPersonasController implements Initializable {
     @FXML
     private TableView<PersonasClass> tableFailurePersonas;
     @FXML
-    private Button btnAddPersonas;
+    private Button btnAdd;
     @FXML
-    private Button btnDownloadPersonasFormat;
+    private Button btnDownloadFormat;
     @FXML
-    private Button btnDeletePersonas;
-      
+    private Button btnDelete;
     DataBaseManager db = new DataBaseManager();
-    TableView<PersonasClass> tableContent;
-    TableView<PersonasClass> tableSuccess;
-    TableView<PersonasClass> tableFailure;
     ObservableList<PersonasClass> personas = FXCollections.observableArrayList();
     ObservableList<PersonasClass> personasSuccess = FXCollections.observableArrayList();
     ObservableList<PersonasClass> personasFailure = FXCollections.observableArrayList();
     ObservableList<PersonasClass> personasSelected = FXCollections.observableArrayList();
-    TextField txtFieldSearch;
-    Button btnAdd;
-    Button btnDownloadFormat;
-    Button btnDelete;
-    
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        personasSelected = tableContent.getSelectionModel().getSelectedItems();
+        // TODO
+        System.out.println("Aqui");
+        personasSelected = tablePersonas.getSelectionModel().getSelectedItems();
         configViews();
         configListeners();
         loadData();
     }
     
-     // CONFIGURATION 
     private void configViews(){
         // TABLE
-        if (tableContent.getColumns().isEmpty()){
+        if (tablePersonas.getColumns().isEmpty()){
             String[] headers = {"Matricula", "Nombre", "Semestre", "Celular", "Fecha de nacimiento", "Email", "Facultad", "Carrera", "Servicio", "Horario"};
             String[] keys = {"id", "name", "semester", "phone", "birthDate", "email", "facultad", "carrera", "servicio", "horario"};
-            configColumnsToTable(tableContent, headers, keys);
+            configColumnsToTable(tablePersonas, headers, keys);
         }
-        if (tableSuccess.getColumns().isEmpty()){
+        if (tableCorrectPersonas.getColumns().isEmpty()){
             String[] headers = {"Persona ID", "Nombre"};
             String[] keys = {"id", "name"};
-            configColumnsToTable(tableSuccess, headers, keys);
+            configColumnsToTable(tableCorrectPersonas, headers, keys);
         }
-        if (tableFailure.getColumns().isEmpty()){
+        if (tableFailurePersonas.getColumns().isEmpty()){
             String[] headers = {"Linea"};
             String[] keys = {"lineFailure"};
-            configColumnsToTable(tableFailure, headers, keys);
-            tableFailure.autosize();
+            configColumnsToTable(tableFailurePersonas, headers, keys);
+            tableFailurePersonas.autosize();
         }
          btnDelete.setDisable(true);
     }
@@ -171,8 +163,8 @@ public class AdminPersonasController implements Initializable {
                 personasSuccess.remove(persona);
                 personasFailure.add(persona);
             }       
-            tableSuccess.setItems(personasSuccess);
-            tableFailure.setItems(personasFailure);
+            tableCorrectPersonas.setItems(personasSuccess);
+            tableFailurePersonas.setItems(personasFailure);
         }
         
         if(personasSuccess.size() > 0 ){
@@ -215,7 +207,7 @@ public class AdminPersonasController implements Initializable {
                 for(HashMap<String, Object> map:data){
                     personas.add(new PersonasClass(map, false));
                 }
-                tableContent.setItems(personas);
+                tablePersonas.setItems(personas);
             }else{
                 System.out.println("LOAD DATA SEARCH: NO REGRESA INFO");
             }
@@ -232,7 +224,7 @@ public class AdminPersonasController implements Initializable {
             for(HashMap<String, Object> map:data){
                 personas.add(new PersonasClass(map, false));
             }
-            tableContent.setItems(personas);
+            tablePersonas.setItems(personas);
         }else{
             System.out.println("LOAD DATA: NO REGRESA INFO");
         }

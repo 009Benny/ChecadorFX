@@ -5,7 +5,7 @@
 package Configuration;
 
 import DataBase.DataBaseManager;
-import DataBase.RequestConfiguration.DataBaseException;
+import Modules.RequestConfiguration.DataBaseException;
 import Extensions.DateExtension;
 import Managers.FileManager;
 import Managers.FileManagerException;
@@ -78,7 +78,7 @@ public class DataBaseConfiguration {
         String path = getConfigurationPath();
         if (!name.isBlank() && !user.isBlank()){
             DataBaseManager manager = new DataBaseManager();
-            if (manager.isValidConnection(user, pass)){
+            if (manager.isValidConnection(user, password)){
                 ArrayList<String> data = new ArrayList<>(Arrays.asList(name, user, password));
                 FileManager.writeArrayListToFile(data, path, true);
                 this.name = name;

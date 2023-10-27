@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
  */
-package DataBase.RequestConfiguration;
+package Modules.RequestConfiguration;
 
 import Configuration.DataBaseConfiguration;
 import Managers.AlertManager;
@@ -54,6 +54,8 @@ public class DataBaseConfigurationViewController implements Initializable {
         String name = txtFieldName.getText();
         String user = txtFieldUser.getText();
         String password = txtFieldPassword.getText();
+        System.out.println("DataBaseConfigurationViewController || este");
+        System.out.println("Password: " + password);
         
         DataBaseConfiguration configuration = DataBaseConfiguration.getInstance();
         try {
