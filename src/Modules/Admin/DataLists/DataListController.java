@@ -12,7 +12,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -65,13 +64,13 @@ public class DataListController implements Initializable {
             c.setCellValueFactory(new PropertyValueFactory(keys[i]));
             columns[i] =  c;
         }
-        table.getColumns().addAll(columns);
+        //table.getColumns().addAll(columns);
     }
     
     private void configListeners(){
-         btnAdd.setOnAction((Event event) -> {
-             addElement();
-         });
+        //btnAdd.setOnAction((Event event) -> {
+        //    addElement();
+        //});
 
         txtFieldAdd.setOnKeyReleased((Event event) -> {
             didTextFieldSearchChange();
@@ -79,9 +78,9 @@ public class DataListController implements Initializable {
         itemsSelected.addListener((ListChangeListener.Change<? extends DataListProtocol> c) -> {
             btnDelete.setDisable(!!c.getList().isEmpty());
         });
-        btnDelete.setOnAction((Event event) -> {
-            deleteElementSelected();
-         });
+        //btnDelete.setOnAction((Event event) -> {
+        //    deleteElementSelected();
+        //});
     }
     
     private void addElement(){

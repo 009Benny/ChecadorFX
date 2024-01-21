@@ -100,7 +100,7 @@ public class AdminPersonasController implements Initializable {
             c.setCellValueFactory(new PropertyValueFactory(keys[i]));
             columns[i] =  c;
         }
-        table.getColumns().addAll(columns);
+        //table.getColumns().addAll(columns);
     }
     
     // BUTTON ACTIONS
