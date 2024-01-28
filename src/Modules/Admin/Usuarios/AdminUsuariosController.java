@@ -4,7 +4,7 @@
  */
 package Modules.Admin.Usuarios;
 
-import DataBase.DataBaseManager;
+import Managers.DataBaseManager;
 import DataBase.Models.UsuariosClass;
 import java.net.URL;
 import java.util.HashMap;

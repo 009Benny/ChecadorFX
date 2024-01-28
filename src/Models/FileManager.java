@@ -4,7 +4,7 @@
  */
 package Models;
 
-import DataBase.DataBaseManager;
+import Managers.DataBaseManager;
 import DataBase.Models.PersonasClass;
 import java.io.BufferedReader;
 import java.io.File;

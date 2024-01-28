@@ -4,7 +4,7 @@
  */
 package DataBase.Models;
 
-import DataBase.DataBaseManager;
+import Managers.DataBaseManager;
 import DataBase.Tables.HorariosTable;
 import DataBase.Tables.TableProtocol;
 import Extensions.DateExtension;

@@ -4,11 +4,12 @@
  */
 package Models;
 
-import Configuration.DataBaseConfiguration;
-import DataBase.DataBaseManager;
+import DataBase.Configuration.DataBaseConfiguration;
+import Managers.DataBaseManager;
 import DataBase.Tables.*;
 import java.io.IOException;
 import static java.lang.Boolean.*;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -28,8 +29,9 @@ public class DefaultData {
             manager.createDataBaseIfDoesntExist();
             checkTables();
             checkInstances();
-        }catch (Exception e){
-               System.out.print(e);
+        }catch (SQLException e){
+            System.out.println("DefaultData || Error al crear datos default");
+            System.out.print(e);
         }
     }
     

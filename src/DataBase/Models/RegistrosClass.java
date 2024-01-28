@@ -8,7 +8,7 @@ import DataBase.Tables.PersonasTable;
 import DataBase.Tables.RegistrosTable;
 import DataBase.Tables.TableProtocol;
 import Extensions.DateExtension;
-import DataBase.DataBaseManager;
+import Managers.DataBaseManager;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;

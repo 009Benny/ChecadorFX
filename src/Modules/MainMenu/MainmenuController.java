@@ -4,6 +4,8 @@
  */
 package Modules.MainMenu;
 
+import Managers.DataBaseManager;
+import Modules.Base.BaseController;
 import checadorentrada.ChecadorEntrada;
 import java.io.IOException;
 import java.net.URL;
@@ -11,7 +13,6 @@ import java.util.ResourceBundle;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 
@@ -20,7 +21,7 @@ import javafx.scene.control.TextField;
  *
  * @author Benny
  */
-public class MainMenuController implements Initializable {
+public class MainMenuController extends BaseController {
     public static String VIEW = "MainMenu.fxml";
     
     @FXML
@@ -39,6 +40,17 @@ public class MainMenuController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         configListeners();
         didTextFieldSearchChange();
+        comprobeConnection();
+    }
+    
+    private void comprobeConnection(){
+        DataBaseManager manager = new DataBaseManager();
+        if (!manager.isConnected()){
+            //showAlertMessage("No esta conectado a la base de datos");
+            createAlertMessage("No esta conectado a la base de datos. El programa se cerrará");
+        }else{
+            System.out.println("MainMenuController || Conexion comprobada");
+        }
     }
     
     private void configListeners(){
@@ -65,14 +77,16 @@ public class MainMenuController implements Initializable {
     
     @FXML
     private void showAdmin() throws IOException {
-       System.out.println("Se muestra ADMIN");
        ChecadorEntrada.showAdminView();
     }
     
     @FXML
     private void showRegisterTable() throws IOException {
-       System.out.println("TableRegister");
        ChecadorEntrada.showRegisterView();
+    }
+
+    private void claseAlertMessage() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
 }

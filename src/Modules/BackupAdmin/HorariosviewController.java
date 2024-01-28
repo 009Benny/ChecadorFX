@@ -6,7 +6,7 @@ package Modules.BackupAdmin;
 
 import DataBase.Models.HorariosClass;
 import DataBase.Tables.HorariosTable;
-import DataBase.DataBaseManager;
+import Managers.DataBaseManager;
 import Models.DayEnum;
 import java.util.HashMap;
 import java.util.List;

@@ -4,7 +4,7 @@
  */
 package DataBase.Tables;
 
-import DataBase.DataBaseManager;
+import Managers.DataBaseManager;
 
 /**
  *

@@ -9,7 +9,7 @@ import DataBase.Models.RegistrosClass;
 import DataBase.Tables.RegistrosTable;
 import Extensions.DateExtension;
 import Extensions.StringExtension;
-import DataBase.DataBaseManager;
+import Managers.DataBaseManager;
 import DataBase.Models.HorariosClass;
 import Models.PhotoManager;
 import checadorentrada.ChecadorEntrada;

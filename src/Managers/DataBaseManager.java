@@ -1,6 +1,6 @@
-package DataBase;
+package Managers;
 
-import Configuration.DataBaseConfiguration;
+import DataBase.Configuration.DataBaseConfiguration;
 import DataBase.Models.FacultadesClass;
 import DataBase.Tables.FacultadesTable;
 import Models.DefaultData;
@@ -40,6 +40,18 @@ public class DataBaseManager {
         } catch (SQLException e) {
             return false;
         }
+    }
+    
+    public boolean isConnected(){
+        boolean isConnected = false;
+        try {
+            Connection connection = DriverManager.getConnection(JDBC_URL, dbUser, dbPass);
+            connection.close();
+            isConnected = true;
+        } catch (SQLException e) {
+            isConnected = false;
+        }
+        return isConnected;
     }
     
     /**

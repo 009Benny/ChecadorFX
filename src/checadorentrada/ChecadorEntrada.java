@@ -4,8 +4,8 @@
  */
 package checadorentrada;
 
-import Configuration.DataBaseConfiguration;
-import DataBase.DataBaseManager;
+import DataBase.Configuration.DataBaseConfiguration;
+import Managers.DataBaseManager;
 import DataBase.Models.PersonasClass;
 import DataBase.Models.RegistrosClass;
 import Modules.RequestConfiguration.DataBaseConfigurationViewController;
@@ -45,6 +45,7 @@ public class ChecadorEntrada extends Application implements ServerDelegate {
         DataBaseConfiguration config = DataBaseConfiguration.getInstance();
         try{
             if (config.isValid()){
+                config.loadData();
                 fxmlLoader = new FXMLLoader(MainMenuController.class.getResource(MainMenuController.VIEW));
             }else{
                 fxmlLoader = new FXMLLoader(DataBaseConfigurationViewController.class.getResource(DataBaseConfigurationViewController.VIEW));

@@ -4,7 +4,7 @@
  */
 package Modules.Admin.Personas;
 
-import DataBase.DataBaseManager;
+import Managers.DataBaseManager;
 import DataBase.Models.PersonasClass;
 import DataBase.Tables.PersonasTable;
 import Models.FileManager;

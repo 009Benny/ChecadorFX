@@ -4,7 +4,7 @@
  */
 package Modules.RequestConfiguration;
 
-import Configuration.DataBaseConfiguration;
+import DataBase.Configuration.DataBaseConfiguration;
 import Managers.AlertManager;
 import Managers.FileManagerException;
 import checadorentrada.ChecadorEntrada;

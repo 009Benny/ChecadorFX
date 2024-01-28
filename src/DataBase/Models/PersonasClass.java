@@ -10,7 +10,7 @@ import DataBase.Tables.HorariosTable;
 import DataBase.Tables.PersonasTable;
 import DataBase.Tables.ServiciosTable;
 import DataBase.Tables.TableProtocol;
-import DataBase.DataBaseManager;
+import Managers.DataBaseManager;
 import Extensions.NumberUtils;
 import Extensions.StringExtension;
 import java.util.HashMap;

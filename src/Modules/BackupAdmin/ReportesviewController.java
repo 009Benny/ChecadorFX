@@ -4,7 +4,7 @@
  */
 package Modules.BackupAdmin;
 
-import DataBase.DataBaseManager;
+import Managers.DataBaseManager;
 import DataBase.Models.RegistrosClass;
 import Extensions.DateExtension;
 import Models.FileManager;

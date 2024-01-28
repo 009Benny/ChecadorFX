@@ -4,7 +4,7 @@
  */
 package Modules.Admin.DataLists;
 
-import DataBase.DataBaseManager;
+import Managers.DataBaseManager;
 import DataBase.DataListProtocol;
 import java.net.URL;
 import java.util.ResourceBundle;
