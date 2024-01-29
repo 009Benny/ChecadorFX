@@ -5,8 +5,12 @@
 package Modules.Admin;
 
 import Models.PagesEnum;
+import Modules.Admin.Carreras.CarrerasController;
 import Modules.Admin.Configuration.AdminConfigurationController;
+import Modules.Admin.Facultades.FacultadesController;
+import Modules.Admin.Niveles.AdminNivelesController;
 import Modules.Admin.Personas.AdminPersonasController;
+import Modules.Admin.Servicios.ServiciosController;
 import Modules.Admin.Usuarios.AdminUsuariosController;
 import checadorentrada.ChecadorEntrada;
 import java.io.IOException;
@@ -39,9 +43,14 @@ public class AdminManagerController implements Initializable {
        pages = new ArrayList<PagesEnum>();
        
        // TODO REMOVE
-       pages.add(PagesEnum.configuration);
+       
        pages.add(PagesEnum.personas);
+       pages.add(PagesEnum.carreras);
+       pages.add(PagesEnum.facultades);
+       pages.add(PagesEnum.servicios);
        pages.add(PagesEnum.usuarios);
+       pages.add(PagesEnum.niveles);
+       pages.add(PagesEnum.configuration);
        loadPages();
     }
     
@@ -68,6 +77,19 @@ public class AdminManagerController implements Initializable {
                     break;
                 case usuarios:
                     fxmlLoader = new FXMLLoader(AdminUsuariosController.class.getResource("AdminUsuarios.fxml"));
+                    break;
+                case niveles:
+                    fxmlLoader = new FXMLLoader(AdminNivelesController.class.getResource("AdminNiveles.fxml"));
+                    break;
+                case carreras:
+                    fxmlLoader = new FXMLLoader(CarrerasController.class.getResource("Carreras.fxml"));
+                    break;
+                case facultades:
+                    fxmlLoader = new FXMLLoader(FacultadesController.class.getResource("Facultades.fxml"));
+                    break;
+                case servicios:
+                    fxmlLoader = new FXMLLoader(ServiciosController.class.getResource("Servicios.fxml"));
+                    break;
             }
             tabPage.setContent(fxmlLoader.load());
         } catch(Exception e) {

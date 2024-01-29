@@ -13,7 +13,12 @@ import Modules.Admin.Configuration.AdminConfigurationController;
 public enum PagesEnum {
     configuration("Configuracion", "AdminConfiguration.fxml"),
     usuarios("Usuarios", "AdminUsuarios.fxml"),
-    personas("Personas", "AdminPersonas.fxml");
+    personas("Personas", "AdminPersonas.fxml"),
+    niveles("Niveles", "AdminNiveles.fxml"),
+    carreras("Carreras", "Carreras.fxml"),
+    facultades("Facultades", "Facultades.fxml"),
+    servicios("Servicios", "Servicios.fxml");
+    
     private String title;
     private String fmxlName;
     

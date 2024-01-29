@@ -12,7 +12,7 @@ import java.util.HashMap;
  *
  * @author Benny
  */
-public final class NivelesClass implements ModelClassProtocol {
+public final class NivelesClass implements ModelClassProtocol, ItemListClassProtocol {
     int id = 0;
     String keyId = "idNiveles";
     String name = "";
@@ -55,5 +55,8 @@ public final class NivelesClass implements ModelClassProtocol {
     public String getName() {
         return name;
     }
-    
+
+    public int getId() {
+        return id;
+    }
 }

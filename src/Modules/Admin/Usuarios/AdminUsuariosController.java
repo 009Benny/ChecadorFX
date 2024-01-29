@@ -7,7 +7,6 @@ package Modules.Admin.Usuarios;
 import DataBase.Models.NivelesClass;
 import Managers.DataBaseManager;
 import DataBase.Models.UsuariosClass;
-import DataBase.Tables.NivelesTable;
 import DataBase.Tables.UsuariosTable;
 import java.awt.GridLayout;
 import java.net.URL;
