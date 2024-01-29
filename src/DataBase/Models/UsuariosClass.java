@@ -26,6 +26,14 @@ public class UsuariosClass implements ModelClassProtocol {
 
     public UsuariosClass(){}
     
+    public UsuariosClass(int id,String name, String password, NivelesClass nivel){
+        this.id = id;
+        this.name = name;
+        this.password = password;
+        this.idNivel = nivel.id;
+        this.nivel = nivel.name;
+    }
+    
     public UsuariosClass(HashMap<String, Object> map){
         this.id = (int) map.getOrDefault(getTable().getIdKey(), 0);
         this.name = (String) map.getOrDefault(keyName, "");
@@ -49,6 +57,17 @@ public class UsuariosClass implements ModelClassProtocol {
     }
     
     @Override
+    public String getInsertHeader(){
+        String header = "(`" + getTable().getIdKey() + "`,"
+                + " `" + getNameKey() + "`,"
+                + " `" + getKeyPassword() + "`,"
+                + " `" + getKeyIdNivel() + "`)";
+        return header;
+    }
+    
+    //(`idUsuarios`, `name`, `password`, `id_Nivel`)
+    
+    @Override
     public String getIdentifierKey() {
         return this.keyId;
     }
@@ -65,7 +84,7 @@ public class UsuariosClass implements ModelClassProtocol {
 
     @Override
     public String getValuesQuery() {
-        return "(`" + id + "`, `" + name + "`)";
+        return "(" + id + ", '" + name + "', '" + password + "', " + idNivel + ")";
     }
 
     // GETTERS && SETTERS
@@ -90,4 +109,7 @@ public class UsuariosClass implements ModelClassProtocol {
         return keyIdNivel;
     }
 
+    public String getNivel() {
+        return nivel;
+    }
 }

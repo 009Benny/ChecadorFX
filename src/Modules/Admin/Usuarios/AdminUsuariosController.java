@@ -4,10 +4,14 @@
  */
 package Modules.Admin.Usuarios;
 
+import DataBase.Models.NivelesClass;
 import Managers.DataBaseManager;
 import DataBase.Models.UsuariosClass;
+import DataBase.Tables.NivelesTable;
 import DataBase.Tables.UsuariosTable;
+import java.awt.GridLayout;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -23,6 +27,12 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
 
 /**
  * FXML Controller class
@@ -39,8 +49,6 @@ public class AdminUsuariosController implements Initializable {
     private TableView<UsuariosClass> tableContent;
     @FXML
     private Button btnAdd;
-    @FXML
-    private Button btnEditUser;
     @FXML
     private Button btnDelete;
     DataBaseManager db = new DataBaseManager();
@@ -69,7 +77,7 @@ public class AdminUsuariosController implements Initializable {
     // VIEW ALTERATION
     private void addColumns(){
         String[] headers = {"ID USUARIO", "Nombre", "NIVEL"};
-        String[] keys = {"idUsuario", "nombre", "idNivel"};
+        String[] keys = {"idUsuario", "nombre", "nivel"};
 
         TableColumn[] columns = new TableColumn[headers.length];
         for(int i=0;i<headers.length;i++){
@@ -90,12 +98,6 @@ public class AdminUsuariosController implements Initializable {
                 addElement();
             }
         });
-        btnEditUser.setOnAction(new EventHandler(){
-            @Override
-            public void handle(Event event) {
-                editElement();
-            }
-        });
         btnDelete.setOnAction(new EventHandler(){
             @Override
             public void handle(Event event) {
@@ -113,8 +115,6 @@ public class AdminUsuariosController implements Initializable {
     // LOAD DATA
     private void loadData(){
         List<HashMap<String, Object>> data = db.getDataWithQuery(UsuariosClass.getQuerytoAllItems());
-        System.out.println("Data size: " + data.size());
-        System.out.println(data);
         if (!data.isEmpty()){
             usuarios.clear();
             for(HashMap<String, Object> map:data){
@@ -153,11 +153,39 @@ public class AdminUsuariosController implements Initializable {
     }
     
     private void addElement(){
-    
+        JPanel panel = new JPanel(new GridLayout(4, 2));
+        JTextField nameField = new JTextField();
+        JPasswordField passwordField = new JPasswordField();
+
+        // PENDIENTE DE OPTIMIZAR
+        List<NivelesClass> niveles = getNivelesOptions();
+        JComboBox<String> nivelOptionsBox = new JComboBox<>(getNames(niveles));
+
+        // Building Form
+        panel.add(new JLabel("Nombre:"));
+        panel.add(nameField);
+        panel.add(new JLabel("Contraseña:"));
+        panel.add(passwordField);
+        panel.add(new JLabel("Seleccionar nivel:"));
+        panel.add(nivelOptionsBox);
+        
+        int result = JOptionPane.showConfirmDialog(null, panel, "Agregar Usuario", JOptionPane.OK_CANCEL_OPTION);
+        if (result == JOptionPane.OK_OPTION) {
+            String name = nameField.getText();
+            String password =  new String(passwordField.getPassword());
+            int index = nivelOptionsBox.getSelectedIndex();
+            NivelesClass itemSelected = niveles.get(index);
+            UsuariosTable table = new UsuariosTable();
+            int count = db.getCountOf(table.getTableName());
+            UsuariosClass newUser = new UsuariosClass(count + 1, name, password, itemSelected);
+            saveNewElement(newUser);
+            loadData();
+        }
     }
     
-    private void editElement(){
-    
+    private void saveNewElement(UsuariosClass usuario){
+        UsuariosTable table = new UsuariosTable();
+        db.createItem(table.getTableName(), usuario.getInsertHeader(), usuario.getValuesQuery());
     }
     
     private void deleteElementSelected(){
@@ -167,5 +195,27 @@ public class AdminUsuariosController implements Initializable {
             db.deleteItem(usuariosTable.getTableName(), usuario.getIdentifierKey() + " = " + usuario.getIdUsuario());
             loadData();
         }
+    }
+    
+    // AUXILIAR METHODS
+    private static String[] getNames(List<NivelesClass> list) {
+        String[] namesArray = new String[list.size()];
+        for (int i = 0; i < list.size(); i++) {
+            namesArray[i] = list.get(i).getName();
+        }
+        return namesArray;
+    }
+    
+    private List<NivelesClass> getNivelesOptions(){
+        List<NivelesClass> niveles = new ArrayList<>();
+        List<HashMap<String, Object>> data = db.getDataWithQuery(NivelesClass.getQuerytoAllItems());
+        if (!data.isEmpty()){
+           for(HashMap<String, Object> map:data){
+               niveles.add(new NivelesClass(map));
+           }
+        }else{
+            System.out.println("AdminUsuariosController || Niveles vacio");
+        }
+        return niveles;
     }
 }

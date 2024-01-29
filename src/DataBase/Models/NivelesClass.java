@@ -6,17 +6,32 @@ package DataBase.Models;
 
 import DataBase.Tables.NivelesTable;
 import DataBase.Tables.TableProtocol;
+import java.util.HashMap;
 
 /**
  *
  * @author Benny
  */
-public class NivelesClass implements ModelClassProtocol {
+public final class NivelesClass implements ModelClassProtocol {
     int id = 0;
     String keyId = "idNiveles";
     String name = "";
     String keyName = "name";
 
+    /**
+     *
+     * @param map
+     */
+    public NivelesClass(HashMap<String, Object> map){
+        this.id = (int) map.getOrDefault(getTable().getIdKey(), 0);
+        this.name = (String) map.getOrDefault(keyName, "");
+    }
+    
+    static public String getQuerytoAllItems(){
+        NivelesTable niveles = new NivelesTable();
+        return "SELECT * FROM `"+ niveles.getTableName() +"`";
+    }
+    
     @Override
     public String getIdentifierKey() {
         return this.keyId;
@@ -35,6 +50,10 @@ public class NivelesClass implements ModelClassProtocol {
     @Override
     public String getValuesQuery() {
         return "(`" + id + "`, `" + name + "`)";
+    }
+
+    public String getName() {
+        return name;
     }
     
 }
