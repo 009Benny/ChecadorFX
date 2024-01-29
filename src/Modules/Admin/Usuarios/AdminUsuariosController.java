@@ -6,12 +6,16 @@ package Modules.Admin.Usuarios;
 
 import Managers.DataBaseManager;
 import DataBase.Models.UsuariosClass;
+import DataBase.Tables.UsuariosTable;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -34,13 +38,9 @@ public class AdminUsuariosController implements Initializable {
     @FXML
     private TableView<UsuariosClass> tableContent;
     @FXML
-    private TableView<UsuariosClass> tableSuccess;
-    @FXML
-    private TableView<UsuariosClass> tableFailure;
-    @FXML
     private Button btnAdd;
     @FXML
-    private Button btnDownloadFormat;
+    private Button btnEditUser;
     @FXML
     private Button btnDelete;
     DataBaseManager db = new DataBaseManager();
@@ -49,12 +49,14 @@ public class AdminUsuariosController implements Initializable {
     
     /**
      * Initializes the controller class.
+     * @param url
+     * @param rb
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         configViews();
-        //configListeners();
-        //loadData();
+        configListeners();
+        loadData();
     }    
     
     private void configViews(){
@@ -79,6 +81,35 @@ public class AdminUsuariosController implements Initializable {
         tableContent.getColumns().addAll(columns);
     }
     
+     // BUTTON ACTIONS
+    private void configListeners(){
+        usuariosSelected = tableContent.getSelectionModel().getSelectedItems();
+        btnAdd.setOnAction(new EventHandler(){
+            @Override
+            public void handle(Event event) {
+                addElement();
+            }
+        });
+        btnEditUser.setOnAction(new EventHandler(){
+            @Override
+            public void handle(Event event) {
+                editElement();
+            }
+        });
+        btnDelete.setOnAction(new EventHandler(){
+            @Override
+            public void handle(Event event) {
+                deleteElementSelected();
+            }
+        });
+        txtFieldSearch.setOnKeyReleased((Event event) -> {
+            didTextFieldSearchChange(); 
+        });
+        usuariosSelected.addListener((ListChangeListener.Change<? extends UsuariosClass> c) -> {
+            btnDelete.setDisable(!(c.getList().size() >0));
+        });
+    }
+    
     // LOAD DATA
     private void loadData(){
         List<HashMap<String, Object>> data = db.getDataWithQuery(UsuariosClass.getQuerytoAllItems());
@@ -93,6 +124,48 @@ public class AdminUsuariosController implements Initializable {
             tableContent.setItems(usuarios);
         }else{
             System.out.println("ES NULL");
+        }
+    }
+    
+    // Interactiones
+    private void didTextFieldSearchChange(){
+        String search = txtFieldSearch.getText();
+        if(search.length() > 0){
+//            String query = "";
+//            if (search.matches("[0-9]+") && search.length() > 0) {
+//                query = UsuariosClass.getQuerytoAllItemsByMatricula("'" + search + "%'");
+//            } else {
+//                query = PersonasClass.getQuerytoAllItemsByText("'" + search + "%'");
+//            }
+//            List<HashMap<String, Object>> data = db.getDataWithQuery(query);
+//            if (!data.isEmpty()){
+//                personas.clear();
+//                for(HashMap<String, Object> map:data){
+//                    personas.add(new PersonasClass(map, false));
+//                }
+//                tablePersonas.setItems(personas);
+//            }else{
+//                System.out.println("LOAD DATA SEARCH: NO REGRESA INFO");
+//            }
+        } else {
+            loadData();
+        }
+    }
+    
+    private void addElement(){
+    
+    }
+    
+    private void editElement(){
+    
+    }
+    
+    private void deleteElementSelected(){
+        if (usuariosSelected.size() == 1){
+            UsuariosClass usuario = usuariosSelected.get(0);
+            UsuariosTable usuariosTable = new UsuariosTable();
+            db.deleteItem(usuariosTable.getTableName(), usuario.getIdentifierKey() + " = " + usuario.getIdUsuario());
+            loadData();
         }
     }
 }

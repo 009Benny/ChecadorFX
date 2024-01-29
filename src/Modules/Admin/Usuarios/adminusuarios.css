@@ -3,5 +3,14 @@
  */
 
 .mainFxmlClass {
+    -fx-background-color: #a9a9a9;
+}
 
+.border{
+    -fx-background-color: #424242;
+}
+
+.card-white{
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 20px;
 }
