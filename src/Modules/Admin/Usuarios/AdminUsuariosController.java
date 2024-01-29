@@ -54,7 +54,7 @@ public class AdminUsuariosController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         configViews();
         //configListeners();
-        loadData();
+        //loadData();
     }    
     
     private void configViews(){

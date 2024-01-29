@@ -57,19 +57,20 @@ public class AdminPersonasController implements Initializable {
     ObservableList<PersonasClass> personasSuccess = FXCollections.observableArrayList();
     ObservableList<PersonasClass> personasFailure = FXCollections.observableArrayList();
     ObservableList<PersonasClass> personasSelected = FXCollections.observableArrayList();
+
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-        System.out.println("Aqui");
+        System.out.println("AdminPersonasController || init");
         personasSelected = tablePersonas.getSelectionModel().getSelectedItems();
         configViews();
         configListeners();
         loadData();
     }
-    
+
     private void configViews(){
         // TABLE
         if (tablePersonas.getColumns().isEmpty()){
@@ -100,7 +101,7 @@ public class AdminPersonasController implements Initializable {
             c.setCellValueFactory(new PropertyValueFactory(keys[i]));
             columns[i] =  c;
         }
-        //table.getColumns().addAll(columns);
+        table.getColumns().addAll(columns);
     }
     
     // BUTTON ACTIONS

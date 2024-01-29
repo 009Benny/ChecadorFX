@@ -29,7 +29,7 @@ public class AdminConfigurationController implements Initializable, GenericTabPa
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-        System.out.println("AdminConfigurationController init");
+        System.out.println("AdminConfigurationController || init");
     }    
 
     @Override

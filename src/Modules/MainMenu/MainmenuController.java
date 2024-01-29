@@ -46,7 +46,6 @@ public class MainMenuController extends BaseController {
     private void comprobeConnection(){
         DataBaseManager manager = new DataBaseManager();
         if (!manager.isConnected()){
-            //showAlertMessage("No esta conectado a la base de datos");
             createAlertMessage("No esta conectado a la base de datos. El programa se cerrará");
         }else{
             System.out.println("MainMenuController || Conexion comprobada");
