@@ -9,6 +9,7 @@ import DataBase.Tables.HorariosTable;
 import DataBase.Tables.TableProtocol;
 import Extensions.DateExtension;
 import Models.DayEnum;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -89,14 +90,13 @@ public class HorariosClass implements ModelClassProtocol {
         return null;
     }
     
-    public boolean isOnValidTime(Date now){
-        String nowHoursString = DateExtension.getStringDate(now, "HH:mm");
-        Date nowMinutes = DateExtension.getDateByString(nowHoursString, "HH:mm");
-        int day = DateExtension.getDayNumberDayOf(now);
-        Date comparision = this.getDateofDay(day);
-        long duration  = comparision.getTime() - nowMinutes.getTime();
-        long diffInMinutes = TimeUnit.MILLISECONDS.toMinutes(duration);
-        return (diffInMinutes > 0 && diffInMinutes < tolerancia);
+    public boolean isOnValidTime(LocalDateTime now){
+        int day = DateExtension.getNumberDayOf(now);
+        String nowHoursString = DateExtension.getStringFrom(now, "HH:mm");
+        LocalDateTime dateStart = this.getLocalDateofDay(day, 0);
+        LocalDateTime dateEnd = this.getLocalDateofDay(day, 1);
+        //long diference = DateExtension.getDiferenceBetween(now, dateStart);
+        return (now.compareTo(dateStart) > 0 && now.compareTo(dateEnd) < 0);
     }
     
     static public String getQuerytoAllItemsById(String idHorario){
@@ -239,31 +239,38 @@ public class HorariosClass implements ModelClassProtocol {
                 System.out.println("DIA NO VALIDO");
         }
     }
-    
-    private Date getDateofDay(int num) {
+    private LocalDateTime getLocalDateofDay(int num, int index) {
         String date = "";
-        if (num == 2){
-            date = lunes;
-        }else if (num == 3){
-            date = martes;
-        }else if (num == 4){
-            date = miercoles;
-        }else if (num == 5){
-            date = jueves;
-        }else if (num == 6){
-            date = viernes;
-        }else if (num == 7){
-            date = sabado;
-        }else if (num == 1){
-            date = domingo;
-        }else{
-            return null;
+        switch (num) {
+            case 2:
+                date = lunes;
+                break;
+            case 3:
+                date = martes;
+                break;
+            case 4:
+                date = miercoles;
+                break;
+            case 5:
+                date = jueves;
+                break;
+            case 6:
+                date = viernes;
+                break;
+            case 7:
+                date = sabado;
+                break;
+            case 1:
+                date = domingo;
+                break;
+            default:
+                return null;
         }
         // CLEAN DATE
         String[] split = date.split("-");
-        if (split.length > 1){
-            System.out.println("Hours: " + split[0]);
-            return DateExtension.getDateByString(split[0], "HH:mm");
+        if (split.length > index){
+            System.out.println("Hours: " + split[index]);
+            return DateExtension.traducirHora(split[index]);
         }
         return null;
     }

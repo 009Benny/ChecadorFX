@@ -9,9 +9,12 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.WeekFields;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 import java.util.TimeZone;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -67,4 +70,45 @@ public class DateExtension extends Date {
         System.out.println("Now time zone: " + TimeZone.getDefault());
     }
     
+    public static LocalDateTime getLocalDateTime(String text, String format) {
+        if (format.contains("yyyy") && format.contains("MM") && format.contains("dd")){
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
+            return LocalDateTime.parse(text, formatter);
+        }else{
+            // Fecha estándar (puedes ajustarla según tus necesidades)
+            LocalDateTime fechaBase = LocalDateTime.now().toLocalDate().atStartOfDay();
+            LocalTime hora = LocalTime.parse(text, DateTimeFormatter.ofPattern("HH:mm"));
+            // Combinar la fecha y hora
+            return fechaBase.withHour(hora.getHour()).withMinute(hora.getMinute());
+        }
+    }
+    
+    public static LocalDateTime traducirHora(String horaString) {
+       // Fecha estándar (puedes ajustarla según tus necesidades)
+        LocalDateTime fechaBase = LocalDateTime.now().toLocalDate().atStartOfDay();
+
+        // Obtener la hora del String
+        LocalTime hora = LocalTime.parse(horaString, DateTimeFormatter.ofPattern("HH:mm"));
+
+        // Combinar la fecha y hora
+        return fechaBase.withHour(hora.getHour()).withMinute(hora.getMinute());
+    }
+    
+    public static int getNumberDayOf(LocalDateTime dateTime){
+        // Usa el campo de la semana ISO para obtener el número de la semana
+        return dateTime.get(WeekFields.of(Locale.getDefault()).weekOfWeekBasedYear());
+    }
+    
+    public static String getStringFrom(LocalDateTime dateTime, String format) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
+        return dateTime.format(formatter);
+    }
+    
+    public static long getDiferenceBetween(LocalDateTime dta, LocalDateTime dtb) {
+        return Math.abs(java.time.Duration.between(dta, dtb).getSeconds());
+    }
+
+    public static LocalDateTime getLocalDateTime(String string) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }

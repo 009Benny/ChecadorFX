@@ -16,6 +16,7 @@ import checadorentrada.ChecadorEntrada;
 import java.io.IOException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -37,6 +38,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 /**
@@ -140,13 +142,14 @@ public class AttendanceviewController implements Initializable {
                 // TRAER HORARIO
                 HorariosClass horario = HorariosClass.getHorarioById(persona.getIdHorario());
                 if (horario != null){
-                    Date now = new Date();
+                    LocalDateTime now = LocalDateTime.now();
+                    //DEPRECADO Date now = new Date();
                     int count = db.getCountOf(registros.getTableName());
                     RegistrosClass last =  RegistrosClass.getLastRegistroBy(matricula);
                     boolean status = (last != null) ? !last.isSalida() : false;
                     if (status || horario.isOnValidTime(now)){
                         // CREAR REGISTRO
-                        String today = DateExtension.getStringDate(now, "dd/MM/YYYY HH:mm:ss");
+                        String today = DateExtension.getStringFrom(now, "dd/MM/YYYY HH:mm:ss");
                         RegistrosClass registro = new RegistrosClass(count + 1, today, status, matricula);
                         db.createItem(registros.getTableName(), registro.getInsertHeader() , registro.getValuesQuery());
                         loadData();
@@ -185,6 +188,8 @@ public class AttendanceviewController implements Initializable {
     @FXML
     private void didTapClearButton() throws IOException {
        textFieldMatricula.setText("");
+       Image imagen = new Image(getClass().getResourceAsStream("/Images/user.png"));
+       imgPerson.setImage(imagen);
     }
     
     @FXML
