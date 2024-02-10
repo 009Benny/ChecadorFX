@@ -9,6 +9,6 @@ package DataBase.Models;
  * @author Benny
  */
 public interface ItemListClassProtocol {
-    
-    
+    int getId();
+    String getName();
 }

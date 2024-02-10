@@ -5,8 +5,11 @@
 package Modules.Admin;
 
 import DataBase.Models.ItemListClassProtocol;
+import DataBase.Tables.TableProtocol;
 import Managers.DataBaseManager;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
@@ -81,7 +84,27 @@ public class BaseList implements Initializable {
     /**
     * This could be override to set the logic to load data that need to be extended of ItemListClassProtocol
     */
-    public void loadData(){}
+    public void loadData(){
+        List<HashMap<String, Object>> data = db.getDataWithQuery(getTable().getAllItemsQuery());
+        if (!data.isEmpty()){
+            items.clear();
+            for(HashMap<String, Object> map:data){
+                items.add(castItemList(map));
+            }
+            System.out.println("Se agregaron " + items.size() + " items");
+            tableContent.setItems(items);
+        }else{
+            System.out.println("AdminNivelesController || No hay items");
+        }
+    }
+    
+    public TableProtocol getTable(){
+        throw new UnsupportedOperationException("BaseList - Debes regresar un objeto de la tabla.");
+    }
+    
+    public ItemListClassProtocol castItemList(HashMap<String, Object> map){
+        throw new UnsupportedOperationException("BaseList - Debes castear el objeto.");
+    }
     
     // VIEW ALTERATION
     private void configViews(){
@@ -92,8 +115,8 @@ public class BaseList implements Initializable {
     }
     
     private void addColumns(){
-        String[] headers = {"ID USUARIO", "Nombre", "NIVEL"};
-        String[] keys = {"idUsuario", "nombre", "nivel"};
+        String[] headers = this.getHeaders();
+        String[] keys = this.getTableKeys();
 
         TableColumn[] columns = new TableColumn[headers.length];
         for(int i=0;i<headers.length;i++){

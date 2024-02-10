@@ -6,17 +6,25 @@ package DataBase.Models;
 
 import DataBase.Tables.CarrerasTable;
 import DataBase.Tables.TableProtocol;
+import Extensions.NumberUtils;
+import java.util.HashMap;
+import java.util.Optional;
 
 /**
  *
  * @author Benny
  */
-public class CarrerasClass implements ModelClassProtocol {
+public class CarrerasClass implements ModelClassProtocol, ItemListClassProtocol {
     int id = 0;
     String keyId = "idCarreras";
     String name = "";
     String keyName = "name";
     
+    public CarrerasClass(HashMap<String, Object> map){
+        this.id = NumberUtils.getIntFrom(Optional.ofNullable(map.get(keyId).toString()).orElse("0"));
+        this.name = Optional.ofNullable(map.get(keyName).toString()).orElse("");
+    }
+
     @Override
     public String getIdentifierKey() {
         return this.keyId;
@@ -35,6 +43,14 @@ public class CarrerasClass implements ModelClassProtocol {
     @Override
     public String getValuesQuery() {
         return "(`" + id + "`, `" + name + "`)";
+    }
+    
+    public int getId(){
+        return id;
+    }
+    
+    public String getName(){
+        return name;
     }
     
 }

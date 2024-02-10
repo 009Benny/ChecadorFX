@@ -11,6 +11,7 @@ import Modules.Admin.Configuration.AdminConfigurationController;
  * @author Benny
  */
 public enum PagesEnum {
+    reportes("Reportes", "AdminReportes.fxml"),
     configuration("Configuracion", "AdminConfiguration.fxml"),
     usuarios("Usuarios", "AdminUsuarios.fxml"),
     personas("Personas", "AdminPersonas.fxml"),

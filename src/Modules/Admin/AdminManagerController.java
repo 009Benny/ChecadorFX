@@ -10,6 +10,7 @@ import Modules.Admin.Configuration.AdminConfigurationController;
 import Modules.Admin.Facultades.FacultadesController;
 import Modules.Admin.Niveles.AdminNivelesController;
 import Modules.Admin.Personas.AdminPersonasController;
+import Modules.Admin.Reportes.AdminReportesController;
 import Modules.Admin.Servicios.ServiciosController;
 import Modules.Admin.Usuarios.AdminUsuariosController;
 import checadorentrada.ChecadorEntrada;
@@ -43,7 +44,7 @@ public class AdminManagerController implements Initializable {
        pages = new ArrayList<PagesEnum>();
        
        // TODO REMOVE
-       
+       pages.add(PagesEnum.reportes);
        pages.add(PagesEnum.personas);
        pages.add(PagesEnum.carreras);
        pages.add(PagesEnum.facultades);
@@ -69,6 +70,9 @@ public class AdminManagerController implements Initializable {
 //            FXMLLoader fxmlLoader = new FXMLLoader(page.getClass().getResource(page.getFXMLName()));
             FXMLLoader fxmlLoader = null;
             switch(page){
+                case reportes:
+                    fxmlLoader = new FXMLLoader(AdminReportesController.class.getResource("AdminReportes.fxml"));
+                    break;
                 case configuration:
                     fxmlLoader = new FXMLLoader(AdminConfigurationController.class.getResource("AdminConfiguration.fxml"));
                     break;

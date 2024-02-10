@@ -4,7 +4,12 @@
  */
 package Modules.Admin.Carreras;
 
+import DataBase.Models.CarrerasClass;
+import DataBase.Models.ItemListClassProtocol;
+import DataBase.Tables.CarrerasTable;
+import DataBase.Tables.TableProtocol;
 import Modules.Admin.BaseList;
+import java.util.HashMap;
 
 /**
  * FXML Controller class
@@ -26,18 +31,13 @@ public class CarrerasController extends BaseList {
     }
     
     @Override
-    public void loadData(){
-//        List<HashMap<String, Object>> data = db.getDataWithQuery(NivelesClass.getQuerytoAllItems());
-//        if (!data.isEmpty()){
-//            items.clear();
-//            for(HashMap<String, Object> map:data){
-//                items.add(new NivelesClass(map));
-//            }
-//            System.out.println("Se agregaron " + items.size() + " items");
-//            tableContent.setItems(items);
-//        }else{
-//            System.out.println("AdminNivelesController || No hay items");
-//        }
+    public TableProtocol getTable(){
+        return new CarrerasTable();
+    }
+    
+    @Override
+    public ItemListClassProtocol castItemList(HashMap<String, Object> map){
+        return new CarrerasClass(map);
     }
 //    public void addElement(){}
 //    

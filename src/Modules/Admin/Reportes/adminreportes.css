@@ -1,0 +1,25 @@
+/*
+ * Empty Stylesheet file.
+ */
+
+.mainFxmlClass {
+    -fx-background-color: #a9a9a9;
+}
+
+.border{
+    -fx-background-color: #424242;
+}
+
+.card-white{
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 20px;
+}
+
+.modal{
+    -fx-background-color: #0B6937;
+    -fx-background-size: 1200 900;
+    -fx-background-radius: 30;
+    -fx-border-radius: 30;
+    -fx-border-width:5;
+    -fx-border-color: #FFFFFF;
+}

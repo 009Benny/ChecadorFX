@@ -14,7 +14,7 @@ import java.util.Optional;
  *
  * @author Benny
  */
-public class FacultadesClass implements ModelClassProtocol {
+public class FacultadesClass implements ModelClassProtocol, ItemListClassProtocol {
     int id = 0;
     String keyId = "idFacultades";
     String name = "";
@@ -56,6 +56,14 @@ public class FacultadesClass implements ModelClassProtocol {
     
     public String getAbbreviation(){
         return abbreviation;
+    }
+    
+    public int getId(){
+        return id;
+    }
+    
+    public String getName(){
+        return name;
     }
     
 }
